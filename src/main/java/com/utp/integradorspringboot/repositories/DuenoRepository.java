@@ -1,0 +1,7 @@
+package com.utp.integradorspringboot.repositories;
+
+import com.utp.integradorspringboot.models.Dueno;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface DuenoRepository extends JpaRepository<Dueno, Long> {
+}
