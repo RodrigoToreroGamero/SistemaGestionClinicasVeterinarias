@@ -69,7 +69,7 @@
                 <div class="container mt-4  px-5">
                     <div class="p-3 text-dark rounded" style="background-color: #B4B4B4;">
                         <h2 class="text-center">Configuración de la cuenta</h2>
-                        <p>El médico veterinario representante deberá ingresar con su dni y su contraseña para administrar la cuenta de la clínica veterinaria.</p>                        
+                        <p>El médico veterinario representante deberá ingresar con un correo y contraseña para administrar la cuenta de la clínica veterinaria.</p>                        
                         <div class="mb-3">
                             <label for="contraseña" class="form-label">Contraseña</label>
                             <input id="contraseña" class="form-control" type="password">
@@ -83,88 +83,64 @@
 
                 <div class="container mt-4  px-5">
                     <div class="p-3 text-dark rounded d-grid gap-2" style="background-color: #B4B4B4;">
-                        <button class="btn btn-primary">Seleccione su Plan de Suscripción</button>
-                        <button class="btn btn-secondary">Regresar</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPlanes">Seleccione su Plan de Suscripción</button>
+                        
+                        <!--modal-->
+                        <div class="modal" id="modalPlanes" tabindex="-1" aria-labelledby="modalPlanesLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="modal-title" id="modalPlanesLabel">Seleccione su Plan de Suscripción</h2>
+                                    </div>
+                                    <div class="modal-body">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <h2>Básico</h2>
+                                                <div>
+                                                    <h3>Características</h3>
+                                                    <p>
+                                                        El plan básico incluye
+                                                    </p>
+                                                    <button class="btn btn-primary">Seleccionar</button>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h2>Profesional</h2>
+                                                <div>
+                                                    <h3>Características</h3>
+                                                    <p>
+                                                        El plan profesional incluye
+                                                    </p>
+                                                    <button class="btn btn-primary">Seleccionar</button>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h2>Premium</h2>
+                                                <div>
+                                                    <h3>Características</h3>
+                                                    <p>
+                                                        El plan premium incluye
+                                                    </p>
+                                                    <button class="btn btn-primary">Seleccionar</button>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                        
+                        <button class="btn btn-secondary" onclick="window.history.back();">Regresar</button>
                     </div>
                 </div>
             </form>
 
 
 
-            <p class="text-end">
-                <button class="btn btn-primary" @click="nuevo">Nuevo</button>
-            </p>
-            <p>
-            </p>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in entidades">
-                        <td>{{item.id}}</td>
-                        <td>{{item.nombres}}</td>
-                        <td>{{item.apellidos}}</td>
-                        <td class="text-end">
-                            <button class="btn btn-primary" @click="editar(item.id)">Editar</button>
-                            <button class="btn btn-danger" @click="eliminar(item.id)">Eliminar</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="modal" tabindex="-1" id="mdlEntidad">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" v-if="entidad.id==0">Nuevo</h5>
-                            <h5 class="modal-title" v-if="entidad.id!=0">Editar</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group row">
-                                <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" id="nombres" v-model="entidad.nombres" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" id="apellidos" v-model="entidad.apellidos" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" v-if="entidad.id==0" @click="guardar">Guardar</button>
-                            <button type="button" class="btn btn-primary" v-if="entidad.id!=0" @click="actualizar">Actualizar</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal" tabindex="-1" id="mdlEliminar">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Eliminar</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            ¿Estás seguro que quieres eliminar?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" @click="confimareliminacion">Eliminar</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+          
         <script layout:fragment="script">
             new Vue({
                 el: "#app",
@@ -175,8 +151,14 @@
                 methods: {                    
                     guardar: function () {
                         this.$http.post('/api/clinicaVeterinaria', this.entidad).then(response => {
-                            this.listar();
-                            $("#mdlEntidad").modal("hide");
+                            if (response.status === 200) {
+                                console.log("Datos guardados correctamente:", response.body);
+                                alert("¡Registro exitoso!");
+                            } else {
+                                console.error("Error al guardar los datos:", response);
+                                alert("Hubo un problema al guardar los datos.");
+                            }                                       
+            
                         });
                     },                    
                 mounted: function () {

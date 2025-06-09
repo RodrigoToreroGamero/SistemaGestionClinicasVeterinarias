@@ -4,8 +4,6 @@
  */
 package com.utp.integradorspringboot;
 
-import com.utp.integradorspringboot.models.Email;
-import com.utp.integradorspringboot.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
@@ -17,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class HomeController {
+
     @Autowired
     private JavaMailSender emailSender;
+
     @RequestMapping("/")
     public String page() {
-        EmailService.SolicitarEnvio(
-                new Email("u18307571@utp.edu.pe","Mensaje de prueba","Mensaje de prueba"),
-                emailSender);
+
         return "home";
     }
 }

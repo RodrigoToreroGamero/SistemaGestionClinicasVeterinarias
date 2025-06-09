@@ -4,29 +4,25 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "clientes")
-public class Cliente implements Serializable{
+@Table(name = "sesiones")
+public class Sesion implements Serializable{
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    
+     @Column(name = "correo")
+    private String correo;
 
-    @Column(name = "nombres")
-    private String nombres;
+    @Column(name = "contraseña")
+    private String contraseña;
+    
 
-    @Column(name = "apellidos")
-    private String apellidos;
-
-    public Cliente() {
+    public Sesion() {
     }
-
-    public Cliente(Long id, String nombres, String apellidos) {
-        this.id = id;
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-    }
+    
 
     public Long getId() {
         return id;
@@ -36,21 +32,15 @@ public class Cliente implements Serializable{
         this.id = id;
     }
 
-    public String getNombres() {
-        return nombres;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
+    public String getContraseña() {
+        return contraseña;
     }
-
-    public String getApellidos() {
-        return apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
+       
+    
 
     @Override
     public int hashCode() {
@@ -61,10 +51,10 @@ public class Cliente implements Serializable{
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Cliente)) {
+        if (!(object instanceof Sesion)) {
             return false;
         }
-        Cliente other = (Cliente) object;
+        Sesion other = (Sesion) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -73,7 +63,10 @@ public class Cliente implements Serializable{
 
     @Override
     public String toString() {
-        return "Profesor{" + "id=" + id + ", nombres=" + nombres + ", apellidos=" + apellidos + '}';
+        return "Sesion{" + "id=" + id + ", correo=" + correo + ", contrase\u00f1a=" + contraseña + '}';
     }
+
+   
+    
 
 }
