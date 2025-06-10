@@ -4,8 +4,8 @@
  */
 package com.utp.integradorspringboot.api;
 
-import com.utp.integradorspringboot.models.Profesor;
-import com.utp.integradorspringboot.repositories.ProfesorRepository;
+import com.utp.integradorspringboot.models.Cita;
+import com.utp.integradorspringboot.repositories.GestionCitaRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,20 +16,20 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  *
- * @author jcerv
+ * @author USER
  */
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
-public class ProfesorController {
 
+public class GestionCitaController {
     @Autowired
-    ProfesorRepository repository;
+    GestionCitaRepository repository;
 
-    @GetMapping("/profesor")
-    public ResponseEntity<List<Profesor>> getAll(@RequestParam(required = false) String title) {
+    @GetMapping("/Cita")
+    public ResponseEntity<List<Cita>> getAll(@RequestParam(required = false) String title) {
         try {
-            List<Profesor> lista = new ArrayList<Profesor>();
+            List<Cita> lista = new ArrayList<Cita>();
             repository.findAll().forEach(lista::add);
             if (lista.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -40,9 +40,9 @@ public class ProfesorController {
         }
     }
 
-    @GetMapping("/profesor/{id}")
-    public ResponseEntity<Profesor> getById(@PathVariable("id") Long id) {
-        Optional<Profesor> entidad = repository.findById(id);
+    @GetMapping("/Cita/{id}")
+    public ResponseEntity<Cita> getById(@PathVariable("id") Long id) {
+        Optional<Cita> entidad = repository.findById(id);
         if (entidad.isPresent()) {
             return new ResponseEntity<>(entidad.get(), HttpStatus.OK);
         } else {
@@ -50,29 +50,35 @@ public class ProfesorController {
         }
     }
 
-    @PostMapping("/profesor")
-    public ResponseEntity<Profesor> create(@RequestBody Profesor entidad) {
+    @PostMapping("/Cita")
+    public ResponseEntity<Cita> create(@RequestBody Cita entidad) {
         try {
-            Profesor _entidad = repository.save(new Profesor(null, entidad.getNombres(), entidad.getApellidos()));
+            Cita _entidad = repository.save(new Cita(null, entidad.getFecha(), entidad.getHora(), entidad.getEstado(), entidad.getId_duenio(), entidad.getId_notificacion(), entidad.getId_mascota(), entidad.getId_veterinario(), entidad.getId_historial()));
             return new ResponseEntity<>(_entidad, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/profesor/{id}")
-    public ResponseEntity<Profesor> update(@PathVariable("id") Long id, @RequestBody Profesor entidad) {
-        Profesor _entidad = repository.findById(id).orElse(null);
+    @PutMapping("/Cita/{id}")
+    public ResponseEntity<Cita> update(@PathVariable("id") Long id, @RequestBody Cita entidad) {
+        Cita _entidad = repository.findById(id).orElse(null);
         if (_entidad != null) {
-            _entidad.setNombres(entidad.getNombres());
-            _entidad.setApellidos(entidad.getApellidos());
+            _entidad.setFecha(entidad.getFecha());
+            _entidad.setHora(entidad.getHora());
+            _entidad.setEstado(entidad.getEstado());
+            _entidad.setId_duenio(entidad.getId_duenio());
+            _entidad.setId_notificacion(entidad.getId_notificacion());
+            _entidad.setId_mascota(entidad.getId_mascota());
+            _entidad.setId_veterinario(entidad.getId_veterinario());
+            _entidad.setId_historial(entidad.getId_historial());
             return new ResponseEntity<>(repository.save(_entidad), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping("/profesor/{id}")
+    @DeleteMapping("/Cita/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
             repository.deleteById(id);
@@ -81,5 +87,5 @@ public class ProfesorController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }
+
