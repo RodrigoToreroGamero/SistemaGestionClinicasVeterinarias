@@ -4,12 +4,13 @@
  */
 package com.utp.integradorspringboot.repositories;
 
-import com.utp.integradorspringboot.models.Profesor;
+import com.utp.integradorspringboot.models.Cita;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author jcerv
+ * @author USER
  */
-public interface ProfesorRepository extends JpaRepository<Profesor, Long> {
+public interface GestionCitaRepository extends JpaRepository<Cita, Long>{
+    
 }
