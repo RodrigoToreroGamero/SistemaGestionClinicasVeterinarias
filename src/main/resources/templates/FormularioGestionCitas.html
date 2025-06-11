@@ -35,23 +35,39 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" v-if="entidad.id==0">Nuevo</h5>
+                            <h5 class="modal-title" v-if="entidad.id==0">Nueva</h5>
                             <h5 class="modal-title" v-if="entidad.id!=0">Editar</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            
                             <div class="form-group row">
                                 <label for="nombres" class="col-sm-2 col-form-label">Fecha</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" id="fecha" v-model="entidad.fecha" />
+                                    <input type="date" class="form-control" id="fecha" v-model="entidad.fecha" required/>
                                 </div>
                             </div>
+                            
                             <div class="form-group row">
                                 <label for="apellidos" class="col-sm-2 col-form-label">Hora</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" id="hora" v-model="entidad.hora" />
+                                    <input type="time" class="form-control" id="hora" v-model="entidad.hora" required/>
                                 </div>
                             </div>
+                            
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Cliente</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" v-model="entidad.idCliente" required>
+                                        <option disabled value="">Seleccione un cliente</option>
+                                        <option v-for="cliente in clientes" :value="cliente.id">
+                                            {{ cliente.nombre }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" v-if="entidad.id==0" @click="guardar">Guardar</button>
@@ -84,9 +100,15 @@
                 el: "#app",
                 data: {
                     entidades: [],
-                    entidad: []
+                    entidad: [],
+                    clientes: []
                 },
                 methods: {
+                   listarClientes: function () {
+                        this.$http.get('/api/Usuario').then(response => {
+                            this.clientes = response.data;
+                        });
+                    },
                     listar: function () {
                         this.$http.get('/api/Cita').then(response => {
                             this.entidades = response.data;
@@ -96,7 +118,8 @@
                         this.entidad = {
                             id: 0,
                             fecha: null,
-                            hora: null
+                            hora: null,
+                            idCliente: ''
                         };
                         $("#mdlEntidad").modal("show");
                     },
@@ -131,6 +154,7 @@
                 },
                 mounted: function () {
                     this.listar();
+                    this.listarClientes();
                 }
             });
         </script>

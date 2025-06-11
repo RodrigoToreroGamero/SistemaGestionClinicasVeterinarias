@@ -59,6 +59,7 @@ public class GestionCitaController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
 
     @PutMapping("/Cita/{id}")
     public ResponseEntity<Cita> update(@PathVariable("id") Long id, @RequestBody Cita entidad) {
