@@ -1,6 +1,9 @@
 package com.utp.integradorspringboot.models;
 
-import javax.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Dueno {
@@ -14,6 +17,8 @@ public class Dueno {
     private String correo;
     private String direccion;
     private String relacionConMascota;
+
+   
 
     public Long getId() {
         return id;

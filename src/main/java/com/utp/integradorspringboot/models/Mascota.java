@@ -1,6 +1,9 @@
 package com.utp.integradorspringboot.models;
 
-import javax.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Mascota {
@@ -15,7 +18,7 @@ public class Mascota {
     private String edadAproximada;
     private String microchip;
 
-   public Long getId() {
+    public Long getId() {
         return id;
     }
 

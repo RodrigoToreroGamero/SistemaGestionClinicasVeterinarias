@@ -1,6 +1,10 @@
 package com.utp.integradorspringboot.models;
 
-import javax.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Cita {
@@ -14,7 +18,7 @@ public class Cita {
     @ManyToOne
     private Mascota mascota;
 
-       public Long getId() {
+    public Long getId() {
         return id;
     }
 
