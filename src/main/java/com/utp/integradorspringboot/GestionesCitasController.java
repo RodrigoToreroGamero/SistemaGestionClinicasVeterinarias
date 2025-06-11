@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class GestionesCitasController {
     @Autowired
-    @RequestMapping("/Citas")
+    @RequestMapping("/GestionesCitas")
     public String page() {
         //model.addAttribute("attribute", "value");
-        return "Citas";
+        return "FormularioGestionCitas";
     }
 }
