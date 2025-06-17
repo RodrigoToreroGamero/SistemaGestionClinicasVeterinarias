@@ -1,71 +1,89 @@
-2025-06-17T02:03:56.967-05:00  INFO 5820 --- [integradorspringboot] [main] c.u.i.IntegradorspringbootApplication    : Starting IntegradorspringbootApplication using Java 21.0.7 with PID 5820 (E:\NO BORRAR - RODRIGO TEJADA\UTP\prueba\SistemaGestionClinicasVeterinarias\target\classes started by USER in E:\NO BORRAR - RODRIGO TEJADA\UTP\prueba\SistemaGestionClinicasVeterinarias)
-2025-06-17T02:03:56.978-05:00  INFO 5820 --- [integradorspringboot] [main] c.u.i.IntegradorspringbootApplication    : No active profile set, falling back to 1 default profile: "default"
-2025-06-17T02:03:57.929-05:00  INFO 5820 --- [integradorspringboot] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-06-17T02:03:58.014-05:00  INFO 5820 --- [integradorspringboot] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 75 ms. Found 2 JPA repository interfaces.
-2025-06-17T02:03:58.620-05:00  INFO 5820 --- [integradorspringboot] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
-2025-06-17T02:03:58.634-05:00  INFO 5820 --- [integradorspringboot] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-06-17T02:03:58.635-05:00  INFO 5820 --- [integradorspringboot] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-06-17T02:03:58.714-05:00  INFO 5820 --- [integradorspringboot] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-06-17T02:03:58.715-05:00  INFO 5820 --- [integradorspringboot] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1433 ms
-2025-06-17T02:03:58.886-05:00  INFO 5820 --- [integradorspringboot] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-06-17T02:03:58.954-05:00  INFO 5820 --- [integradorspringboot] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
-2025-06-17T02:03:58.999-05:00  INFO 5820 --- [integradorspringboot] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-06-17T02:03:59.239-05:00  INFO 5820 --- [integradorspringboot] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-06-17T02:03:59.264-05:00  INFO 5820 --- [integradorspringboot] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-06-17T02:04:00.486-05:00  INFO 5820 --- [integradorspringboot] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2dbf2da
-2025-06-17T02:04:00.492-05:00  INFO 5820 --- [integradorspringboot] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-06-17T02:04:01.416-05:00  INFO 5820 --- [integradorspringboot] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-06-17T02:04:01.769-05:00 ERROR 5820 --- [integradorspringboot] [main] j.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing table [cita]
-2025-06-17T02:04:01.769-05:00  WARN 5820 --- [integradorspringboot] [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing table [cita]
-2025-06-17T02:04:01.769-05:00  INFO 5820 --- [integradorspringboot] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-06-17T02:04:02.230-05:00  INFO 5820 --- [integradorspringboot] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-06-17T02:04:02.234-05:00  INFO 5820 --- [integradorspringboot] [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
-2025-06-17T02:04:02.265-05:00  INFO 5820 --- [integradorspringboot] [main] .s.b.a.l.ConditionEvaluationReportLogger : 
-
-Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
-2025-06-17T02:04:02.282-05:00 ERROR 5820 --- [integradorspringboot] [main] o.s.boot.SpringApplication               : Application run failed
-
-org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing table [cita]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1786) ~[spring-beans-6.1.6.jar:6.1.6]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.1.6.jar:6.1.6]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.6.jar:6.1.6]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326) ~[spring-beans-6.1.6.jar:6.1.6]
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.6.jar:6.1.6]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324) ~[spring-beans-6.1.6.jar:6.1.6]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.6.jar:6.1.6]
-	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1234) ~[spring-context-6.1.6.jar:6.1.6]
-	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:952) ~[spring-context-6.1.6.jar:6.1.6]
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624) ~[spring-context-6.1.6.jar:6.1.6]
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.5.jar:3.2.5]
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-3.2.5.jar:3.2.5]
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456) ~[spring-boot-3.2.5.jar:3.2.5]
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334) ~[spring-boot-3.2.5.jar:3.2.5]
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354) ~[spring-boot-3.2.5.jar:3.2.5]
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343) ~[spring-boot-3.2.5.jar:3.2.5]
-	at com.utp.integradorspringboot.IntegradorspringbootApplication.main(IntegradorspringbootApplication.java:10) ~[classes/:na]
-Caused by: jakarta.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing table [cita]
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:421) ~[spring-orm-6.1.6.jar:6.1.6]
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396) ~[spring-orm-6.1.6.jar:6.1.6]
-	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.1.6.jar:6.1.6]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1833) ~[spring-beans-6.1.6.jar:6.1.6]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1782) ~[spring-beans-6.1.6.jar:6.1.6]
-	... 16 common frames omitted
-Caused by: org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing table [cita]
-	at org.hibernate.tool.schema.internal.AbstractSchemaValidator.validateTable(AbstractSchemaValidator.java:134) ~[hibernate-core-6.4.4.Final.jar:6.4.4.Final]
-	at org.hibernate.tool.schema.internal.GroupedSchemaValidatorImpl.validateTables(GroupedSchemaValidatorImpl.java:46) ~[hibernate-core-6.4.4.Final.jar:6.4.4.Final]
-	at org.hibernate.tool.schema.internal.AbstractSchemaValidator.performValidation(AbstractSchemaValidator.java:97) ~[hibernate-core-6.4.4.Final.jar:6.4.4.Final]
-	at org.hibernate.tool.schema.internal.AbstractSchemaValidator.doValidation(AbstractSchemaValidator.java:75) ~[hibernate-core-6.4.4.Final.jar:6.4.4.Final]
-	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:295) ~[hibernate-core-6.4.4.Final.jar:6.4.4.Final]
-	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:145) ~[hibernate-core-6.4.4.Final.jar:6.4.4.Final]
-	at java.base/java.util.HashMap.forEach(Unknown Source) ~[na:na]
-	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:142) ~[hibernate-core-6.4.4.Final.jar:6.4.4.Final]
-	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37) ~[hibernate-core-6.4.4.Final.jar:6.4.4.Final]
-	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35) ~[hibernate-core-6.4.4.Final.jar:6.4.4.Final]
-	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:315) ~[hibernate-core-6.4.4.Final.jar:6.4.4.Final]
-	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:450) ~[hibernate-core-6.4.4.Final.jar:6.4.4.Final]
-	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1507) ~[hibernate-core-6.4.4.Final.jar:6.4.4.Final]
-	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:75) ~[spring-orm-6.1.6.jar:6.1.6]
-	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.1.6.jar:6.1.6]
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409) ~[spring-orm-6.1.6.jar:6.1.6]
-	... 20 common frames omitted
-
+2025-06-17T03:10:47.983-05:00  INFO 10184 --- [integradorspringboot] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-06-17T03:10:48.001-05:00  INFO 10184 --- [integradorspringboot] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-06-17T03:10:48.924-05:00  INFO 10184 --- [integradorspringboot] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-06-17T03:12:34.081-05:00  INFO 18328 --- [integradorspringboot] [main] c.u.i.IntegradorspringbootApplication    : Starting IntegradorspringbootApplication using Java 21.0.7 with PID 18328 (E:\NO BORRAR - RODRIGO TEJADA\UTP\prueba\SistemaGestionClinicasVeterinarias\target\classes started by USER in E:\NO BORRAR - RODRIGO TEJADA\UTP\prueba\SistemaGestionClinicasVeterinarias)
+2025-06-17T03:12:34.082-05:00  INFO 18328 --- [integradorspringboot] [main] c.u.i.IntegradorspringbootApplication    : No active profile set, falling back to 1 default profile: "default"
+2025-06-17T03:12:34.974-05:00  INFO 18328 --- [integradorspringboot] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-06-17T03:12:35.054-05:00  INFO 18328 --- [integradorspringboot] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 69 ms. Found 2 JPA repository interfaces.
+2025-06-17T03:12:35.635-05:00  INFO 18328 --- [integradorspringboot] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-06-17T03:12:35.649-05:00  INFO 18328 --- [integradorspringboot] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-06-17T03:12:35.649-05:00  INFO 18328 --- [integradorspringboot] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-06-17T03:12:35.720-05:00  INFO 18328 --- [integradorspringboot] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-06-17T03:12:35.720-05:00  INFO 18328 --- [integradorspringboot] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1375 ms
+2025-06-17T03:12:35.893-05:00  INFO 18328 --- [integradorspringboot] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-06-17T03:12:35.955-05:00  INFO 18328 --- [integradorspringboot] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-06-17T03:12:36.001-05:00  INFO 18328 --- [integradorspringboot] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-06-17T03:12:36.257-05:00  INFO 18328 --- [integradorspringboot] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-06-17T03:12:36.285-05:00  INFO 18328 --- [integradorspringboot] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-06-17T03:12:37.613-05:00  INFO 18328 --- [integradorspringboot] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@b77b0a0
+2025-06-17T03:12:37.616-05:00  INFO 18328 --- [integradorspringboot] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-06-17T03:12:38.528-05:00  INFO 18328 --- [integradorspringboot] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-06-17T03:12:38.888-05:00  INFO 18328 --- [integradorspringboot] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-06-17T03:12:39.136-05:00  INFO 18328 --- [integradorspringboot] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation should only be used on methods with parameters: public java.lang.String com.utp.integradorspringboot.GestionesCitasController.page()
+2025-06-17T03:12:39.208-05:00  WARN 18328 --- [integradorspringboot] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-06-17T03:12:39.237-05:00  INFO 18328 --- [integradorspringboot] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2025-06-17T03:12:39.694-05:00  INFO 18328 --- [integradorspringboot] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path ''
+2025-06-17T03:12:39.705-05:00  INFO 18328 --- [integradorspringboot] [main] c.u.i.IntegradorspringbootApplication    : Started IntegradorspringbootApplication in 6.077 seconds (process running for 6.455)
+2025-06-17T03:12:59.570-05:00  INFO 18328 --- [integradorspringboot] [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-17T03:12:59.571-05:00  INFO 18328 --- [integradorspringboot] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-06-17T03:12:59.573-05:00  INFO 18328 --- [integradorspringboot] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-06-17T03:19:14.580-05:00  INFO 18328 --- [integradorspringboot] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-06-17T03:19:14.582-05:00  INFO 18328 --- [integradorspringboot] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-06-17T03:19:15.487-05:00  INFO 18328 --- [integradorspringboot] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-06-17T03:21:00.660-05:00  INFO 1996 --- [integradorspringboot] [main] c.u.i.IntegradorspringbootApplication    : Starting IntegradorspringbootApplication using Java 21.0.7 with PID 1996 (E:\NO BORRAR - RODRIGO TEJADA\UTP\prueba\SistemaGestionClinicasVeterinarias\target\classes started by USER in E:\NO BORRAR - RODRIGO TEJADA\UTP\prueba\SistemaGestionClinicasVeterinarias)
+2025-06-17T03:21:00.663-05:00  INFO 1996 --- [integradorspringboot] [main] c.u.i.IntegradorspringbootApplication    : No active profile set, falling back to 1 default profile: "default"
+2025-06-17T03:21:01.540-05:00  INFO 1996 --- [integradorspringboot] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-06-17T03:21:01.625-05:00  INFO 1996 --- [integradorspringboot] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 76 ms. Found 2 JPA repository interfaces.
+2025-06-17T03:21:02.237-05:00  INFO 1996 --- [integradorspringboot] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-06-17T03:21:02.252-05:00  INFO 1996 --- [integradorspringboot] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-06-17T03:21:02.252-05:00  INFO 1996 --- [integradorspringboot] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-06-17T03:21:02.322-05:00  INFO 1996 --- [integradorspringboot] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-06-17T03:21:02.322-05:00  INFO 1996 --- [integradorspringboot] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1404 ms
+2025-06-17T03:21:02.509-05:00  INFO 1996 --- [integradorspringboot] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-06-17T03:21:02.572-05:00  INFO 1996 --- [integradorspringboot] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-06-17T03:21:02.609-05:00  INFO 1996 --- [integradorspringboot] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-06-17T03:21:02.843-05:00  INFO 1996 --- [integradorspringboot] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-06-17T03:21:02.866-05:00  INFO 1996 --- [integradorspringboot] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-06-17T03:21:04.226-05:00  INFO 1996 --- [integradorspringboot] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@8b89b3a
+2025-06-17T03:21:04.232-05:00  INFO 1996 --- [integradorspringboot] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-06-17T03:21:05.231-05:00  INFO 1996 --- [integradorspringboot] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-06-17T03:21:05.545-05:00  INFO 1996 --- [integradorspringboot] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-06-17T03:21:05.782-05:00  INFO 1996 --- [integradorspringboot] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation should only be used on methods with parameters: public java.lang.String com.utp.integradorspringboot.GestionesCitasController.page()
+2025-06-17T03:21:05.853-05:00  WARN 1996 --- [integradorspringboot] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-06-17T03:21:05.889-05:00  INFO 1996 --- [integradorspringboot] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2025-06-17T03:21:06.299-05:00  INFO 1996 --- [integradorspringboot] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path ''
+2025-06-17T03:21:06.308-05:00  INFO 1996 --- [integradorspringboot] [main] c.u.i.IntegradorspringbootApplication    : Started IntegradorspringbootApplication in 6.074 seconds (process running for 6.646)
+2025-06-17T03:21:36.331-05:00  INFO 1996 --- [integradorspringboot] [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-17T03:21:36.331-05:00  INFO 1996 --- [integradorspringboot] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-06-17T03:21:36.331-05:00  INFO 1996 --- [integradorspringboot] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-06-17T03:32:10.738-05:00  INFO 1996 --- [integradorspringboot] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-06-17T03:32:10.740-05:00  INFO 1996 --- [integradorspringboot] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-06-17T03:32:20.750-05:00  WARN 1996 --- [integradorspringboot] [SpringApplicationShutdownHook] com.zaxxer.hikari.pool.HikariPool        : Timed-out waiting for close connection executor to shutdown
+2025-06-17T03:32:20.752-05:00  INFO 1996 --- [integradorspringboot] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-06-17T03:36:15.552-05:00  INFO 3288 --- [integradorspringboot] [main] c.u.i.IntegradorspringbootApplication    : Starting IntegradorspringbootApplication using Java 21.0.7 with PID 3288 (E:\NO BORRAR - RODRIGO TEJADA\UTP\prueba\SistemaGestionClinicasVeterinarias\target\classes started by USER in E:\NO BORRAR - RODRIGO TEJADA\UTP\prueba\SistemaGestionClinicasVeterinarias)
+2025-06-17T03:36:15.574-05:00  INFO 3288 --- [integradorspringboot] [main] c.u.i.IntegradorspringbootApplication    : No active profile set, falling back to 1 default profile: "default"
+2025-06-17T03:36:16.519-05:00  INFO 3288 --- [integradorspringboot] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-06-17T03:36:16.592-05:00  INFO 3288 --- [integradorspringboot] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 63 ms. Found 2 JPA repository interfaces.
+2025-06-17T03:36:17.211-05:00  INFO 3288 --- [integradorspringboot] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-06-17T03:36:17.224-05:00  INFO 3288 --- [integradorspringboot] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-06-17T03:36:17.224-05:00  INFO 3288 --- [integradorspringboot] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-06-17T03:36:17.318-05:00  INFO 3288 --- [integradorspringboot] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-06-17T03:36:17.318-05:00  INFO 3288 --- [integradorspringboot] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1478 ms
+2025-06-17T03:36:17.498-05:00  INFO 3288 --- [integradorspringboot] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-06-17T03:36:17.585-05:00  INFO 3288 --- [integradorspringboot] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-06-17T03:36:17.626-05:00  INFO 3288 --- [integradorspringboot] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-06-17T03:36:17.919-05:00  INFO 3288 --- [integradorspringboot] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-06-17T03:36:17.949-05:00  INFO 3288 --- [integradorspringboot] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-06-17T03:36:19.385-05:00  INFO 3288 --- [integradorspringboot] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5599dc60
+2025-06-17T03:36:19.394-05:00  INFO 3288 --- [integradorspringboot] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-06-17T03:36:20.485-05:00  INFO 3288 --- [integradorspringboot] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-06-17T03:36:20.855-05:00  INFO 3288 --- [integradorspringboot] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-06-17T03:36:21.088-05:00  INFO 3288 --- [integradorspringboot] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation should only be used on methods with parameters: public java.lang.String com.utp.integradorspringboot.GestionesCitasController.page()
+2025-06-17T03:36:21.150-05:00  WARN 3288 --- [integradorspringboot] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-06-17T03:36:21.172-05:00  INFO 3288 --- [integradorspringboot] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2025-06-17T03:36:21.545-05:00  INFO 3288 --- [integradorspringboot] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path ''
+2025-06-17T03:36:21.553-05:00  INFO 3288 --- [integradorspringboot] [main] c.u.i.IntegradorspringbootApplication    : Started IntegradorspringbootApplication in 6.435 seconds (process running for 6.898)
+2025-06-17T03:36:33.900-05:00  INFO 3288 --- [integradorspringboot] [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-17T03:36:33.900-05:00  INFO 3288 --- [integradorspringboot] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-06-17T03:36:33.900-05:00  INFO 3288 --- [integradorspringboot] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-06-17T03:37:32.133-05:00  WARN 3288 --- [integradorspringboot] [http-nio-8081-exec-1] n.n.u.t.e.ExpressionProcessor            : Fragment expression "_layout" is being wrapped as a Thymeleaf 3 fragment expression (~{...}) for backwards compatibility purposes.  This wrapping will be dropped in the next major version of the expression processor, so please rewrite as a Thymeleaf 3 fragment expression to future-proof your code.  See https://github.com/thymeleaf/thymeleaf/issues/451 for more information.

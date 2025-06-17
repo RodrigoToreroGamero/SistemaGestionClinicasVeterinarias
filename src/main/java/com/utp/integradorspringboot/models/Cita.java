@@ -13,8 +13,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -22,7 +20,7 @@ import jakarta.persistence.Table;
  * @author USER
  */
 @Entity
-@Table(name = "Cita")
+@Table(name = "`Cita`") // usar singular y proteger con backticks si usas MySQL
 public class Cita implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,11 +37,6 @@ public class Cita implements Serializable{
     @Column(name = "estado")
     private String estado;
     
-    @Column(name = "id_duenio")
-    private Long id_duenio;
-    
-    @Column(name = "id_notificacion")
-    private Long id_notificacion;
     
     @Column(name = "id_mascota")
     private Long id_mascota;
@@ -51,27 +44,16 @@ public class Cita implements Serializable{
     @Column(name = "id_veterinario")
     private Long id_veterinario;
     
-    @Column(name = "id_historial")
-    private Long id_historial;
-
-    
-    @ManyToOne
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
-    
     public Cita() {
     }
 
-    public Cita(Long id, Date fecha, Time hora, String estado, Long id_duenio, Long id_notificacion, Long id_mascota, Long id_veterinario, Long id_historial) {
+    public Cita(Long id, Date fecha, Time hora, String estado, Long id_mascota, Long id_veterinario) {
         this.id = id;
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
-        this.id_duenio = id_duenio;
-        this.id_notificacion = id_notificacion;
         this.id_mascota = id_mascota;
         this.id_veterinario = id_veterinario;
-        this.id_historial = id_historial;
     }
 
     
@@ -107,22 +89,6 @@ public class Cita implements Serializable{
         this.estado = estado;
     }
 
-    public Long getId_duenio() {
-        return id_duenio;
-    }
-
-    public void setId_duenio(Long id_duenio) {
-        this.id_duenio = id_duenio;
-    }
-
-    public Long getId_notificacion() {
-        return id_notificacion;
-    }
-
-    public void setId_notificacion(Long id_notificacion) {
-        this.id_notificacion = id_notificacion;
-    }
-
     public Long getId_mascota() {
         return id_mascota;
     }
@@ -137,14 +103,6 @@ public class Cita implements Serializable{
 
     public void setId_veterinario(Long id_veterinario) {
         this.id_veterinario = id_veterinario;
-    }
-
-    public Long getId_historial() {
-        return id_historial;
-    }
-
-    public void setId_historial(Long id_historial) {
-        this.id_historial = id_historial;
     }
     
     
@@ -162,6 +120,6 @@ public class Cita implements Serializable{
     
     @Override
     public String toString() {
-        return "Cita{" + "id=" + id + ", fecha=" + fecha + ", hora=" + hora + ", estado=" + estado + ", id_duenio=" + id_duenio + ", id_mascota=" + id_mascota + ", id_historial=" + id_historial +'}';
+        return "Cita{" + "id=" + id + ", fecha=" + fecha + ", hora=" + hora + ", estado=" + estado + ", id_mascota=" + id_mascota + ", id_veterinario=" + id_veterinario  +'}';
     }
 }

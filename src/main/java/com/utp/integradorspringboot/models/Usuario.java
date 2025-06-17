@@ -36,16 +36,16 @@ public class Usuario {
     
     @Column(name = "correo")
     private String correo;
-    
-    @Column(name = "contrasenia")
-    private String contrasenia;
-    
+
     @Column(name = "celular")
     private String celular;
     
     @Column(name = "fecha_nacimiento")
     private Date fecha_nacimiento;
     
+    @Column(name = "contrasena")
+    private String contrasena;
+
     @Column(name = "fecha_registro")
     private Date fecha_registro;
     
@@ -53,14 +53,14 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Long id, String nombres, String apellidos, String dni,String correo, String contrasenia, String celular, Date fecha_nacimiento, Date fecha_registro) {
+    public Usuario(Long id, String nombres, String apellidos, String dni,String correo, String celular, Date fecha_nacimiento, String contrasena, Date fecha_registro) {
         this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.dni = dni;
         this.celular = celular;
         this.correo = correo;
-        this.contrasenia = contrasenia;
+        this.contrasena = contrasena;
         this.fecha_nacimiento = fecha_nacimiento;
         this.fecha_registro = fecha_registro;
     }
@@ -73,12 +73,12 @@ public class Usuario {
         this.correo = correo;
     }
 
-    public String getContrasenia() {
-        return contrasenia;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
     public Long getId() {
         return id;
@@ -151,6 +151,6 @@ public class Usuario {
     
     @Override
     public String toString() {
-        return "Cita{" + "id=" + id + ", nombres=" + nombres + ", apellidos=" + apellidos + ", DNI=" + dni + ", Celular=" + celular + ", Correo=" + getCorreo() + ", Contrasenia ="+ getContrasenia() +", Cumpleaños=" + fecha_nacimiento + ", Fecha de registro=" + fecha_registro +'}';
+        return "Cita{" + "id=" + id + ", nombres=" + nombres + ", apellidos=" + apellidos + ", DNI=" + dni + ", Celular=" + celular + ", Correo=" + getCorreo() + ", Contrasena ="+ getContrasena() +", Cumpleaños=" + fecha_nacimiento + ", Fecha de registro=" + fecha_registro +'}';
     }
 }
