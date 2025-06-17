@@ -4,7 +4,10 @@
  */
 package com.utp.integradorspringboot.models;
 
-import com.utp.integradorspringboot.api.GestionCitaController;
+import java.io.Serializable;
+import java.sql.Time;
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,18 +16,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.io.Serializable;
-import java.sql.Time;
-import java.util.Date;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author USER
  */
 @Entity
-@Table(name = "Citas")
+@Table(name = "Cita")
 public class Cita implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id

@@ -62,8 +62,8 @@
                                 <div class="col-sm-10">
                                     <select class="form-control" v-model="entidad.idUsuario" required>
                                         <option disabled value="">Seleccione un cliente</option>
-                                        <option v-for="usuario in usuarios" :value="usuario.id">
-                                            {{ usuario.nombres }}
+                                        <option v-for="Usuario in usuarios" :value="Usuario.id">
+                                            {{ Usuario.nombres }}
                                         </option>
                                     </select>
                                 </div>
@@ -110,10 +110,15 @@
                         const usuario = this.usuarios.find(u => u.id === id);
                         return usuario ? usuario.nombres : 'Desconocido';
                     },
-                   listarUsuarios: function () {
-                        this.$http.get('/api/Usuario').then(response => {
-                            this.usuarios = response.data;
-                        });
+                    listarUsuarios: function () {
+                        this.$http.get('/api/Usuario')
+                            .then(response => {
+                                this.usuarios = response.data;
+                                console.log('Usuarios:', this.usuarios);
+                            })
+                            .catch(error => {
+                                console.error('Problema al cargar usuarios:', error);
+                            });
                     },
                     listar: function () {
                         this.$http.get('/api/Cita').then(response => {

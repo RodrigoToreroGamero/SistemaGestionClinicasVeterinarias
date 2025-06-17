@@ -14,7 +14,6 @@ import jakarta.persistence.Id;
  * @author UTP
  */
 public class empleado_clinica {
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     

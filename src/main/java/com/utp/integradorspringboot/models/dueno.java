@@ -7,15 +7,12 @@ package com.utp.integradorspringboot.models;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 /**
  *
  * @author UTP
  */
 public class dueno {
-    private static final long serialVersionUID = 1L;
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     
     //Propiedades de la clase
