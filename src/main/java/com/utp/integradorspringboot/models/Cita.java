@@ -47,7 +47,7 @@ public class Cita implements Serializable{
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "id_mascota", nullable = false)
+    @JoinColumn(name = "id_mascota")
     private Mascota mascota;
 
     
