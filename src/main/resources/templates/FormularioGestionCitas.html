@@ -1,4 +1,8 @@
-<html layout:decorate="_layout">
+<!DOCTYPE html>
+<html   layout:decorate="_layout"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
     <head>
         <title>VetGes: Gestion de citas</title>
     </head>
@@ -60,7 +64,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Usuario</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control" v-model="entidad.idUsuario" required>
+                                    <select class="form-control" v-model="entidad.usuario.id" required>
                                         <option disabled value="">Seleccione un cliente</option>
                                         <option v-for="Usuario in usuarios" :value="Usuario.id">
                                             {{ Usuario.nombres }}
@@ -68,6 +72,19 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Mascota</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" v-model="entidad.mascota.id" required>
+                                        <option disabled value="">Seleccione una mascota</option>
+                                        <option v-for="Mascota in mascotas" :value="Mascota.id">
+                                            {{ Mascota.nombre }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            
                             
                             
                         </div>
@@ -102,13 +119,27 @@
                 el: "#app",
                 data: {
                     entidades: [],
-                    entidad: [],
-                    usuarios: []
+                    entidad: {
+                        usuario: {nombre: ''},
+                        mascota: {nombre: ''}
+                    },
+                    usuarios: [],
+                    mascotas: []
                 },
                 methods: {
                     getNombreUsuario: function(id) {
                         const usuario = this.usuarios.find(u => u.id === id);
                         return usuario ? usuario.nombres : 'Desconocido';
+                    },
+                    listarMascotas: function () {
+                        this.$http.get('/api/Mascota')
+                            .then(response => {
+                                this.mascotas = response.data;
+                                console.log('Mascotas:', this.mascotas);
+                            })
+                            .catch(error => {
+                                console.error('Problema al cargar usuarios:', error.response ? error.response.data : error);
+                            });
                     },
                     listarUsuarios: function () {
                         this.$http.get('/api/Usuario')
@@ -117,7 +148,7 @@
                                 console.log('Usuarios:', this.usuarios);
                             })
                             .catch(error => {
-                                console.error('Problema al cargar usuarios:', error);
+                                console.error('Problema al cargar usuarios:', error.response ? error.response.data : error);
                             });
                     },
                     listar: function () {
@@ -130,7 +161,8 @@
                             id: 0,
                             fecha: null,
                             hora: null,
-                            idUsuario: ''
+                            usuario: { id: null},
+                            mascota: {id: null}
                         };
                         $("#mdlEntidad").modal("show");
                     },

@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.utp.integradorspringboot.api;
-
 import com.utp.integradorspringboot.models.Cita;
 import com.utp.integradorspringboot.repositories.GestionCitaRepository;
 import java.util.ArrayList;
@@ -40,6 +39,7 @@ public class GestionCitaController {
         }
     }
 
+
     @GetMapping("/Cita/{id}")
     public ResponseEntity<Cita> getById(@PathVariable("id") Long id) {
         Optional<Cita> entidad = repository.findById(id);
@@ -53,7 +53,13 @@ public class GestionCitaController {
     @PostMapping("/Cita")
     public ResponseEntity<Cita> create(@RequestBody Cita entidad) {
         try {
-            Cita _entidad = repository.save(new Cita(null, entidad.getFecha(), entidad.getHora(), entidad.getEstado(), entidad.getId_mascota(), entidad.getId_veterinario()));
+            Cita _entidad = repository.save(new Cita(
+                null, 
+                entidad.getFecha(),
+                entidad.getHora(), 
+                entidad.getEstado(),
+                entidad.getUsuario(),
+                entidad.getMascota()));
             return new ResponseEntity<>(_entidad, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -68,8 +74,8 @@ public class GestionCitaController {
             _entidad.setFecha(entidad.getFecha());
             _entidad.setHora(entidad.getHora());
             _entidad.setEstado(entidad.getEstado());
-            _entidad.setId_mascota(entidad.getId_mascota());
-            _entidad.setId_veterinario(entidad.getId_veterinario());
+            _entidad.setUsuario(entidad.getUsuario());
+            _entidad.setMascota(entidad.getMascota());
             return new ResponseEntity<>(repository.save(_entidad), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

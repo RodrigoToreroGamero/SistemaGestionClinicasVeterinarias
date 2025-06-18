@@ -5,7 +5,7 @@
 package com.utp.integradorspringboot.models;
 
 import java.util.Date;
-
+import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
  * @author UTP
  */
 @Entity
-@Table(name = "Usuario")
+@Table(name = "usuario")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +41,7 @@ public class Usuario {
     private String celular;
     
     @Column(name = "fecha_nacimiento")
-    private Date fecha_nacimiento;
+    private LocalDate fecha_nacimiento;
     
     @Column(name = "contrasena")
     private String contrasena;
@@ -53,7 +53,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Long id, String nombres, String apellidos, String dni,String correo, String celular, Date fecha_nacimiento, String contrasena, Date fecha_registro) {
+    public Usuario(Long id, String nombres, String apellidos, String dni,String correo, String celular, LocalDate fecha_nacimiento, String contrasena, Date fecha_registro) {
         this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -120,11 +120,11 @@ public class Usuario {
         this.celular = celular;
     }
 
-    public Date getFecha_nacimiento() {
+    public LocalDate getFecha_nacimiento() {
         return fecha_nacimiento;
     }
 
-    public void setFecha_nacimiento(Date fecha_nacimiento) {
+    public void setFecha_nacimiento(LocalDate fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
 

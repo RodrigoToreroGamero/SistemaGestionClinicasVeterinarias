@@ -5,11 +5,15 @@
 package com.utp.integradorspringboot.models;
 
 import java.io.Serializable;
+import jakarta.persistence.JoinColumn;
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import org.springframework.cglib.core.Local;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,34 +33,47 @@ public class Cita implements Serializable{
     private Long id;
 
     @Column(name = "fecha")
-    private Date fecha;
+    private LocalDate fecha;
 
     @Column(name = "hora")
-    private Time hora;
+    private LocalTime hora;
     
     @Column(name = "estado")
     private String estado;
     
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "id_mascota", nullable = false)
+    private Mascota mascota;
+
     
-    @Column(name = "id_mascota")
-    private Long id_mascota;
-    
-    @Column(name = "id_veterinario")
-    private Long id_veterinario;
-    
+
+
     public Cita() {
     }
 
-    public Cita(Long id, Date fecha, Time hora, String estado, Long id_mascota, Long id_veterinario) {
+    public Cita(Long id, LocalDate fecha, LocalTime hora, String estado, Usuario usuario, Mascota mascota) {
         this.id = id;
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
-        this.id_mascota = id_mascota;
-        this.id_veterinario = id_veterinario;
+        this.usuario = usuario;
+        this.mascota = mascota;
     }
+    
 
     
+    // Getters y Setters
+    public void setEstado(String estado){
+        this.estado = estado;
+    }
+    public String getEstado(){
+        return estado;
+    }
     public Long getId() {
         return id;
     }
@@ -65,44 +82,36 @@ public class Cita implements Serializable{
         this.id = id;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
-    public Time getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(Time hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
-    public String getEstado() {
-        return estado;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public Long getId_mascota() {
-        return id_mascota;
+    public Mascota getMascota() {
+        return mascota;
     }
 
-    public void setId_mascota(Long id_mascota) {
-        this.id_mascota = id_mascota;
-    }
-
-    public Long getId_veterinario() {
-        return id_veterinario;
-    }
-
-    public void setId_veterinario(Long id_veterinario) {
-        this.id_veterinario = id_veterinario;
+    public void setMascota(Mascota mascota) {
+        this.mascota = mascota;
     }
     
     
@@ -120,6 +129,12 @@ public class Cita implements Serializable{
     
     @Override
     public String toString() {
-        return "Cita{" + "id=" + id + ", fecha=" + fecha + ", hora=" + hora + ", estado=" + estado + ", id_mascota=" + id_mascota + ", id_veterinario=" + id_veterinario  +'}';
+        return "Cita{" +
+                "id=" + id +
+                ", fecha=" + fecha +
+                ", hora=" + hora +
+                ", usuario=" + (usuario != null ? usuario.getId() : "null") +
+                ", mascota=" + (mascota != null ? mascota.getId() : "null") +
+                '}';
     }
 }
