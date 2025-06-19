@@ -4,12 +4,13 @@
  */
 package com.utp.integradorspringboot.repositories;
 
-import com.utp.integradorspringboot.models.Persona;
+import com.utp.integradorspringboot.models.Cita;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author jcerv
+ * @author USER
  */
-public interface PersonaRepository extends JpaRepository<Persona, Long> {
+public interface GestionCitaRepository extends JpaRepository<Cita, Long>{
+    
 }

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html   layout:decorate="_layout"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+    <head>
+        <title>VetGes: Gestion de citas</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <h1>Gestion de citas</h1>
+            <p class="text-end">
+                <button class="btn btn-primary" @click="nuevo">Nuevo</button>
+            </p>
+            <p>
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombres</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in entidades">
+                        <td>{{item.id}}</td>
+                        <td>{{ getNombreUsuario(item.idUsuario) }}</td>
+                        <td>{{item.fecha}}</td>
+                        <td>{{item.hora}}</td>
+                        <td class="text-end">
+                            <button class="btn btn-primary" @click="editar(item.id)">Editar</button>
+                            <button class="btn btn-danger" @click="eliminar(item.id)">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="modal" tabindex="-1" id="mdlEntidad">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" v-if="entidad.id==0">Nueva</h5>
+                            <h5 class="modal-title" v-if="entidad.id!=0">Editar</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <div class="form-group row">
+                                <label for="nombres" class="col-sm-2 col-form-label">Fecha</label>
+                                <div class="col-sm-10">
+                                    <input type="date" class="form-control" id="fecha" v-model="entidad.fecha" required/>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label for="apellidos" class="col-sm-2 col-form-label">Hora</label>
+                                <div class="col-sm-10">
+                                    <input type="time" class="form-control" id="hora" v-model="entidad.hora" required/>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Usuario</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" v-model="entidad.usuario.id" required>
+                                        <option disabled value="">Seleccione un cliente</option>
+                                        <option v-for="Usuario in usuarios" :value="Usuario.id">
+                                            {{ Usuario.nombres }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Mascota</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" v-model="entidad.mascota.id" required>
+                                        <option disabled value="">Seleccione una mascota</option>
+                                        <option v-for="Mascota in mascotas" :value="Mascota.id">
+                                            {{ Mascota.nombre }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" v-if="entidad.id==0" @click="guardar">Guardar</button>
+                            <button type="button" class="btn btn-primary" v-if="entidad.id!=0" @click="actualizar">Actualizar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" tabindex="-1" id="mdlEliminar">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Eliminar</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Estás seguro que quieres eliminar?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" @click="confimareliminacion">Eliminar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script layout:fragment="script">
+            new Vue({
+                el: "#app",
+                data: {
+                    entidades: [],
+                    entidad: {
+                        usuario: {nombre: ''},
+                        mascota: {nombre: ''}
+                    },
+                    usuarios: [],
+                    mascotas: []
+                },
+                methods: {
+                    getNombreUsuario: function(id) {
+                        const usuario = this.usuarios.find(u => u.id === id);
+                        return usuario ? usuario.nombres : 'Desconocido';
+                    },
+                    getNombreMascota: function(id) {
+                        const mascota = this.mascota.find(u => u.id === id);
+                        return mascota ? mascota.nombres : 'Desconocido';
+                    },
+                    listarMascotas: function () {
+                        this.$http.get('/api/Mascota')
+                            .then(response => {
+                                this.mascotas = response.data;
+                                console.log('Mascotas:', this.mascotas);
+                            })
+                            .catch(error => {
+                                console.error('Problema al cargar usuarios:', error.response ? error.response.data : error);
+                            });
+                    },
+                    listarUsuarios: function () {
+                        this.$http.get('/api/Usuario')
+                            .then(response => {
+                                this.usuarios = response.data;
+                                console.log('Usuarios:', this.usuarios);
+                            })
+                            .catch(error => {
+                                console.error('Problema al cargar usuarios:', error.response ? error.response.data : error);
+                            });
+                    },
+                    listar: function () {
+                        this.$http.get('/api/Cita').then(response => {
+                            this.entidades = response.data;
+                        });
+                    },
+                    nuevo: function () {
+                        this.entidad = {
+                            id: 0,
+                            fecha: null,
+                            hora: null,
+                            estado: null,
+                            usuario: { id: null},
+                            mascota: {id: null}
+                        };
+                        $("#mdlEntidad").modal("show");
+                    },
+                    editar: function (id) {
+                        this.$http.get('/api/Cita/' + id).then(response => {
+                            this.entidad = response.data;
+                            $("#mdlEntidad").modal("show");
+                        });
+                    },
+                    guardar: function () {
+                        this.$http.post('/api/Cita', this.entidad).then(response => {
+                            this.listar();
+                            $("#mdlEntidad").modal("hide");
+                        });
+                    },
+                    actualizar: function () {
+                        this.$http.put('/api/Cita/' + this.entidad.id, this.entidad).then(response => {
+                            this.listar();
+                            $("#mdlEntidad").modal("hide");
+                        });
+                    },
+                    eliminar: function (id) {
+                        this.entidad.id = id;
+                        $("#mdlEliminar").modal("show");
+                    },
+                    confimareliminacion: function () {
+                        this.$http.delete('/api/Cita/' + this.entidad.id).then(response => {
+                            this.listar();
+                            $("#mdlEliminar").modal("hide");
+                        });
+                    }
+                },
+                mounted: function () {
+                    this.listar();
+                    this.listarUsuarios();
+                    this.listarMascotas();
+                }
+            });
+        </script>
+    </body>
+</html>

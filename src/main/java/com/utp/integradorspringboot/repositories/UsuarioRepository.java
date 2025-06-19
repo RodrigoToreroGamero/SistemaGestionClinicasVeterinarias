@@ -3,13 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.utp.integradorspringboot.repositories;
-
-import com.utp.integradorspringboot.models.Profesor;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import com.utp.integradorspringboot.models.Usuario;
 /**
  *
- * @author jcerv
+ * @author UTP
  */
-public interface ProfesorRepository extends JpaRepository<Profesor, Long> {
+@Repository
+public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
+    
 }

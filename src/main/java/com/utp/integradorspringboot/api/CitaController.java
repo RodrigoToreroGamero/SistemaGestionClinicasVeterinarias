@@ -3,9 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.utp.integradorspringboot.api;
-
-import com.utp.integradorspringboot.models.Persona;
-import com.utp.integradorspringboot.repositories.PersonaRepository;
+import com.utp.integradorspringboot.models.Cita;
+import com.utp.integradorspringboot.repositories.GestionCitaRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,20 +15,20 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  *
- * @author jcerv
+ * @author USER
  */
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
-public class PersonaController {
 
+public class CitaController {
     @Autowired
-    PersonaRepository repository;
+    GestionCitaRepository repository;
 
-    @GetMapping("/persona")
-    public ResponseEntity<List<Persona>> getAll(@RequestParam(required = false) String title) {
+    @GetMapping("/Cita")
+    public ResponseEntity<List<Cita>> getAll(@RequestParam(required = false) String title) {
         try {
-            List<Persona> lista = new ArrayList<Persona>();
+            List<Cita> lista = new ArrayList<Cita>();
             repository.findAll().forEach(lista::add);
             if (lista.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -40,9 +39,10 @@ public class PersonaController {
         }
     }
 
-    @GetMapping("/persona/{id}")
-    public ResponseEntity<Persona> getById(@PathVariable("id") Long id) {
-        Optional<Persona> entidad = repository.findById(id);
+
+    @GetMapping("/Cita/{id}")
+    public ResponseEntity<Cita> getById(@PathVariable("id") Long id) {
+        Optional<Cita> entidad = repository.findById(id);
         if (entidad.isPresent()) {
             return new ResponseEntity<>(entidad.get(), HttpStatus.OK);
         } else {
@@ -50,29 +50,39 @@ public class PersonaController {
         }
     }
 
-    @PostMapping("/persona")
-    public ResponseEntity<Persona> create(@RequestBody Persona entidad) {
+    @PostMapping("/Cita")
+    public ResponseEntity<Cita> create(@RequestBody Cita entidad) {
         try {
-            Persona _entidad = repository.save(new Persona(null, entidad.getNombres(), entidad.getApellidos()));
+            Cita _entidad = repository.save(new Cita(
+                null, 
+                entidad.getFecha(),
+                entidad.getHora(), 
+                entidad.getEstado(),
+                entidad.getUsuario(),
+                entidad.getMascota()));
             return new ResponseEntity<>(_entidad, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
 
-    @PutMapping("/persona/{id}")
-    public ResponseEntity<Persona> update(@PathVariable("id") Long id, @RequestBody Persona entidad) {
-        Persona _entidad = repository.findById(id).orElse(null);
+    @PutMapping("/Cita/{id}")
+    public ResponseEntity<Cita> update(@PathVariable("id") Long id, @RequestBody Cita entidad) {
+        Cita _entidad = repository.findById(id).orElse(null);
         if (_entidad != null) {
-            _entidad.setNombres(entidad.getNombres());
-            _entidad.setApellidos(entidad.getApellidos());
+            _entidad.setFecha(entidad.getFecha());
+            _entidad.setHora(entidad.getHora());
+            _entidad.setEstado(entidad.getEstado());
+            _entidad.setUsuario(entidad.getUsuario());
+            _entidad.setMascota(entidad.getMascota());
             return new ResponseEntity<>(repository.save(_entidad), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping("/persona/{id}")
+    @DeleteMapping("/Cita/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
             repository.deleteById(id);
@@ -81,5 +91,5 @@ public class PersonaController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }
+

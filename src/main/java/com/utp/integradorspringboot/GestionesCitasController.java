@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author jcerv
  */
 @Controller
-public class ProfesoresController {
+public class GestionesCitasController {
     @Autowired
-    @RequestMapping("/profesores")
+    @RequestMapping("/GestionesCitas")
     public String page() {
         //model.addAttribute("attribute", "value");
-        return "profesores";
+        return "FormularioGestionCitas";
     }
 }
+
