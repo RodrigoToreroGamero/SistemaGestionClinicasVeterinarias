@@ -5,15 +5,20 @@
 package com.utp.integradorspringboot.models;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  *
  * @author UTP
  */
-public class empleado_clinica {
+@Entity
+@Table(name = "`Empleado_clinica`") // usar singular y proteger con backticks si usas MySQL
+public class Empleado_clinica {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     
@@ -27,11 +32,11 @@ public class empleado_clinica {
     @Column(name = "id_clinica")
     private Long id_clinica;
     
-    public empleado_clinica(){
+    public Empleado_clinica(){
     
     }
     
-    public empleado_clinica(Long id, Long id_usuario, Long id_clinica){
+    public Empleado_clinica(Long id, Long id_usuario, Long id_clinica){
         this.id = id;
         this.id_clinica = id_clinica;
         this.id_usuario = id_usuario;
@@ -67,10 +72,10 @@ public class empleado_clinica {
     
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof empleado_clinica)) {
+        if (!(object instanceof Empleado_clinica)) {
             return false;
         }
-        empleado_clinica other = (empleado_clinica) object;
+        Empleado_clinica other = (Empleado_clinica) object;
         if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }

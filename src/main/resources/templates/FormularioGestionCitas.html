@@ -131,6 +131,10 @@
                         const usuario = this.usuarios.find(u => u.id === id);
                         return usuario ? usuario.nombres : 'Desconocido';
                     },
+                    getNombreMascota: function(id) {
+                        const mascota = this.mascota.find(u => u.id === id);
+                        return mascota ? mascota.nombres : 'Desconocido';
+                    },
                     listarMascotas: function () {
                         this.$http.get('/api/Mascota')
                             .then(response => {
@@ -161,6 +165,7 @@
                             id: 0,
                             fecha: null,
                             hora: null,
+                            estado: null,
                             usuario: { id: null},
                             mascota: {id: null}
                         };
@@ -198,6 +203,7 @@
                 mounted: function () {
                     this.listar();
                     this.listarUsuarios();
+                    this.listarMascotas();
                 }
             });
         </script>

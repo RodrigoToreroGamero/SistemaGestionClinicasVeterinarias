@@ -5,40 +5,39 @@
 package com.utp.integradorspringboot.models;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  *
  * @author UTP
  */
-public class dueno {
+@Entity
+@Table(name = "`Dueno`") // usar singular y proteger con backticks si usas MySQL
+public class Dueno {
+    private static final long serialVersionUID = 1L;
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
-    //Propiedades de la clase
-    @Column(name = "id")
-    private Long id;
     
     @Column(name = "id_usuario")
     private Long id_usuario;
+
+    @Column(name = "id_mascota")
+    private Long id_mascota;
     
-    public dueno(){
+    public Dueno(){
         
     }
     
-    public dueno(Long id, Long id_usuario){
-        this.id = id;
+    public Dueno(Long id_usuario, Long id_mascota){
         this.id_usuario = id_usuario;
+        this.id_mascota = id_mascota;
     }
     
     //Setters y Getters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getId_usuario() {
         return id_usuario;
@@ -47,14 +46,22 @@ public class dueno {
     public void setId_usuario(Long id_usuario) {
         this.id_usuario = id_usuario;
     }
+
+    public Long getId_mascota() {
+        return id_mascota;
+    }
+
+    public void setId_mascota(Long id_mascota) {
+        this.id_mascota = id_mascota;
+    }
     
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof dueno)) {
+        if (!(object instanceof Dueno)) {
             return false;
         }
-        dueno other = (dueno) object;
-        if ((this.getId() == null && other.id != null) || (this.getId() != null && !this.id.equals(other.id))) {
+        Dueno other = (Dueno) object;
+        if ((this.getId_usuario() == null && other.id_usuario != null) || (this.getId_usuario() != null && !this.id_usuario.equals(other.id_usuario))) {
             return false;
         }
         return true;
@@ -62,7 +69,7 @@ public class dueno {
     
     @Override
     public String toString() {
-        return "Cita{" + "id=" + getId() + ", ID Usuario=" + id_usuario + '}';
+        return "Dueno{" + "id_usuario=" + id_usuario + ", id_mascota=" + id_mascota + '}';
     }
     
 }

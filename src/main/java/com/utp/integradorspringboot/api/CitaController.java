@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 
-public class GestionCitaController {
+public class CitaController {
     @Autowired
     GestionCitaRepository repository;
 
