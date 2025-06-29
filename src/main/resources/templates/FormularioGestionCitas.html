@@ -60,14 +60,14 @@
                                     <input type="time" class="form-control" id="hora" v-model="entidad.hora" required/>
                                 </div>
                             </div>
-                            
+
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Usuario</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control" v-model="entidad.usuario.id" required>
-                                        <option disabled value="">Seleccione un cliente</option>
-                                        <option v-for="Usuario in usuarios" :value="Usuario.id">
-                                            {{ Usuario.nombres }}
+                                    <select class="form-control" v-model="entidad.usuario.id" @change="onUsuarioChange" required>
+                                        <option disabled value="">Seleccione un usuario</option>
+                                        <option v-for="usuario in usuarios" :value="usuario.id">
+                                            {{ usuario.nombres }} {{ usuario.apellidos }}
                                         </option>
                                     </select>
                                 </div>
@@ -78,12 +78,28 @@
                                 <div class="col-sm-10">
                                     <select class="form-control" v-model="entidad.mascota.id" required>
                                         <option disabled value="">Seleccione una mascota</option>
-                                        <option v-for="Mascota in mascotas" :value="Mascota.id">
-                                            {{ Mascota.nombre }}
+                                        <option v-for="mascota in mascotasFiltradas" :value="mascota.id">
+                                            {{ mascota.nombre }} ({{ mascota.especie }} - {{ mascota.raza }})
                                         </option>
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Veterinario</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" v-model="entidad.veterinario.id" required>
+                                        <option disabled value="">Seleccione un veterinario</option>
+                                        <option v-for="Veterinario in veterinarios" :value="Veterinario.id">
+                                            {{ Veterinario.usuario.nombres}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                
+
+                            
                             
                             
                             
@@ -120,11 +136,22 @@
                 data: {
                     entidades: [],
                     entidad: {
-                        usuario: {nombre: ''},
-                        mascota: {nombre: ''}
+                        usuario: {id: null},
+                        mascota: {id: null},
+                        veterinario: {id: null}
                     },
                     usuarios: [],
-                    mascotas: []
+                    mascotas: [],
+                    mascotasFiltradas: [],
+                    veterinarios: []
+                },
+                computed: {
+                    mascotasFiltradas: function() {
+                        if (!this.entidad.usuario.id) {
+                            return [];
+                        }
+                        return this.mascotas.filter(mascota => mascota.usuario.id === this.entidad.usuario.id);
+                    }
                 },
                 methods: {
                     getNombreUsuario: function(id) {
@@ -165,9 +192,10 @@
                             id: 0,
                             fecha: null,
                             hora: null,
+                            mascota: {id: null},
+                            veterinario: {id: null},
                             estado: null,
-                            usuario: { id: null},
-                            mascota: {id: null}
+                            usuario: { id: null}
                         };
                         $("#mdlEntidad").modal("show");
                     },
@@ -198,12 +226,27 @@
                             this.listar();
                             $("#mdlEliminar").modal("hide");
                         });
+                    },
+                    onUsuarioChange: function () {
+                        // Reset mascota selection when usuario changes
+                        this.entidad.mascota.id = null;
+                    },
+                    listarVeterinarios: function () {
+                        this.$http.get('/api/Veterinario')
+                            .then(response => {
+                                this.veterinarios = response.data;
+                                console.log('Veterinarios:', this.veterinarios);
+                            })
+                            .catch(error => {
+                                console.error('Problema al cargar veterinarios:', error.response ? error.response.data : error);
+                            });
                     }
                 },
                 mounted: function () {
                     this.listar();
                     this.listarUsuarios();
                     this.listarMascotas();
+                    this.listarVeterinarios();
                 }
             });
         </script>
