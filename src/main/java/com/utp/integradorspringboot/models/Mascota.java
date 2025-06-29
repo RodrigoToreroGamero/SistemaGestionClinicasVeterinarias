@@ -1,9 +1,18 @@
 package com.utp.integradorspringboot.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 
 @Entity
@@ -17,11 +26,22 @@ public class Mascota {
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
+    @Column(name = "especie")
+    private String especie;
+
     @Column(name = "raza")
     private String raza;
 
     @Column(name = "edad")
     private Integer edad;
+
+    @ManyToOne
+    @JoinColumn(name = "id_dueno", nullable = false)
+    private Dueno dueno;
+
+    @ManyToOne
+    @JoinColumn(name = "id_clinica", nullable = false)
+    private Clinica clinica;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
@@ -31,7 +51,39 @@ public class Mascota {
     @OneToMany(mappedBy = "mascota")
     private List<Cita> citas;
 
+    // Constructors
+    public Mascota() {
+    }
+
+    public Mascota(String nombre, String especie, String raza, Integer edad, Dueno dueno, Clinica clinica, Usuario usuario) {
+        this.nombre = nombre;
+        this.especie = especie;
+        this.raza = raza;
+        this.edad = edad;
+        this.dueno = dueno;
+        this.clinica = clinica;
+        this.usuario = usuario;
+    }
+
     // Getters y Setters
+
+    public Dueno getDueno() {
+        return dueno;
+    }
+
+    public Dueno setDueno(Dueno dueno) {
+        this.dueno = dueno;
+        return dueno;
+    }
+
+    public Clinica getClinica() {
+        return clinica;
+    }
+
+    public Clinica setClinica(Clinica clinica) {
+        this.clinica = clinica;
+        return clinica;
+    }
 
     public Long getId() {
         return id;
@@ -49,6 +101,14 @@ public class Mascota {
         this.nombre = nombre;
     }
 
+    public String getEspecie() {
+        return especie;
+    }
+
+    public void setEspecie(String especie) {
+        this.especie = especie;
+    }
+
     public String getRaza() {
         return raza;
     }
@@ -57,11 +117,11 @@ public class Mascota {
         this.raza = raza;
     }
 
-    public int getEdad() {
+    public Integer getEdad() {
         return edad;
     }
 
-    public void setEdad(int edad) {
+    public void setEdad(Integer edad) {
         this.edad = edad;
     }
 
@@ -71,5 +131,31 @@ public class Mascota {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public List<Cita> getCitas() {
+        return citas;
+    }
+
+    public void setCitas(List<Cita> citas) {
+        this.citas = citas;
+    }
+
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Mascota)) {
+            return false;
+        }
+        Mascota other = (Mascota) object;
+        if((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+    
+    @Override
+    public String toString() {
+        return "Mascota{" + "id=" + id + ", nombre=" + nombre + ", especie=" + especie + ", raza=" + raza + ", edad=" + edad + ", dueno=" + dueno + ", clinica=" + clinica + ", usuario=" + usuario + ", citas=" + citas +'}';
     }
 }

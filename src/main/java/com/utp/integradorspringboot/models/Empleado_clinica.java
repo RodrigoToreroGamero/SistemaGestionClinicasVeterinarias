@@ -18,7 +18,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "`Empleado_clinica`") // usar singular y proteger con backticks si usas MySQL
 public class Empleado_clinica {
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     
