@@ -19,8 +19,13 @@ target/
 *.iml
 *.ipr
 
-### Log
-logs/app.log/
+### Ignorar archivos de log
+*.log
+logs/
+log/
+**/logs/
+**/*.log
+
 
 ### NetBeans ###
 /nbproject/private/
