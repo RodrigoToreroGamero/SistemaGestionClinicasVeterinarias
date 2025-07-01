@@ -18,11 +18,13 @@ import jakarta.persistence.Table;
  * @author UTP
  */
 @Entity
-@Table(name = "`Dueno`") // usar singular y proteger con backticks si usas MySQL
+@Table(name = "`dueno`") // usar singular y proteger con backticks si usas MySQL
 public class Dueno {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
     
     @Column(name = "id_usuario")
     private Long id_usuario;
@@ -34,12 +36,21 @@ public class Dueno {
         
     }
     
-    public Dueno(Long id_usuario, Long id_mascota){
+    public Dueno(Long id, Long id_usuario, Long id_mascota){
+        this.id = id;
         this.id_usuario = id_usuario;
         this.id_mascota = id_mascota;
     }
     
     //Setters y Getters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getId_usuario() {
         return id_usuario;
@@ -71,7 +82,7 @@ public class Dueno {
     
     @Override
     public String toString() {
-        return "Dueno{" + "id_usuario=" + id_usuario + ", id_mascota=" + id_mascota + '}';
+        return "Dueno{" + "id=" + id + ", id_usuario=" + id_usuario + ", id_mascota=" + id_mascota + '}';
     }
     
 }

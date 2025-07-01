@@ -35,10 +35,12 @@ public class Mascota {
     @Column(name = "edad")
     private Integer edad;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_dueno", nullable = false)
     private Dueno dueno;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_clinica", nullable = false)
     private Clinica clinica;

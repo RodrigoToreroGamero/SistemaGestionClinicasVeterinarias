@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
  * @author UTP
  */
 @Entity
-@Table(name = "`Empleado_clinica`") // usar singular y proteger con backticks si usas MySQL
+@Table(name = "`empleado_clinica`") // usar singular y proteger con backticks si usas MySQL
 public class Empleado_clinica {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

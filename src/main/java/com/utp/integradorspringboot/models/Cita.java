@@ -22,7 +22,7 @@ import jakarta.persistence.Table;
  * @author USER
  */
 @Entity
-@Table(name = "`Cita`") // usar singular y proteger con backticks si usas MySQL
+@Table(name = "`cita`") // usar singular y proteger con backticks si usas MySQL
 public class Cita implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
