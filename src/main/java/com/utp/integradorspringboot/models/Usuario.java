@@ -34,8 +34,6 @@ public class Usuario {
     @Column(name = "dni")
     private String dni;
     
-    @Column(name = "correo")
-    private String correo;
 
     @Column(name = "celular")
     private String celular;
@@ -43,8 +41,6 @@ public class Usuario {
     @Column(name = "fecha_nacimiento")
     private LocalDate fecha_nacimiento;
     
-    @Column(name = "contrasena")
-    private String contrasena;
 
     @Column(name = "fecha_registro")
     private Date fecha_registro;
@@ -53,33 +49,18 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Long id, String nombres, String apellidos, String dni,String correo, String celular, LocalDate fecha_nacimiento, String contrasena, Date fecha_registro) {
+    public Usuario(Long id, String nombres, String apellidos, String dni, String celular, LocalDate fecha_nacimiento, Date fecha_registro) {
         this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.dni = dni;
         this.celular = celular;
-        this.correo = correo;
-        this.contrasena = contrasena;
+
         this.fecha_nacimiento = fecha_nacimiento;
         this.fecha_registro = fecha_registro;
     }
-    
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
+   
+ 
     public Long getId() {
         return id;
     }
@@ -148,9 +129,11 @@ public class Usuario {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
-        return "Cita{" + "id=" + id + ", nombres=" + nombres + ", apellidos=" + apellidos + ", DNI=" + dni + ", Celular=" + celular + ", Correo=" + getCorreo() + ", Contrasena ="+ getContrasena() +", Cumpleaños=" + fecha_nacimiento + ", Fecha de registro=" + fecha_registro +'}';
+        return "Usuario{" + "id=" + id + ", nombres=" + nombres + ", apellidos=" + apellidos + ", dni=" + dni + ", celular=" + celular + ", fecha_nacimiento=" + fecha_nacimiento + ", fecha_registro=" + fecha_registro + '}';
     }
+    
+    
 }
