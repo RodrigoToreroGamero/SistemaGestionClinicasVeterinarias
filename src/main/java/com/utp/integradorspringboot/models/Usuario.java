@@ -117,7 +117,7 @@ public class Usuario {
     
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Cita)) {
+        if (!(object instanceof Usuario)) {
             return false;
         }
         Usuario other = (Usuario) object;
@@ -129,6 +129,6 @@ public class Usuario {
     
     @Override
     public String toString() {
-        return "Cita{" + "id=" + id + ", nombres=" + nombres + ", apellidos=" + apellidos + ", DNI=" + dni + ", Celular=" + celular + ", Cumpleaños=" + fecha_nacimiento + ", Fecha de registro=" + fecha_registro +'}';
+        return "Usuario{" + "id=" + id + ", nombres=" + nombres + ", apellidos=" + apellidos + ", DNI=" + dni + ", Celular=" + celular + ", Cumpleaños=" + fecha_nacimiento + ", Fecha de registro=" + fecha_registro +'}';
     }
 }

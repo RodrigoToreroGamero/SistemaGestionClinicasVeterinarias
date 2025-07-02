@@ -38,15 +38,20 @@ public class Cita implements Serializable{
     
     @Column(name = "estado")
     private String estado;
-    
-
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "id_mascota")
     private Mascota mascota;
+
+    @ManyToOne
+    @JoinColumn(name = "id_veterinario", nullable = false)
+    private Veterinario veterinario;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_dueno", nullable = false)
+    private Dueno dueno;
+
+    
 
     
 
@@ -54,13 +59,14 @@ public class Cita implements Serializable{
     public Cita() {
     }
 
-    public Cita(Long id, LocalDate fecha, LocalTime hora, String estado, Usuario usuario, Mascota mascota) {
+    public Cita(Long id, LocalDate fecha, LocalTime hora, String estado, Mascota mascota, Veterinario veterinario, Dueno dueno) {
         this.id = id;
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
-        this.usuario = usuario;
         this.mascota = mascota;
+        this.veterinario = veterinario;
+        this.dueno = dueno;
     }
     
 
@@ -96,12 +102,20 @@ public class Cita implements Serializable{
         this.hora = hora;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Veterinario getVeterinario() {
+        return veterinario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setVeterinario(Veterinario veterinario) {
+        this.veterinario = veterinario;
+    }
+
+    public Dueno getDueno(){
+        return dueno;
+    }
+
+    public void setDueno(Dueno dueno){
+        this.dueno = dueno;
     }
 
     public Mascota getMascota() {
@@ -131,7 +145,9 @@ public class Cita implements Serializable{
                 "id=" + id +
                 ", fecha=" + fecha +
                 ", hora=" + hora +
-                ", usuario=" + (usuario != null ? usuario.getId() : "null") +
+                ", estado=" + estado +
+                ", veterinario=" + (veterinario != null ? veterinario.getId() : "null") +
+                ", dueno=" + (dueno != null ? dueno.getId() : "null") +
                 ", mascota=" + (mascota != null ? mascota.getId() : "null") +
                 '}';
     }

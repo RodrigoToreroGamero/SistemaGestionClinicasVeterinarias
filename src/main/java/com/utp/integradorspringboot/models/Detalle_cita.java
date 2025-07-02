@@ -37,7 +37,7 @@ public class Detalle_cita {
     @Column(name = "receta")
     private String receta;
 
-    @Column(name = "costo")
+    @Column(name = "costo", columnDefinition = "DECIMAL(10,2)")
     private Double costo;
 
     @Column(name = "metodo_pago")

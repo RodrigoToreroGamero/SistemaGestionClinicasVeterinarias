@@ -11,7 +11,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.OneToMany;
+
 
 /**
  *
@@ -26,20 +32,21 @@ public class Dueno {
     @Column(name = "id")
     private Long id;
     
-    @Column(name = "id_usuario")
-    private Long id_usuario;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
 
-    @Column(name = "id_mascota")
-    private Long id_mascota;
+    @JsonIgnore
+    @OneToMany(mappedBy = "dueno")
+    private List<Mascota> mascotas;
     
     public Dueno(){
         
     }
     
-    public Dueno(Long id, Long id_usuario, Long id_mascota){
+    public Dueno(Long id, Usuario usuario, Mascota mascota){
         this.id = id;
-        this.id_usuario = id_usuario;
-        this.id_mascota = id_mascota;
+        this.usuario = usuario;
     }
     
     //Setters y Getters
@@ -52,20 +59,19 @@ public class Dueno {
         this.id = id;
     }
 
-    public Long getId_usuario() {
-        return id_usuario;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public Long getId_mascota() {
-        return id_mascota;
+    public List<Mascota> getMascotas() { 
+        return mascotas; 
     }
-
-    public void setId_mascota(Long id_mascota) {
-        this.id_mascota = id_mascota;
+    public void setMascotas(List<Mascota> mascotas) {
+        this.mascotas = mascotas; 
     }
     
     @Override
@@ -74,7 +80,7 @@ public class Dueno {
             return false;
         }
         Dueno other = (Dueno) object;
-        if ((this.getId_usuario() == null && other.id_usuario != null) || (this.getId_usuario() != null && !this.id_usuario.equals(other.id_usuario))) {
+        if ((this.getId() == null && other.id != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -82,7 +88,7 @@ public class Dueno {
     
     @Override
     public String toString() {
-        return "Dueno{" + "id=" + id + ", id_usuario=" + id_usuario + ", id_mascota=" + id_mascota + '}';
+        return "Dueno{" + "id=" + id + ", usuario=" + (usuario != null ? usuario.getId() : "null") + '}';
     }
     
 }

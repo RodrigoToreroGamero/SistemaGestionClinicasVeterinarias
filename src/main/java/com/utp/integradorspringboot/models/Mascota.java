@@ -35,7 +35,6 @@ public class Mascota {
     @Column(name = "edad")
     private Integer edad;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_dueno", nullable = false)
     private Dueno dueno;
@@ -45,6 +44,7 @@ public class Mascota {
     @JoinColumn(name = "id_clinica", nullable = false)
     private Clinica clinica;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
@@ -73,18 +73,16 @@ public class Mascota {
         return dueno;
     }
 
-    public Dueno setDueno(Dueno dueno) {
+    public void setDueno(Dueno dueno) {
         this.dueno = dueno;
-        return dueno;
     }
 
     public Clinica getClinica() {
         return clinica;
     }
 
-    public Clinica setClinica(Clinica clinica) {
+    public void setClinica(Clinica clinica) {
         this.clinica = clinica;
-        return clinica;
     }
 
     public Long getId() {
