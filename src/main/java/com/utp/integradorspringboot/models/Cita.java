@@ -22,12 +22,11 @@ import jakarta.persistence.Table;
  * @author USER
  */
 @Entity
-@Table(name = "`cita`") // usar singular y proteger con backticks si usas MySQL
+@Table(name = "cita")
 public class Cita implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @Column(name = "fecha")
@@ -37,10 +36,10 @@ public class Cita implements Serializable{
     private LocalTime hora;
     
     @Column(name = "estado")
-    private String estado;
+    private String estado = "en proceso";
 
     @ManyToOne
-    @JoinColumn(name = "id_mascota")
+    @JoinColumn(name = "id_mascota", nullable = true)
     private Mascota mascota;
 
     @ManyToOne

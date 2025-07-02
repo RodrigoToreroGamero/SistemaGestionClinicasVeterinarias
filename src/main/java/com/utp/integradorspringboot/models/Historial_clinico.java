@@ -16,7 +16,6 @@ import jakarta.persistence.Table;
 public class Historial_clinico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @Column(name = "fecha")

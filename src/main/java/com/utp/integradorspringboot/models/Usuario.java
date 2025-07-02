@@ -5,7 +5,7 @@
 package com.utp.integradorspringboot.models;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +23,6 @@ import jakarta.persistence.Table;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @Column(name = "nombres")
@@ -32,7 +31,7 @@ public class Usuario {
     @Column(name = "apellidos")
     private String apellidos;
     
-    @Column(name = "dni")
+    @Column(name = "dni", unique = true)
     private String dni;
 
     @Column(name = "celular")
@@ -42,13 +41,13 @@ public class Usuario {
     private LocalDate fecha_nacimiento;
 
     @Column(name = "fecha_registro")
-    private Date fecha_registro;
+    private LocalDateTime fecha_registro;
     
 
     public Usuario() {
     }
 
-    public Usuario(Long id, String nombres, String apellidos, String dni, String celular, LocalDate fecha_nacimiento, Date fecha_registro) {
+    public Usuario(Long id, String nombres, String apellidos, String dni, String celular, LocalDate fecha_nacimiento, LocalDateTime fecha_registro) {
         this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -106,11 +105,11 @@ public class Usuario {
         this.fecha_nacimiento = fecha_nacimiento;
     }
 
-    public Date getFecha_registro() {
+    public LocalDateTime getFecha_registro() {
         return fecha_registro;
     }
 
-    public void setFecha_registro(Date fecha_registro) {
+    public void setFecha_registro(LocalDateTime fecha_registro) {
         this.fecha_registro = fecha_registro;
     }
     

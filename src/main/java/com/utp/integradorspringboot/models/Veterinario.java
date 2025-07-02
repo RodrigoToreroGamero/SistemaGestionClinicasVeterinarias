@@ -15,31 +15,27 @@ public class Veterinario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
     
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
-    @Column(name = "numero_colegio_medico")
+    @Column(name = "numero_colegio_medico", unique = true)
     private String numero_colegio_medico;
 
     @Column(name = "especialidad")
     private String especialidad;
 
-    @Column(name = "horario_laboral")
-    private String horario_laboral;
-
     // Constructors
     public Veterinario() {
     }
 
-    public Veterinario(String numero_colegio_medico, String especialidad, String horario_laboral, Usuario usuario) {
+    public Veterinario(Long id, Usuario usuario, String numero_colegio_medico, String especialidad) {
+        this.id = id;
+        this.usuario = usuario;
         this.numero_colegio_medico = numero_colegio_medico;
         this.especialidad = especialidad;
-        this.horario_laboral = horario_laboral;
-        this.usuario = usuario;
     }
 
     // Getters and Setters
@@ -75,13 +71,6 @@ public class Veterinario {
         this.especialidad = especialidad;
     }
 
-    public String getHorario_laboral() {
-        return horario_laboral;
-    }
-
-    public void setHorario_laboral(String horario_laboral) {
-        this.horario_laboral = horario_laboral;
-    }
 
     @Override
     public boolean equals(Object object) {
@@ -97,6 +86,6 @@ public class Veterinario {
 
     @Override
     public String toString() {
-        return "Veterinario{" + "id=" + id + ", usuario=" + usuario + ", numero_colegio_medico=" + numero_colegio_medico + ", especialidad=" + especialidad + ", horario_laboral=" + horario_laboral + '}';
+        return "Veterinario{" + "id=" + id + ", usuario=" + usuario + ", numero_colegio_medico=" + numero_colegio_medico + ", especialidad=" + especialidad +'}';
     }
 }

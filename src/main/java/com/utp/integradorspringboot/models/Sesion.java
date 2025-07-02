@@ -8,7 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,14 +20,14 @@ public class Sesion {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "correo")
+    @Column(name = "correo", unique = true)
     private String correo;
 
     @Column(name = "contrasena")
     private String contrasena;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "id_usuario", nullable = false, unique = true)
     private Usuario usuario;
 
     @Column(name = "fecha_creacion")
