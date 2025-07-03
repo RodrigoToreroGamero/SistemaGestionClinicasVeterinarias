@@ -39,13 +39,10 @@ public class Mascota {
     @JoinColumn(name = "id_dueno", nullable = false)
     private Dueno dueno;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_clinica", nullable = false)
     private Clinica clinica;
-
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
 
     @JsonIgnore
     @OneToMany(mappedBy = "mascota")
@@ -55,14 +52,13 @@ public class Mascota {
     public Mascota() {
     }
 
-    public Mascota(String nombre, String especie, String raza, Integer edad, Dueno dueno, Clinica clinica, Usuario usuario) {
+    public Mascota(String nombre, String especie, String raza, Integer edad, Dueno dueno, Clinica clinica) {
         this.nombre = nombre;
         this.especie = especie;
         this.raza = raza;
         this.edad = edad;
         this.dueno = dueno;
         this.clinica = clinica;
-        this.usuario = usuario;
     }
 
     // Getters y Setters
@@ -71,18 +67,16 @@ public class Mascota {
         return dueno;
     }
 
-    public Dueno setDueno(Dueno dueno) {
+    public void setDueno(Dueno dueno) {
         this.dueno = dueno;
-        return dueno;
     }
 
     public Clinica getClinica() {
         return clinica;
     }
 
-    public Clinica setClinica(Clinica clinica) {
+    public void setClinica(Clinica clinica) {
         this.clinica = clinica;
-        return clinica;
     }
 
     public Long getId() {
@@ -125,14 +119,6 @@ public class Mascota {
         this.edad = edad;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     public List<Cita> getCitas() {
         return citas;
     }
@@ -156,6 +142,6 @@ public class Mascota {
     
     @Override
     public String toString() {
-        return "Mascota{" + "id=" + id + ", nombre=" + nombre + ", especie=" + especie + ", raza=" + raza + ", edad=" + edad + ", dueno=" + dueno + ", clinica=" + clinica + ", usuario=" + usuario + ", citas=" + citas +'}';
+        return "Mascota{" + "id=" + id + ", nombre=" + nombre + ", especie=" + especie + ", raza=" + raza + ", edad=" + edad + ", dueno=" + dueno + ", clinica=" + clinica + ", citas=" + citas +'}';
     }
 }

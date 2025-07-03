@@ -58,8 +58,9 @@ public class CitaController {
                 entidad.getFecha(),
                 entidad.getHora(), 
                 entidad.getEstado(),
-                entidad.getUsuario(),
-                entidad.getMascota()));
+                entidad.getMascota(),
+                entidad.getVeterinario(),
+                entidad.getDueno()));
             return new ResponseEntity<>(_entidad, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -74,8 +75,9 @@ public class CitaController {
             _entidad.setFecha(entidad.getFecha());
             _entidad.setHora(entidad.getHora());
             _entidad.setEstado(entidad.getEstado());
-            _entidad.setUsuario(entidad.getUsuario());
+            _entidad.setVeterinario(entidad.getVeterinario());
             _entidad.setMascota(entidad.getMascota());
+            _entidad.setDueno(entidad.getDueno());
             return new ResponseEntity<>(repository.save(_entidad), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

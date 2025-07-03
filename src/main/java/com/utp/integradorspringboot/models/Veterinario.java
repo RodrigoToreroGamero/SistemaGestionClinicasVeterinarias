@@ -15,36 +15,27 @@ public class Veterinario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
     
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
-    @Column(name = "nombre_colegio_medico")
-    private String nombre_colegio_medico;
+    @Column(name = "numero_colegio_medico", unique = true)
+    private String numero_colegio_medico;
 
     @Column(name = "especialidad")
     private String especialidad;
-
-    @Column(name = "horario_laboral")
-    private String horario_laboral;
-    
-    @ManyToOne
-    @JoinColumn(name = "id_clinica", nullable = false)
-    private Clinica clinica;
 
     // Constructors
     public Veterinario() {
     }
 
-    public Veterinario(String nombre_colegio_medico, String especialidad, String horario_laboral, Clinica clinica, Usuario usuario) {
-        this.nombre_colegio_medico = nombre_colegio_medico;
-        this.especialidad = especialidad;
-        this.horario_laboral = horario_laboral;
-        this.clinica = clinica;
+    public Veterinario(Long id, Usuario usuario, String numero_colegio_medico, String especialidad) {
+        this.id = id;
         this.usuario = usuario;
+        this.numero_colegio_medico = numero_colegio_medico;
+        this.especialidad = especialidad;
     }
 
     // Getters and Setters
@@ -64,12 +55,12 @@ public class Veterinario {
         this.usuario = usuario;
     }
 
-    public String getNombre_colegio_medico() {
-        return nombre_colegio_medico;
+    public String getNumero_colegio_medico() {
+        return numero_colegio_medico;
     }
 
-    public void setNombre_colegio_medico(String nombre_colegio_medico) {
-        this.nombre_colegio_medico = nombre_colegio_medico;
+    public void setNumero_colegio_medico(String numero_colegio_medico) {
+        this.numero_colegio_medico = numero_colegio_medico;
     }
 
     public String getEspecialidad() {
@@ -80,21 +71,6 @@ public class Veterinario {
         this.especialidad = especialidad;
     }
 
-    public String getHorario_laboral() {
-        return horario_laboral;
-    }
-
-    public void setHorario_laboral(String horario_laboral) {
-        this.horario_laboral = horario_laboral;
-    }
-
-    public Clinica getClinica() {
-        return clinica;
-    }
-
-    public void setClinica(Clinica clinica) {
-        this.clinica = clinica;
-    }
 
     @Override
     public boolean equals(Object object) {
@@ -110,6 +86,6 @@ public class Veterinario {
 
     @Override
     public String toString() {
-        return "Veterinario{" + "id=" + id + ", nombre_colegio_medico=" + nombre_colegio_medico + ", especialidad=" + especialidad + ", horario_laboral=" + horario_laboral + ", clinica=" + clinica + ", usuario=" + usuario + '}';
+        return "Veterinario{" + "id=" + id + ", usuario=" + usuario + ", numero_colegio_medico=" + numero_colegio_medico + ", especialidad=" + especialidad +'}';
     }
 }

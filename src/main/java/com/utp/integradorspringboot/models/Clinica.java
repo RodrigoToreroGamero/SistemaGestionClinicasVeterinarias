@@ -5,22 +5,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "`clinica_veterinaria`") // usar singular y proteger con backticks si usas MySQL 
+@Table(name = "clinica_veterinaria")
 public class Clinica {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @Column(name = "nombre_clinica")
     private String nombre_clinica;
 
-    @Column(name = "ruc")
+    @Column(name = "ruc", unique = true)
     private String ruc;
 
     @Column(name = "direccion")
@@ -32,10 +29,6 @@ public class Clinica {
     @Column(name = "link_web")
     private String link_web;
 
-    @ManyToOne
-    @JoinColumn(name = "id_veterinario", nullable = false)
-    private Veterinario veterinario;
-
     @Column(name = "plan_suscripcion")
     private String plan_suscripcion;
 
@@ -46,14 +39,13 @@ public class Clinica {
     public Clinica() {
     }
 
-    public Clinica(Long id, String nombre_clinica, String ruc, String direccion, String telefono, String link_web, Veterinario veterinario, String plan_suscripcion, String pasarela_pago) {
+    public Clinica(Long id, String nombre_clinica, String ruc, String direccion, String telefono, String link_web, String plan_suscripcion, String pasarela_pago) {
         this.id = id;
         this.nombre_clinica = nombre_clinica;
         this.ruc = ruc;
         this.direccion = direccion;
         this.telefono = telefono;
         this.link_web = link_web;
-        this.veterinario = veterinario;
         this.plan_suscripcion = plan_suscripcion;
         this.pasarela_pago = pasarela_pago;
     }
@@ -107,14 +99,6 @@ public class Clinica {
         this.link_web = link_web;
     }
 
-    public Veterinario getVeterinario() {
-        return veterinario;
-    }
-
-    public void setVeterinario(Veterinario veterinario) {
-        this.veterinario = veterinario;
-    }
-
     public String getPlan_suscripcion() {
         return plan_suscripcion;
     }
@@ -146,6 +130,6 @@ public class Clinica {
     
     @Override
     public String toString() {
-        return "Clinica{" + "id=" + id + ", nombre_clinica=" + nombre_clinica + ", ruc=" + ruc + ", direccion=" + direccion + ", telefono=" + telefono + ", link_web=" + link_web + ", veterinario=" + veterinario + ", plan_suscripcion=" + plan_suscripcion + ", pasarela_pago=" + pasarela_pago +'}';
+        return "Clinica{" + "id=" + id + ", nombre_clinica=" + nombre_clinica + ", ruc=" + ruc + ", direccion=" + direccion + ", telefono=" + telefono + ", link_web=" + link_web + ", plan_suscripcion=" + plan_suscripcion + ", pasarela_pago=" + pasarela_pago +'}';
     }
 }

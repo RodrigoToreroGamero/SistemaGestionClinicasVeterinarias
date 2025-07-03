@@ -22,12 +22,11 @@ import jakarta.persistence.Table;
  * @author USER
  */
 @Entity
-@Table(name = "`Cita`") // usar singular y proteger con backticks si usas MySQL
+@Table(name = "cita")
 public class Cita implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @Column(name = "fecha")
@@ -37,16 +36,21 @@ public class Cita implements Serializable{
     private LocalTime hora;
     
     @Column(name = "estado")
-    private String estado;
-    
+    private String estado = "en proceso";
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
-
-    @ManyToOne
-    @JoinColumn(name = "id_mascota")
+    @JoinColumn(name = "id_mascota", nullable = true)
     private Mascota mascota;
+
+    @ManyToOne
+    @JoinColumn(name = "id_veterinario", nullable = false)
+    private Veterinario veterinario;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_dueno", nullable = false)
+    private Dueno dueno;
+
+    
 
     
 
@@ -54,13 +58,14 @@ public class Cita implements Serializable{
     public Cita() {
     }
 
-    public Cita(Long id, LocalDate fecha, LocalTime hora, String estado, Usuario usuario, Mascota mascota) {
+    public Cita(Long id, LocalDate fecha, LocalTime hora, String estado, Mascota mascota, Veterinario veterinario, Dueno dueno) {
         this.id = id;
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
-        this.usuario = usuario;
         this.mascota = mascota;
+        this.veterinario = veterinario;
+        this.dueno = dueno;
     }
     
 
@@ -96,12 +101,20 @@ public class Cita implements Serializable{
         this.hora = hora;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Veterinario getVeterinario() {
+        return veterinario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setVeterinario(Veterinario veterinario) {
+        this.veterinario = veterinario;
+    }
+
+    public Dueno getDueno(){
+        return dueno;
+    }
+
+    public void setDueno(Dueno dueno){
+        this.dueno = dueno;
     }
 
     public Mascota getMascota() {
@@ -131,7 +144,9 @@ public class Cita implements Serializable{
                 "id=" + id +
                 ", fecha=" + fecha +
                 ", hora=" + hora +
-                ", usuario=" + (usuario != null ? usuario.getId() : "null") +
+                ", estado=" + estado +
+                ", veterinario=" + (veterinario != null ? veterinario.getId() : "null") +
+                ", dueno=" + (dueno != null ? dueno.getId() : "null") +
                 ", mascota=" + (mascota != null ? mascota.getId() : "null") +
                 '}';
     }

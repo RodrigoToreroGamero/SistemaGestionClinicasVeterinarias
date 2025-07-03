@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.utp.integradorspringboot.models;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,13 +8,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-/**
- *
- * @author UTP
- */
 @Entity
-@Table(name = "empleado_clinica")
-public class Empleado_clinica {
+@Table(name = "recepcionista")
+public class Recepcionista {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,16 +23,12 @@ public class Empleado_clinica {
     @JoinColumn(name = "id_clinica", nullable = false)
     private Clinica clinica;
 
-    @Column(name = "tipo_empleado")
-    private String tipo_empleado;
+    public Recepcionista() {}
 
-    public Empleado_clinica() {}
-
-    public Empleado_clinica(Long id, Usuario usuario, Clinica clinica, String tipo_empleado) {
+    public Recepcionista(Long id, Usuario usuario, Clinica clinica) {
         this.id = id;
         this.usuario = usuario;
         this.clinica = clinica;
-        this.tipo_empleado = tipo_empleado;
     }
 
     public Long getId() { return id; }
@@ -50,23 +37,21 @@ public class Empleado_clinica {
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
     public Clinica getClinica() { return clinica; }
     public void setClinica(Clinica clinica) { this.clinica = clinica; }
-    public String getTipo_empleado() { return tipo_empleado; }
-    public void setTipo_empleado(String tipo_empleado) { this.tipo_empleado = tipo_empleado; }
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Empleado_clinica)) {
+        if (!(object instanceof Recepcionista)) {
             return false;
         }
-        Empleado_clinica other = (Empleado_clinica) object;
-        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
+        Recepcionista other = (Recepcionista) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
-        return "Cita{" + "id=" + getId() + ", ID de la Clinica=" + clinica.getId() + ", ID del Usuario=" + usuario.getId() + ", Tipo empleado="+tipo_empleado+'}';
+        return "Recepcionista{" + "id=" + id + ", usuario=" + usuario + ", clinica=" + clinica + '}';
     }
 }

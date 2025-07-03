@@ -18,7 +18,7 @@
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Nombres</th>
+                        <th>Dueño</th>
                         <th>Fecha</th>
                         <th>Hora</th>
                         <th></th>
@@ -27,7 +27,7 @@
                 <tbody>
                     <tr v-for="item in entidades">
                         <td>{{item.id}}</td>
-                        <td>{{ getNombreUsuario(item.idUsuario) }}</td>
+                        <td>{{ getNombreDueno(item.dueno.id) }}</td>
                         <td>{{item.fecha}}</td>
                         <td>{{item.hora}}</td>
                         <td class="text-end">
@@ -62,12 +62,12 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Usuario</label>
+                                <label class="col-sm-2 col-form-label">Dueño</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control" v-model="entidad.usuario.id" @change="onUsuarioChange" required>
-                                        <option disabled value="">Seleccione un usuario</option>
-                                        <option v-for="usuario in usuarios" :value="usuario.id">
-                                            {{ usuario.nombres }} {{ usuario.apellidos }}
+                                    <select class="form-control" v-model="entidad.dueno.id" @change="onDuenoChange" required>
+                                        <option disabled value="">Seleccione un dueño</option>
+                                        <option v-for="dueno in duenos" :value="dueno.id">
+                                            {{ dueno.usuario.nombres }} {{ dueno.usuario.apellidos }}
                                         </option>
                                     </select>
                                 </div>
@@ -96,13 +96,6 @@
                                     </select>
                                 </div>
                             </div>
-                            
-                
-
-                            
-                            
-                            
-                            
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" v-if="entidad.id==0" @click="guardar">Guardar</button>
@@ -136,31 +129,26 @@
                 data: {
                     entidades: [],
                     entidad: {
-                        usuario: {id: null},
+                        dueno: {id: null},
                         mascota: {id: null},
                         veterinario: {id: null}
                     },
-                    usuarios: [],
+                    duenos: [],
                     mascotas: [],
-                    mascotasFiltradas: [],
                     veterinarios: []
                 },
                 computed: {
                     mascotasFiltradas: function() {
-                        if (!this.entidad.usuario.id) {
+                        if (!this.entidad.dueno.id) {
                             return [];
                         }
-                        return this.mascotas.filter(mascota => mascota.usuario.id === this.entidad.usuario.id);
+                        return this.mascotas.filter(mascota => mascota.dueno.id === this.entidad.dueno.id);
                     }
                 },
                 methods: {
-                    getNombreUsuario: function(id) {
-                        const usuario = this.usuarios.find(u => u.id === id);
-                        return usuario ? usuario.nombres : 'Desconocido';
-                    },
-                    getNombreMascota: function(id) {
-                        const mascota = this.mascota.find(u => u.id === id);
-                        return mascota ? mascota.nombres : 'Desconocido';
+                    getNombreDueno: function(id) {
+                        const dueno = this.duenos.find(d => d.id === id);
+                        return dueno ? (dueno.usuario.nombres + ' ' + dueno.usuario.apellidos) : 'Desconocido';
                     },
                     listarMascotas: function () {
                         this.$http.get('/api/Mascota')
@@ -169,17 +157,17 @@
                                 console.log('Mascotas:', this.mascotas);
                             })
                             .catch(error => {
-                                console.error('Problema al cargar usuarios:', error.response ? error.response.data : error);
+                                console.error('Problema al cargar mascotas:', error.response ? error.response.data : error);
                             });
                     },
-                    listarUsuarios: function () {
-                        this.$http.get('/api/Usuario')
+                    listarDuenos: function () {
+                        this.$http.get('/api/Dueno')
                             .then(response => {
-                                this.usuarios = response.data;
-                                console.log('Usuarios:', this.usuarios);
+                                this.duenos = response.data;
+                                console.log('Duenos:', this.duenos);
                             })
                             .catch(error => {
-                                console.error('Problema al cargar usuarios:', error.response ? error.response.data : error);
+                                console.error('Problema al cargar duenos:', error.response ? error.response.data : error);
                             });
                     },
                     listar: function () {
@@ -195,7 +183,7 @@
                             mascota: {id: null},
                             veterinario: {id: null},
                             estado: null,
-                            usuario: { id: null}
+                            dueno: { id: null}
                         };
                         $("#mdlEntidad").modal("show");
                     },
@@ -227,8 +215,8 @@
                             $("#mdlEliminar").modal("hide");
                         });
                     },
-                    onUsuarioChange: function () {
-                        // Reset mascota selection when usuario changes
+                    onDuenoChange: function () {
+                        // Reset mascota selection when dueno changes
                         this.entidad.mascota.id = null;
                     },
                     listarVeterinarios: function () {
@@ -244,7 +232,7 @@
                 },
                 mounted: function () {
                     this.listar();
-                    this.listarUsuarios();
+                    this.listarDuenos();
                     this.listarMascotas();
                     this.listarVeterinarios();
                 }
