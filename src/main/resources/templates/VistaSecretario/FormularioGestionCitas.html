@@ -4,6 +4,8 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>VetGes: Gestion de citas</title>
     </head>
     <body>
@@ -19,8 +21,11 @@
                     <tr>
                         <th>Id</th>
                         <th>Dueño</th>
+                        <th>Mascota</th>
+                        <th>Veterinario</th>
                         <th>Fecha</th>
                         <th>Hora</th>
+                        <th>Estado</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -28,8 +33,11 @@
                     <tr v-for="item in entidades">
                         <td>{{item.id}}</td>
                         <td>{{ getNombreDueno(item.dueno.id) }}</td>
+                        <td>{{ getNombreMascota(item.mascota.id) }}</td>
+                        <td>{{ getNombreVeterinario(item.veterinario.id) }}</td>
                         <td>{{item.fecha}}</td>
                         <td>{{item.hora}}</td>
+                        <td>{{item.estado}}</td>
                         <td class="text-end">
                             <button class="btn btn-primary" @click="editar(item.id)">Editar</button>
                             <button class="btn btn-danger" @click="eliminar(item.id)">Eliminar</button>
@@ -97,6 +105,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" v-if="entidad.id==0" @click="guardar">Guardar</button>
                             <button type="button" class="btn btn-primary" v-if="entidad.id!=0" @click="actualizar">Actualizar</button>
@@ -150,6 +159,14 @@
                         const dueno = this.duenos.find(d => d.id === id);
                         return dueno ? (dueno.usuario.nombres + ' ' + dueno.usuario.apellidos) : 'Desconocido';
                     },
+                    getNombreMascota: function(id) {
+                        const mascota = this.mascotas.find(d => d.id === id);
+                        return mascota ? (mascota.nombre + '-' + mascota.especie) : 'Desconocido';
+                    },
+                    getNombreVeterinario: function(id) {
+                        const veterinario = this.veterinarios.find(d => d.id === id);
+                        return veterinario ? (veterinario.usuario.nombres + ' ' + veterinario.usuario.apellidos) : 'Desconocido';
+                    },
                     listarMascotas: function () {
                         this.$http.get('/api/Mascota')
                             .then(response => {
@@ -182,7 +199,7 @@
                             hora: null,
                             mascota: {id: null},
                             veterinario: {id: null},
-                            estado: null,
+                            estado: "Pendiente",
                             dueno: { id: null}
                         };
                         $("#mdlEntidad").modal("show");

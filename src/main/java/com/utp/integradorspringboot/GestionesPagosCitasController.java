@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.utp.integradorspringboot;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author jcerv
  */
 @Controller
-public class GestionesCitasController {
+public class GestionesPagosCitasController {
     @Autowired
-    @RequestMapping("/GestionesCitas")
+    @RequestMapping("/GestionesPagosCitas")
     public String page() {
         //model.addAttribute("attribute", "value");
-        return "/VistaSecretario/FormularioGestionCitas";
+        return "/VistaSecretario/GestionPagosCitas";
     }
 }
-
