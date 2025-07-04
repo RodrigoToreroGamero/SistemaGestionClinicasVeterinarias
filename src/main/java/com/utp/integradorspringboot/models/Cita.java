@@ -59,6 +59,10 @@ public class Cita implements Serializable{
     @OneToOne(mappedBy = "cita", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Detalle_cita detalleCita;
 
+    @ManyToOne
+    @JoinColumn(name = "id_clinica", nullable = true)
+    private Clinica clinica;
+
     public Cita() {
     }
 
@@ -145,6 +149,14 @@ public class Cita implements Serializable{
     public void setDetalleCita(Detalle_cita detalleCita) {
         this.detalleCita = detalleCita;
     }
+
+    public Clinica getClinica() {
+        return clinica;
+    }
+
+    public void setClinica(Clinica clinica) {
+        this.clinica = clinica;
+    }
     
     
     @Override
@@ -169,6 +181,7 @@ public class Cita implements Serializable{
                 ", veterinario=" + (veterinario != null ? veterinario.getId() : "null") +
                 ", dueno=" + (dueno != null ? dueno.getId() : "null") +
                 ", mascota=" + (mascota != null ? mascota.getId() : "null") +
+                ", clinica=" + (clinica != null ? clinica.getId() : "null") +
                 '}';
     }
 }

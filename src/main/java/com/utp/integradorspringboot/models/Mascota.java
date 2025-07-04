@@ -40,11 +40,6 @@ public class Mascota {
     private Dueno dueno;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "id_clinica", nullable = false)
-    private Clinica clinica;
-
-    @JsonIgnore
     @OneToMany(mappedBy = "mascota")
     private List<Cita> citas;
 
@@ -52,13 +47,12 @@ public class Mascota {
     public Mascota() {
     }
 
-    public Mascota(String nombre, String especie, String raza, Integer edad, Dueno dueno, Clinica clinica) {
+    public Mascota(String nombre, String especie, String raza, Integer edad, Dueno dueno) {
         this.nombre = nombre;
         this.especie = especie;
         this.raza = raza;
         this.edad = edad;
         this.dueno = dueno;
-        this.clinica = clinica;
     }
 
     // Getters y Setters
@@ -69,14 +63,6 @@ public class Mascota {
 
     public void setDueno(Dueno dueno) {
         this.dueno = dueno;
-    }
-
-    public Clinica getClinica() {
-        return clinica;
-    }
-
-    public void setClinica(Clinica clinica) {
-        this.clinica = clinica;
     }
 
     public Long getId() {
@@ -142,6 +128,6 @@ public class Mascota {
     
     @Override
     public String toString() {
-        return "Mascota{" + "id=" + id + ", nombre=" + nombre + ", especie=" + especie + ", raza=" + raza + ", edad=" + edad + ", dueno=" + dueno + ", clinica=" + clinica + ", citas=" + citas +'}';
+        return "Mascota{" + "id=" + id + ", nombre=" + nombre + ", especie=" + especie + ", raza=" + raza + ", edad=" + edad + ", dueno=" + dueno + ", citas=" + citas +'}';
     }
 }
