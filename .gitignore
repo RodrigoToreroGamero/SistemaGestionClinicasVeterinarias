@@ -42,3 +42,5 @@ build/
 /logs
 *.log
 logs/app.log
+/logs
+/logs

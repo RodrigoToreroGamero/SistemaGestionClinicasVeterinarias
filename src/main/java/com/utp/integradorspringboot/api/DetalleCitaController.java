@@ -79,12 +79,10 @@ public class DetalleCitaController {
             Detalle_cita _detalleCita = detalleCitaData.get();
             _detalleCita.setCita(detalleCita.getCita());
             _detalleCita.setEstado(detalleCita.getEstado());
-            _detalleCita.setMotivo_consulta(detalleCita.getMotivo_consulta());
+            _detalleCita.setMotivo_cita(detalleCita.getMotivo_cita());
             _detalleCita.setDiagnostico(detalleCita.getDiagnostico());
             _detalleCita.setTratamiento(detalleCita.getTratamiento());
             _detalleCita.setReceta(detalleCita.getReceta());
-            _detalleCita.setCosto(detalleCita.getCosto());
-            _detalleCita.setMetodo_pago(detalleCita.getMetodo_pago());
             _detalleCita.setDuracion_aproximada(detalleCita.getDuracion_aproximada());
 
             return new ResponseEntity<>(detalleCitaRepository.save(_detalleCita), HttpStatus.OK);
