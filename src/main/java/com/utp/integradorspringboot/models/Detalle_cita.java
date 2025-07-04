@@ -1,5 +1,7 @@
 package com.utp.integradorspringboot.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,6 +20,7 @@ public class Detalle_cita {
 
     @ManyToOne
     @JoinColumn(name = "id_cita", nullable = false)
+    @JsonIgnore
     private Cita cita;
 
     @Column(name = "estado")

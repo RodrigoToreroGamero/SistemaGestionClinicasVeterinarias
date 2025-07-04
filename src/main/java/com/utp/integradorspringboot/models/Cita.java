@@ -8,13 +8,16 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -50,19 +53,21 @@ public class Cita implements Serializable{
     @JoinColumn(name = "id_dueno", nullable = false)
     private Dueno dueno;
 
-    
+    @Column(name = "observaciones", columnDefinition = "TEXT")
+    private String observaciones;
 
-    
-
+    @OneToOne(mappedBy = "cita", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Detalle_cita detalleCita;
 
     public Cita() {
     }
 
-    public Cita(Long id, LocalDate fecha, LocalTime hora, String estado, Mascota mascota, Veterinario veterinario, Dueno dueno) {
+    public Cita(Long id, LocalDate fecha, LocalTime hora, String estado, String observaciones, Mascota mascota, Veterinario veterinario, Dueno dueno) {
         this.id = id;
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
+        this.observaciones = observaciones;
         this.mascota = mascota;
         this.veterinario = veterinario;
         this.dueno = dueno;
@@ -123,6 +128,22 @@ public class Cita implements Serializable{
 
     public void setMascota(Mascota mascota) {
         this.mascota = mascota;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    public Detalle_cita getDetalleCita() {
+        return detalleCita;
+    }
+
+    public void setDetalleCita(Detalle_cita detalleCita) {
+        this.detalleCita = detalleCita;
     }
     
     
