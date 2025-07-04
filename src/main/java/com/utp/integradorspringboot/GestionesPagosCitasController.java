@@ -16,4 +16,3 @@ public class GestionesPagosCitasController {
         return "/VistaSecretario/GestionPagosCitas";
     }
 }
-//ddddd
