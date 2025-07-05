@@ -4,13 +4,22 @@
  */
 package com.utp.integradorspringboot.repositories;
 
-import com.utp.integradorspringboot.models.Cita;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.utp.integradorspringboot.models.Cita;
 
 /**
  *
  * @author USER
  */
 public interface GestionCitaRepository extends JpaRepository<Cita, Long>{
+    
+    @Query("SELECT c FROM Cita c WHERE c.fecha = :fecha ORDER BY c.hora ASC")
+    List<Cita> findByFecha(@Param("fecha") LocalDate fecha);
     
 }
