@@ -1,0 +1,177 @@
+<html layout:decorate="_layoutRecepcionista">
+    <head>
+        <title>Dashboard - Recepcionista</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-12">
+                        <h2>Recepcionista</h2>
+                        <p class="lead">Panel de control para recepcionistas</p>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <i class="icon-calendar" style="font-size: 3rem; color: #fd7e14;"></i>
+                                <h5 class="card-title mt-2">Gestión de Citas</h5>
+                                <p class="card-text">Administra las citas de la clínica</p>
+                                <a href="/GestionesCitas" class="btn btn-primary">Gestionar Citas</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <i class="icon-credit-card" style="font-size: 3rem; color: #28a745;"></i>
+                                <h5 class="card-title mt-2">Gestión de Pagos</h5>
+                                <p class="card-text">Administra los pagos de las citas</p>
+                                <a href="/GestionesPagosCitas" class="btn btn-primary">Gestionar Pagos</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <i class="icon-users" style="font-size: 3rem; color: #17a2b8;"></i>
+                                <h5 class="card-title mt-2">Clientes</h5>
+                                <p class="card-text">Gestiona la información de clientes</p>
+                                <a href="/recepcionista/clientes" class="btn btn-primary">Ver Clientes</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <i class="icon-pet" style="font-size: 3rem; color: #ffc107;"></i>
+                                <h5 class="card-title mt-2">Mascotas</h5>
+                                <p class="card-text">Gestiona la información de mascotas</p>
+                                <a href="/recepcionista/mascotas" class="btn btn-primary">Ver Mascotas</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Citas de Hoy</h5>
+                            </div>
+                            <div class="card-body">
+                                <div th:if="${#lists.isEmpty(citasHoy)}">
+                                    <p class="text-muted">No hay citas programadas para hoy.</p>
+                                </div>
+                                <div th:if="${!#lists.isEmpty(citasHoy)}">
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Hora</th>
+                                                    <th>Cliente</th>
+                                                    <th>Mascota</th>
+                                                    <th>Veterinario</th>
+                                                    <th>Estado</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="cita : ${citasHoy}" 
+                                                    th:attr="onclick='showCitaDetails(' + ${cita.id} + ')'"
+                                                    style="cursor: pointer;">
+                                                    <td th:text="${cita.hora}"></td>
+                                                    <td th:text="${cita.dueno.usuario.nombres + ' ' + cita.dueno.usuario.apellidos}"></td>
+                                                    <td th:text="${cita.mascota != null ? cita.mascota.nombre : 'N/A'}"></td>
+                                                    <td th:text="${cita.veterinario.usuario.nombres + ' ' + cita.veterinario.usuario.apellidos}"></td>
+                                                    <td>
+                                                        <span th:class="${cita.estado == 'Completada' ? 'badge bg-success' : 
+                                                                           cita.estado == 'Cancelada' ? 'badge bg-danger' : 
+                                                                           cita.estado == 'En proceso' ? 'badge bg-warning' : 
+                                                                           cita.estado == 'Pendiente' ? 'badge bg-secondary' : 
+                                                                           'badge bg-warning'}" 
+                                                              th:text="${cita.estado}"></span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <a href="/GestionesCitas" class="btn btn-outline-primary">Ver Todas las Citas</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5>Veterinarios</h5>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" class="btn btn-outline-primary" onclick="window.previousVeterinarios()">
+                                        <i class="icon-left-open"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary" onclick="window.nextVeterinarios()">
+                                        <i class="icon-right-open"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div th:if="${#lists.isEmpty(veterinarios)}">
+                                    <p class="text-muted">No hay veterinarios registrados.</p>
+                                </div>
+                                <div th:if="${!#lists.isEmpty(veterinarios)}" id="veterinariosCarousel">
+                                    <div class="row" id="veterinariosContainer">
+                                        <!-- Veterinarians will be loaded here via JavaScript -->
+                                    </div>
+                                    <div class="text-center mt-2">
+                                        <small class="text-muted" id="veterinariosCounter"></small>
+                                    </div>
+                                </div>
+                                <a href="/recepcionista/veterinarios" class="btn btn-outline-primary mt-3">Ver Todos los Veterinarios</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal for Cita Details -->
+            <div class="modal fade" id="citaDetailsModal" tabindex="-1" aria-labelledby="citaDetailsModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="citaDetailsModalLabel">Detalles de la Cita</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="citaDetailsContent">
+                            <!-- Content will be loaded here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="editCita()">Editar Cita</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <style>
+            .veterinario-card {
+                transition: transform 0.2s ease-in-out;
+                cursor: pointer;
+            }
+            
+            .veterinario-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+            
+            .table-hover tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+        </style>
+    </body>
+</html> 
