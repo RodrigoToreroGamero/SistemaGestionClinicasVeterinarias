@@ -19,7 +19,13 @@ import com.utp.integradorspringboot.models.Cita;
  */
 public interface GestionCitaRepository extends JpaRepository<Cita, Long>{
     
-    @Query("SELECT c FROM Cita c WHERE c.fecha = :fecha ORDER BY c.hora ASC")
+    @Query("SELECT c FROM Cita c " +
+           "LEFT JOIN FETCH c.dueno d " +
+           "LEFT JOIN FETCH d.usuario " +
+           "LEFT JOIN FETCH c.veterinario v " +
+           "LEFT JOIN FETCH v.usuario " +
+           "LEFT JOIN FETCH c.mascota " +
+           "WHERE c.fecha = :fecha ORDER BY c.hora ASC")
     List<Cita> findByFecha(@Param("fecha") LocalDate fecha);
     
 }
