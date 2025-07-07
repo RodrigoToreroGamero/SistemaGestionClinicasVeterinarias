@@ -167,4 +167,14 @@ CREATE TABLE sesion (
     id_usuario BIGINT NOT NULL,
     fecha_creacion DATETIME,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id)
+);
+
+-- Table for password reset tokens
+CREATE TABLE IF NOT EXISTS password_reset_token (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    expiration_date DATETIME NOT NULL,
+    used BOOLEAN DEFAULT FALSE,
+    CONSTRAINT fk_password_reset_user FOREIGN KEY (user_id) REFERENCES usuario(id)
 ); 

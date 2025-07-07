@@ -86,67 +86,53 @@
                         </div>
                         <div class="modal-body">
                             
-                            <div class="form-group row mb-3">
-                                <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
-                                <div class="col-sm-10">
-                                    <input type="date" class="form-control" id="fecha" v-model="entidad.fecha" required/>
-                                </div>
+                            <div class="mb-3">
+                                <label for="fecha" class="form-label">Fecha</label>
+                                <input type="date" class="form-control" id="fecha" v-model="entidad.fecha" required/>
                             </div>
                             
-                            <div class="form-group row mb-3">
-                                <label for="hora" class="col-sm-2 col-form-label">Hora</label>
-                                <div class="col-sm-10">
-                                    <input type="time" class="form-control" id="hora" v-model="entidad.hora" required/>
+                            <div class="mb-3">
+                                <label for="hora" class="form-label">Hora</label>
+                                <input type="time" class="form-control" id="hora" v-model="entidad.hora" required/>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Dueño</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" :value="getNombreDuenoSeleccionado()" readonly placeholder="Seleccione un dueño" />
+                                    <button class="btn btn-outline-secondary" type="button" @click="abrirModalDueno">Buscar Dueño</button>
                                 </div>
                             </div>
 
-                            <div class="form-group row mb-3">
-                                <label class="col-sm-2 col-form-label">Dueño</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" :value="getNombreDuenoSeleccionado()" readonly placeholder="Seleccione un dueño" />
-                                        <button class="btn btn-outline-secondary" type="button" @click="abrirModalDueno">Buscar Dueño</button>
-                                    </div>
+                            <div class="mb-3">
+                                <label class="form-label">Mascota</label>
+                                <select class="form-control" v-model="entidad.mascota.id" required :disabled="!entidad.dueno.id">
+                                    <option disabled value="">Seleccione una mascota</option>
+                                    <option v-for="mascota in mascotasFiltradas" :value="mascota.id">
+                                        {{ mascota.nombre }} ({{ mascota.especie }} - {{ mascota.raza }})
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Veterinario</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" :value="getNombreVeterinarioSeleccionado()" readonly placeholder="Seleccione un veterinario" />
+                                    <button class="btn btn-outline-secondary" type="button" @click="abrirModalVeterinario">Buscar Veterinario</button>
                                 </div>
                             </div>
 
-                            <div class="form-group row mb-3">
-                                <label class="col-sm-2 col-form-label">Mascota</label>
-                                <div class="col-sm-10">
-                                    <select class="form-control" v-model="entidad.mascota.id" required :disabled="!entidad.dueno.id">
-                                        <option disabled value="">Seleccione una mascota</option>
-                                        <option v-for="mascota in mascotasFiltradas" :value="mascota.id">
-                                            {{ mascota.nombre }} ({{ mascota.especie }} - {{ mascota.raza }})
-                                        </option>
-                                    </select>
+                            <div class="mb-3">
+                                <label class="form-label">Motivo de Cita</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" :value="getNombreMotivoSeleccionado()" readonly placeholder="Seleccione un motivo" />
+                                    <button class="btn btn-outline-secondary" type="button" @click="abrirModalMotivo">Buscar Motivo</button>
                                 </div>
                             </div>
 
-                            <div class="form-group row mb-3">
-                                <label class="col-sm-2 col-form-label">Veterinario</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" :value="getNombreVeterinarioSeleccionado()" readonly placeholder="Seleccione un veterinario" />
-                                        <button class="btn btn-outline-secondary" type="button" @click="abrirModalVeterinario">Buscar Veterinario</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-3">
-                                <label class="col-sm-2 col-form-label">Motivo de Cita</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" :value="getNombreMotivoSeleccionado()" readonly placeholder="Seleccione un motivo" />
-                                        <button class="btn btn-outline-secondary" type="button" @click="abrirModalMotivo">Buscar Motivo</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-3">
-                                <label class="col-sm-2 col-form-label">Observaciones</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" v-model="entidad.observaciones" rows="3" placeholder="Observaciones adicionales..."></textarea>
-                                </div>
+                            <div class="mb-3">
+                                <label for="observaciones" class="form-label">Observaciones</label>
+                                <textarea class="form-control" id="observaciones" name="observaciones" v-model="entidad.observaciones" placeholder="Observaciones adicionales..."></textarea>
                             </div>
                         </div>
 
@@ -331,6 +317,7 @@
             </div>
         </div>
         <script layout:fragment="script">
+            console.log('DASHBOARD SCRIPT LOADED');
             new Vue({
                 el: "#app",
                 data: {
@@ -469,7 +456,6 @@
                     editar: function (id) {
                         this.$http.get('/api/Cita/' + id).then(response => {
                             const cita = response.data;
-                            
                             // Cargar los datos de la cita
                             this.entidad = {
                                 id: cita.id,
@@ -477,16 +463,15 @@
                                 hora: cita.hora,
                                 estado: cita.estado,
                                 observaciones: cita.observaciones || '',
-                                dueno: { id: cita.dueno ? cita.dueno.id : null },
-                                mascota: { id: cita.mascota ? cita.mascota.id : null },
-                                veterinario: { id: cita.veterinario ? cita.veterinario.id : null },
+                                dueno: { id: (cita.dueno && cita.dueno.id) ? cita.dueno.id : null },
+                                mascota: { id: (cita.mascota && cita.mascota.id) ? cita.mascota.id : null },
+                                veterinario: { id: (cita.veterinario && cita.veterinario.id) ? cita.veterinario.id : null },
                                 detalleCita: {
                                     motivo_cita: { 
-                                        id: cita.detalleCita && cita.detalleCita.motivo_cita ? cita.detalleCita.motivo_cita.id : null 
+                                        id: (cita.detalleCita && cita.detalleCita.motivo_cita && cita.detalleCita.motivo_cita.id) ? cita.detalleCita.motivo_cita.id : null 
                                     }
                                 }
                             };
-                            
                             console.log('Cita cargada para editar:', this.entidad);
                             $("#mdlEntidad").modal("show");
                         }).catch(error => {
@@ -804,6 +789,12 @@
                     }
                 },
                 mounted: function () {
+                    // Check for citaId in the URL and load for editing if present
+                    const params = new URLSearchParams(window.location.search);
+                    const citaId = params.get('citaId');
+                    if (citaId) {
+                        this.editar(citaId);
+                    }
                     this.listar();
                     this.listarDuenos();
                     this.listarMascotas();

@@ -66,39 +66,59 @@ public class DashboardController {
     // Recepcionista Dashboard
     @GetMapping("/recepcionista/dashboard")
     public String recepcionistaDashboard(HttpSession session, RedirectAttributes redirectAttributes, Model model) {
-        if (!authService.isLoggedIn(session)) {
-            redirectAttributes.addFlashAttribute("error", "Debes iniciar sesión para acceder a esta página");
-            return "redirect:/login";
-        }
-        
-        AuthService.UserType userType = authService.getCurrentUserType(session);
-        if (userType != AuthService.UserType.RECEPCIONISTA) {
-            redirectAttributes.addFlashAttribute("error", "No tienes permisos para acceder a esta página");
+        try {
+            if (!authService.isLoggedIn(session)) {
+                redirectAttributes.addFlashAttribute("error", "Debes iniciar sesión para acceder a esta página");
+                return "redirect:/login";
+            }
+            
+            AuthService.UserType userType = authService.getCurrentUserType(session);
+            if (userType != AuthService.UserType.RECEPCIONISTA) {
+                redirectAttributes.addFlashAttribute("error", "No tienes permisos para acceder a esta página");
+                return "redirect:/";
+            }
+            
+            // Get today's appointments
+            LocalDate today = LocalDate.now();
+            List<Cita> citasHoy = citaRepository.findByFecha(today);
+            System.out.println("Citas de hoy encontradas: " + citasHoy.size());
+            
+            // Debug: Print first few citas to check data
+            for (int i = 0; i < Math.min(citasHoy.size(), 3); i++) {
+                Cita c = citasHoy.get(i);
+                System.out.println("Cita " + (i+1) + ": " + 
+                                 "ID=" + c.getId() + 
+                                 ", Fecha=" + c.getFecha() + 
+                                 ", Hora=" + c.getHora() + 
+                                 ", Estado=" + c.getEstado() +
+                                 ", Dueno=" + (c.getDueno() != null ? c.getDueno().getId() : "null") +
+                                 ", Veterinario=" + (c.getVeterinario() != null ? c.getVeterinario().getId() : "null") +
+                                 ", Mascota=" + (c.getMascota() != null ? c.getMascota().getId() : "null"));
+            }
+            
+            // Get all veterinarians
+            List<Veterinario> veterinarios = veterinarioRepository.findAll();
+            System.out.println("Veterinarios encontrados: " + veterinarios.size());
+            
+            // Debug: Print first few veterinarians
+            for (int i = 0; i < Math.min(veterinarios.size(), 3); i++) {
+                Veterinario v = veterinarios.get(i);
+                System.out.println("Veterinario " + (i+1) + ": " + 
+                                 v.getUsuario().getNombres() + " " + v.getUsuario().getApellidos() + 
+                                 " - " + v.getEspecialidad());
+            }
+            
+            // Add data to model
+            model.addAttribute("citasHoy", citasHoy);
+            model.addAttribute("veterinarios", veterinarios);
+            
+            return "recepcionista/dashboard";
+        } catch (Exception e) {
+            System.err.println("Error in recepcionistaDashboard: " + e.getMessage());
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Error al cargar el dashboard: " + e.getMessage());
             return "redirect:/";
         }
-        
-        // Get today's appointments
-        LocalDate today = LocalDate.now();
-        List<Cita> citasHoy = citaRepository.findByFecha(today);
-        System.out.println("Citas de hoy encontradas: " + citasHoy.size());
-        
-        // Get all veterinarians
-        List<Veterinario> veterinarios = veterinarioRepository.findAll();
-        System.out.println("Veterinarios encontrados: " + veterinarios.size());
-        
-        // Debug: Print first few veterinarians
-        for (int i = 0; i < Math.min(veterinarios.size(), 3); i++) {
-            Veterinario v = veterinarios.get(i);
-            System.out.println("Veterinario " + (i+1) + ": " + 
-                             v.getUsuario().getNombres() + " " + v.getUsuario().getApellidos() + 
-                             " - " + v.getEspecialidad());
-        }
-        
-        // Add data to model
-        model.addAttribute("citasHoy", citasHoy);
-        model.addAttribute("veterinarios", veterinarios);
-        
-        return "recepcionista/dashboard";
     }
     
     // Administrador Dashboard
