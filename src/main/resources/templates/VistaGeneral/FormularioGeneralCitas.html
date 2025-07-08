@@ -572,6 +572,12 @@
                                 return true;
                             }
                             
+                            // Buscar por nombre de la mascota
+                            const mascota = this.mascotas.find(m => m.id === cita.mascota.id);
+                            if (mascota && mascota.nombre && mascota.nombre.toLowerCase().includes(filtroLower)) {
+                                return true;
+                            }
+                            
                             // Buscar por fecha de cita
                             if (cita.fecha && cita.fecha.toLowerCase().includes(filtroLower)) {
                                 return true;
@@ -634,6 +640,12 @@
                                     return true;
                                 }
                                 if (dueno && dueno.usuario.apellidos && dueno.usuario.apellidos.toLowerCase().includes(filtroLower)) {
+                                    return true;
+                                }
+                                
+                                // Buscar por nombre de la mascota
+                                const mascota = this.mascotas.find(m => m.id === cita.mascota.id);
+                                if (mascota && mascota.nombre && mascota.nombre.toLowerCase().includes(filtroLower)) {
                                     return true;
                                 }
                                 
