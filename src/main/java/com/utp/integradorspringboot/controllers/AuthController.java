@@ -76,13 +76,13 @@ public class AuthController {
                           @RequestParam String email,
                           @RequestParam String password,
                           RedirectAttributes redirectAttributes) {
-        
+        // Normalize email
+        String normalizedEmail = email.trim().toLowerCase();
         // Check if email already exists
-        if (sesionRepository.findByCorreo(email).isPresent()) {
+        if (sesionRepository.findByCorreo(normalizedEmail).isPresent()) {
             redirectAttributes.addFlashAttribute("error", "El email ya está registrado");
             return "redirect:/register";
         }
-        
         // Create new user
         Usuario usuario = new Usuario();
         usuario.setNombres(nombres);
@@ -90,18 +90,14 @@ public class AuthController {
         usuario.setDni(dni);
         usuario.setCelular(celular);
         usuario.setFecha_registro(LocalDateTime.now());
-        
         usuario = usuarioRepository.save(usuario);
-        
         // Create session for the user
         Sesion sesion = new Sesion();
-        sesion.setCorreo(email);
+        sesion.setCorreo(normalizedEmail);
         sesion.setContrasena(password);
         sesion.setUsuario(usuario);
         sesion.setFecha_creacion(LocalDateTime.now());
-        
         sesionRepository.save(sesion);
-        
         redirectAttributes.addFlashAttribute("success", "Usuario registrado exitosamente");
         return "redirect:/login";
     }

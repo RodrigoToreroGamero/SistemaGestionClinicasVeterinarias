@@ -9,5 +9,4 @@ public class IntegradorspringbootApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(IntegradorspringbootApplication.class, args);
 	}
-
 }
