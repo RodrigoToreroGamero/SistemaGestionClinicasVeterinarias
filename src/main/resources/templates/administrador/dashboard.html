@@ -1,0 +1,119 @@
+<html layout:decorate="_layoutAdministrador">
+    <head>
+        <title>Dashboard - Administrador</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-12">
+                        <h2>Dashboard - Administrador</h2>
+                        <p class="lead">Panel de control para administradores del sistema</p>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <i class="icon-users" style="font-size: 3rem; color: #dc3545;"></i>
+                                <h5 class="card-title mt-2">Gestión de Usuarios</h5>
+                                <p class="card-text">Administra todos los usuarios del sistema</p>
+                                <a href="/administrador/usuarios" class="btn btn-primary">Gestionar Usuarios</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <i class="icon-hospital" style="font-size: 3rem; color: #28a745;"></i>
+                                <h5 class="card-title mt-2">Gestión de Clínicas</h5>
+                                <p class="card-text">Administra las clínicas del sistema</p>
+                                <a href="/administrador/clinicas" class="btn btn-primary">Gestionar Clínicas</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <i class="icon-user-md" style="font-size: 3rem; color: #17a2b8;"></i>
+                                <h5 class="card-title mt-2">Gestión de Empleados</h5>
+                                <p class="card-text">Administra el personal de las clínicas</p>
+                                <a href="/administrador/empleados" class="btn btn-primary">Gestionar Empleados</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <i class="icon-shield" style="font-size: 3rem; color: #ffc107;"></i>
+                                <h5 class="card-title mt-2">Gestión de Roles</h5>
+                                <p class="card-text">Configura los roles y permisos</p>
+                                <a href="/administrador/roles" class="btn btn-primary">Gestionar Roles</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Reportes del Sistema</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">Genera reportes completos del sistema.</p>
+                                <a href="/administrador/reportes" class="btn btn-outline-primary">Generar Reportes</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Configuración</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">Configura los parámetros del sistema.</p>
+                                <a href="/administrador/configuracion" class="btn btn-outline-primary">Configurar Sistema</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Estadísticas del Sistema</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3 text-center">
+                                        <h4 class="text-primary">0</h4>
+                                        <p>Usuarios Activos</p>
+                                    </div>
+                                    <div class="col-md-3 text-center">
+                                        <h4 class="text-success">0</h4>
+                                        <p>Clínicas Registradas</p>
+                                    </div>
+                                    <div class="col-md-3 text-center">
+                                        <h4 class="text-info">0</h4>
+                                        <p>Citas Hoy</p>
+                                    </div>
+                                    <div class="col-md-3 text-center">
+                                        <h4 class="text-warning">0</h4>
+                                        <p>Empleados</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html> 
