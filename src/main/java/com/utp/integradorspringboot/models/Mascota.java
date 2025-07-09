@@ -24,8 +24,8 @@ public class Mascota {
     private Integer edad;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
+    @JoinColumn(name = "id_dueno", nullable = false)
+    private Dueno dueno;
 
     @JsonIgnore
     @OneToMany(mappedBy = "mascota")
@@ -65,11 +65,13 @@ public class Mascota {
         this.edad = edad;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+      public Dueno getDueno() {
+        return dueno;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setDueno(Dueno dueno) {
+        this.dueno = dueno;
     }
+    
+    
 }

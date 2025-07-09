@@ -1,10 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.utp.integradorspringboot.api;
+
 import com.utp.integradorspringboot.models.Cita;
-import com.utp.integradorspringboot.repositories.GestionCitaRepository;
+import com.utp.integradorspringboot.models.Sesion;
+import com.utp.integradorspringboot.repositories.SesionRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,22 +11,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- *
- * @author USER
- */
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 
-public class CitaController {
+public class SesionController {
+    
     @Autowired
-    GestionCitaRepository repository;
-
-    @GetMapping("/Cita")
-    public ResponseEntity<List<Cita>> getAll(@RequestParam(required = false) String title) {
+    SesionRepository repository;
+    
+    @GetMapping("/Sesion")
+    public ResponseEntity<List<Sesion>> getAll(@RequestParam(required = false) String title) {
         try {
-            List<Cita> lista = new ArrayList<Cita>();
+            List<Sesion> lista = new ArrayList<Sesion>();
             repository.findAll().forEach(lista::add);
             if (lista.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -40,9 +35,9 @@ public class CitaController {
     }
 
 
-    @GetMapping("/Cita/{id}")
-    public ResponseEntity<Cita> getById(@PathVariable("id") Long id) {
-        Optional<Cita> entidad = repository.findById(id);
+    @GetMapping("/Sesion/{id}")
+    public ResponseEntity<Sesion> getById(@PathVariable("id") Long id) {
+        Optional<Sesion> entidad = repository.findById(id);
         if (entidad.isPresent()) {
             return new ResponseEntity<>(entidad.get(), HttpStatus.OK);
         } else {
@@ -50,16 +45,16 @@ public class CitaController {
         }
     }
 
-    @PostMapping("/Cita")
-    public ResponseEntity<Cita> create(@RequestBody Cita entidad) {
+    @PostMapping("/Sesion")
+    public ResponseEntity<Sesion> create(@RequestBody Sesion entidad) {
         try {
-            Cita _entidad = repository.save(new Cita(
+            Sesion _entidad = repository.save(new Sesion(
                 null, 
-                entidad.getFecha(),
-                entidad.getHora(), 
-                entidad.getEstado(),
-                entidad.getDueno(),
-                entidad.getMascota()));
+                entidad.getCorreo(),
+                entidad.getContrasena(), 
+                entidad.getUsuario(),
+                entidad.getFecha_creacion())
+            );
             return new ResponseEntity<>(_entidad, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -67,22 +62,22 @@ public class CitaController {
     }
     
 
-    @PutMapping("/Cita/{id}")
-    public ResponseEntity<Cita> update(@PathVariable("id") Long id, @RequestBody Cita entidad) {
-        Cita _entidad = repository.findById(id).orElse(null);
+    @PutMapping("/Sesion/{id}")
+    public ResponseEntity<Sesion> update(@PathVariable("id") Long id, @RequestBody Sesion entidad) {
+        Sesion _entidad = repository.findById(id).orElse(null);
         if (_entidad != null) {
-            _entidad.setFecha(entidad.getFecha());
-            _entidad.setHora(entidad.getHora());
-            _entidad.setEstado(entidad.getEstado());
-            _entidad.setDueno(entidad.getDueno());
-            _entidad.setMascota(entidad.getMascota());
+            _entidad.setCorreo(entidad.getCorreo());
+            _entidad.setContrasena(entidad.getContrasena());
+            _entidad.setUsuario(entidad.getUsuario());
+            _entidad.setFecha_creacion(entidad.getFecha_creacion());
+            
             return new ResponseEntity<>(repository.save(_entidad), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping("/Cita/{id}")
+    @DeleteMapping("/Sesion/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
             repository.deleteById(id);
@@ -92,4 +87,3 @@ public class CitaController {
         }
     }
 }
-

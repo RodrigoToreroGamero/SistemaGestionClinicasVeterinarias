@@ -1,9 +1,10 @@
 package com.utp.integradorspringboot.api;
 
+import com.utp.integradorspringboot.models.Dueno;
 import com.utp.integradorspringboot.models.Mascota;
 import com.utp.integradorspringboot.repositories.MascotaRepository;
-import com.utp.integradorspringboot.repositories.UsuarioRepository;
 import com.utp.integradorspringboot.models.Usuario;
+import com.utp.integradorspringboot.repositories.DuenoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class MascotaController {
     MascotaRepository mascotaRepository;
 
     @Autowired
-    UsuarioRepository usuarioRepository;
+    DuenoRepository duenoRepository;
 
     // Obtener todas las mascotas
     @GetMapping("/Mascota")
@@ -75,12 +76,12 @@ public class MascotaController {
     public ResponseEntity<Mascota> create(@RequestBody Mascota mascota) {
         try {
             // Validar que el usuario exista
-            Optional<Usuario> usuario = usuarioRepository.findById(mascota.getUsuario().getId());
-            if (usuario.isEmpty()) {
+            Optional<Dueno> dueno = duenoRepository.findById(mascota.getDueno().getId());
+            if (dueno.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 
-            mascota.setUsuario(usuario.get());
+            mascota.setDueno(dueno.get());
             Mascota nuevaMascota = mascotaRepository.save(mascota);
             return new ResponseEntity<>(nuevaMascota, HttpStatus.CREATED);
 
@@ -101,9 +102,9 @@ public class MascotaController {
             _mascota.setEdad(mascota.getEdad());
 
             // Opcional: actualizar usuario si lo necesitas
-            if (mascota.getUsuario() != null && mascota.getUsuario().getId() != null) {
-                Optional<Usuario> usuario = usuarioRepository.findById(mascota.getUsuario().getId());
-                usuario.ifPresent(_mascota::setUsuario);
+            if (mascota.getDueno() != null && mascota.getDueno().getId() != null) {
+                Optional<Dueno> dueno = duenoRepository.findById(mascota.getDueno().getId());
+                dueno.ifPresent(_mascota::setDueno);
             }
 
             return new ResponseEntity<>(mascotaRepository.save(_mascota), HttpStatus.OK);

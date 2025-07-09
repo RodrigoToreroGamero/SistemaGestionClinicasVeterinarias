@@ -19,26 +19,39 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "`Dueno`") // usar singular y proteger con backticks si usas MySQL
 public class Dueno {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
+
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "id_usuario")
     private Long id_usuario;
 
+    /*
     @Column(name = "id_mascota")
     private Long id_mascota;
-    
-    public Dueno(){
-        
+     */
+    public Dueno() {
+
     }
-    
+
+    /*
     public Dueno(Long id_usuario, Long id_mascota){
         this.id_usuario = id_usuario;
         this.id_mascota = id_mascota;
     }
-    
+     */
     //Setters y Getters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id_dueno) {
+        this.id = id_dueno;
+    }
 
     public Long getId_usuario() {
         return id_usuario;
@@ -48,6 +61,7 @@ public class Dueno {
         this.id_usuario = id_usuario;
     }
 
+    /*
     public Long getId_mascota() {
         return id_mascota;
     }
@@ -55,22 +69,29 @@ public class Dueno {
     public void setId_mascota(Long id_mascota) {
         this.id_mascota = id_mascota;
     }
-    
+     */
+ /*
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Dueno)) {
             return false;
         }
         Dueno other = (Dueno) object;
-        if ((this.getId_usuario() == null && other.id_usuario != null) || (this.getId_usuario() != null && !this.id_usuario.equals(other.id_usuario))) {
+        if ((this.getId() == null && other.id_dueno != null) || (this.getId() != null && !this.id_dueno.equals(other.id_dueno))) {
             return false;
         }
         return true;
     }
-    
+     */
+ /*
     @Override
     public String toString() {
         return "Dueno{" + "id_usuario=" + id_usuario + ", id_mascota=" + id_mascota + '}';
     }
-    
+     */
+    @Override
+    public String toString() {
+        return "Dueno{" + "id=" + id + ", id_usuario=" + id_usuario + '}';
+    }
+
 }

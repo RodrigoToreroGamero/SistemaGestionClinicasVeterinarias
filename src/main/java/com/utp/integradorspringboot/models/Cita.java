@@ -43,8 +43,8 @@ public class Cita implements Serializable{
     
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
+    @JoinColumn(name = "id_dueno", nullable = false)
+    private Dueno dueno;
 
     @ManyToOne
     @JoinColumn(name = "id_mascota")
@@ -56,12 +56,12 @@ public class Cita implements Serializable{
     public Cita() {
     }
 
-    public Cita(Long id, LocalDate fecha, LocalTime hora, String estado, Usuario usuario, Mascota mascota) {
+    public Cita(Long id, LocalDate fecha, LocalTime hora, String estado, Dueno dueno, Mascota mascota) {
         this.id = id;
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
-        this.usuario = usuario;
+        this.dueno = dueno;
         this.mascota = mascota;
     }
     
@@ -98,12 +98,12 @@ public class Cita implements Serializable{
         this.hora = hora;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Dueno getDueno() {
+        return dueno;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setDueno(Dueno dueno) {
+        this.dueno = dueno;
     }
 
     public Mascota getMascota() {
@@ -126,15 +126,11 @@ public class Cita implements Serializable{
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
-        return "Cita{" +
-                "id=" + id +
-                ", fecha=" + fecha +
-                ", hora=" + hora +
-                ", usuario=" + (usuario != null ? usuario.getId() : "null") +
-                ", mascota=" + (mascota != null ? mascota.getId() : "null") +
-                '}';
+        return "Cita{" + "id=" + id + ", fecha=" + fecha + ", hora=" + hora + ", estado=" + estado + ", dueno=" + dueno + ", mascota=" + mascota + '}';
     }
+    
+    
 }

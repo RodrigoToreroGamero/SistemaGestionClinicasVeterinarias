@@ -1,8 +1,10 @@
 package com.utp.integradorspringboot.api;
-/*
-import com.utp.integradorspringboot.models.ClinicaVeterinaria;
-import com.utp.integradorspringboot.models.Veterinario;
+
+import com.utp.integradorspringboot.models.Clinica;
 import com.utp.integradorspringboot.repositories.ClinicaVeterinariaRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +20,9 @@ public class ClinicaVeterinariaController {
     ClinicaVeterinariaRepository repository;
 
     @GetMapping("/clinicaVeterinaria")
-    public ResponseEntity<List<ClinicaVeterinaria>> getAll(@RequestParam(required = false) String title) {
+    public ResponseEntity<List<Clinica>> getAll(@RequestParam(required = false) String title) {
         try {
-            List<ClinicaVeterinaria> lista = new ArrayList<ClinicaVeterinaria>();
+            List<Clinica> lista = new ArrayList<Clinica>();
             repository.findAll().forEach(lista::add);
             if (lista.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -32,13 +34,13 @@ public class ClinicaVeterinariaController {
     }    
 
     @GetMapping("/clinicaVeterinaria/test")
-        public List<ClinicaVeterinaria> testClinicasVeterinarias() {
+        public List<Clinica> testClinicasVeterinarias() {
         return repository.findAll();
     }
 
     @GetMapping("/clinicaVeterinaria/{id}")
-    public ResponseEntity<ClinicaVeterinaria> getById(@PathVariable("id") Long id) {
-        Optional<ClinicaVeterinaria> entidad = repository.findById(id);
+    public ResponseEntity<Clinica> getById(@PathVariable("id") Long id) {
+        Optional<Clinica> entidad = repository.findById(id);
         if (entidad.isPresent()) {
             return new ResponseEntity<>(entidad.get(), HttpStatus.OK);
         } else {
@@ -47,17 +49,19 @@ public class ClinicaVeterinariaController {
     }
 
     @PostMapping("/clinicaVeterinaria")    
-    public ResponseEntity<ClinicaVeterinaria> create(@RequestBody ClinicaVeterinaria entidad) {
+    public ResponseEntity<Clinica> create(@RequestBody Clinica entidad) {
         try {
                         
-            ClinicaVeterinaria _entidad = repository.save(new ClinicaVeterinaria(
+            Clinica _entidad = repository.save(new Clinica(
                     null,
-                    entidad.getNombreClinica(),
+                    entidad.getNombre_clinica(),
                     entidad.getRuc(),
-                    entidad.getDireccionSede(),
-                    entidad.getLinkWeb(),
-                    entidad.getTelefonoSede(),
-                    null
+                    entidad.getDireccion(),
+                    entidad.getTelefono(),
+                    entidad.getLink_web(),
+                    //entidad.getVeterinario(),
+                    entidad.getPlan_suscripcion(),
+                    entidad.getPasarela_pago()
             ));
             return new ResponseEntity<>(_entidad, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -65,16 +69,20 @@ public class ClinicaVeterinariaController {
         }
     }
   
+    
     @PutMapping("/clinicaVeterinaria/{id}")
-    public ResponseEntity<ClinicaVeterinaria> update(@PathVariable("id") Long id, @RequestBody ClinicaVeterinaria entidad) {
-        ClinicaVeterinaria _entidad = repository.findById(id).orElse(null);
+    public ResponseEntity<Clinica> update(@PathVariable("id") Long id, @RequestBody Clinica entidad) {
+        Clinica _entidad = repository.findById(id).orElse(null);
         if (_entidad != null) {
-            _entidad.setNombreClinica(entidad.getNombreClinica());
+        
+            _entidad.setNombre_clinica(entidad.getNombre_clinica());
             _entidad.setRuc(entidad.getRuc());
-            _entidad.setDireccionSede(entidad.getDireccionSede());
-            _entidad.setLinkWeb(entidad.getLinkWeb());
-            _entidad.setTelefonoSede(entidad.getTelefonoSede());
-            _entidad.setMedicoResponsable(entidad.getMedicoResponsable());
+            _entidad.setDireccion(entidad.getDireccion());
+            _entidad.setTelefono(entidad.getTelefono());
+            _entidad.setLink_web(entidad.getLink_web());
+            //_entidad.setVeterinario(entidad.getVeterinario());
+            _entidad.setPlan_suscripcion(entidad.getPlan_suscripcion());
+            _entidad.setPasarela_pago(entidad.getPasarela_pago());
             
             return new ResponseEntity<>(repository.save(_entidad), HttpStatus.OK);
         } else {
@@ -82,15 +90,18 @@ public class ClinicaVeterinariaController {
         }
     }
 
+
     @DeleteMapping("/clinicaVeterinaria/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
             repository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
+            System.out.println(e.getMessage());            
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
 }
-  */
+

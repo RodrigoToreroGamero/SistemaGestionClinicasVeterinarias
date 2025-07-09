@@ -200,7 +200,11 @@
                                     </div>
                                     <div class="card-body">										
                                         <p class="card-text">Paga la suscripción a traves de </p>
+                                        <!--
                                         <input type="submit" class="btn btn-primary mt-3" value="Niubiz" v-model="entidades.clinica_veterinaria.pasarela_pago">										
+                                        -->
+                                        <input type="submit" class="btn btn-primary mt-3" :value="entidades.clinica_veterinaria.pasarela_pago || 'Niubiz'">
+
                                     </div>
                                 </div>															
                             </ul>
@@ -240,28 +244,32 @@
                         cuenta: {
                             correo: "",
                             contraseña: "",
-                            repetir_contraseña: ""
+                            repetir_contraseña: "",
+                            fecha_creacion: ""
                         }
                     },
                     entidad: []
                 },
                 methods: {
-                     guardar: function () {
+                     guardar: function () {                        
                         this.$http.post('/api/clinicaVeterinaria', this.entidades.clinica_veterinaria).
                                 then(() => alert("Datos de la clínica veterinaria guardados con éxito")).
                                 catch(err => {
                                     console.error("Error:", err);
                                 });
-                        this.$http.post('/api/veterinario', this.entidades.veterinario).
+                        this.$http.post('/api/Veterinario', this.entidades.veterinario).
                                 then(() => alert("Datos del médico responsable guardados con éxito")).
                                 catch(err => {
                                     console.error("Error:", err);
                                 });
+                                
+                                
+                        this.entidades.cuenta.fecha_creacion = new Date().toISOString();                        
                         this.$http.post('/api/sesion', this.entidades.cuenta).
                                 then(() => alert("Datos de la cuenta guardados con éxito")).
                                 catch(err => {
                                     console.error("Error:", err);
-                                });
+                                });        
                     },
                     mostrar: function() {
                         console.log(entidades);
