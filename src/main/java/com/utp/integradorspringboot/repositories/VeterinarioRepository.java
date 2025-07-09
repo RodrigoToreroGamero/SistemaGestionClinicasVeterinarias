@@ -1,16 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.utp.integradorspringboot.repositories;
 
-import com.utp.integradorspringboot.models.Veterinario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-/**
- *
- * @author USER
- */
-public interface VeterinarioRepository extends JpaRepository<Veterinario, Long>{
-    
-}
+import com.utp.integradorspringboot.models.Veterinario;
+
+@Repository
+public interface VeterinarioRepository extends JpaRepository<Veterinario, Long> {
+    // Basic CRUD operations are automatically provided by JpaRepository
+} 

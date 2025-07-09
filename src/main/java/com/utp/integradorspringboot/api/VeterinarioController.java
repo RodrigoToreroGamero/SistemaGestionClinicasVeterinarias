@@ -91,7 +91,6 @@ public class VeterinarioController {
             Veterinario _veterinario = veterinarioData.get();
             _veterinario.setNumero_colegio_medico(veterinario.getNumero_colegio_medico());
             _veterinario.setEspecialidad(veterinario.getEspecialidad());
-            _veterinario.setHorario_laboral(veterinario.getHorario_laboral());
 
             // Opcional: actualizar usuario si lo necesitas
             if (veterinario.getUsuario() != null && veterinario.getUsuario().getId() != null) {

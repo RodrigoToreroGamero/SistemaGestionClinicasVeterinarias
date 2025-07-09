@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-public class ClinicasVeterinariasController {
+public class ClinicasController {
     @Autowired
-    @RequestMapping("/clinicasVeterinarias")
+    @RequestMapping("/Clinicas")
     public String page() {
         
-        return "formularioCuentaVeterinaria";
+        return "formularioSuscribirClinica";
     }
 }

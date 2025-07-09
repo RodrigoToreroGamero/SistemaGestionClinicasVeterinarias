@@ -1,17 +1,29 @@
 package com.utp.integradorspringboot.api;
 
-import com.utp.integradorspringboot.models.Dueno;
-import com.utp.integradorspringboot.models.Mascota;
-import com.utp.integradorspringboot.repositories.MascotaRepository;
-import com.utp.integradorspringboot.models.Usuario;
-import com.utp.integradorspringboot.repositories.DuenoRepository;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import com.utp.integradorspringboot.models.Dueno;
+import com.utp.integradorspringboot.models.Mascota;
+import com.utp.integradorspringboot.repositories.DuenoRepository;
+import com.utp.integradorspringboot.repositories.MascotaRepository;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
@@ -24,12 +36,61 @@ public class MascotaController {
     @Autowired
     DuenoRepository duenoRepository;
 
+    // Test endpoint to check if the controller is working
+    @GetMapping("/Mascota/test")
+    public ResponseEntity<String> test() {
+        return new ResponseEntity<>("Mascota controller is working!", HttpStatus.OK);
+    }
+
+    // Simple test endpoint without database
+    @GetMapping("/Mascota/simple")
+    public ResponseEntity<Map<String, Object>> simpleTest() {
+        try {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Simple test successful");
+            response.put("timestamp", new Date());
+            response.put("status", "OK");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Error in simple test: " + e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // Test database connection only
+    @GetMapping("/Mascota/db-test")
+    public ResponseEntity<Map<String, Object>> dbTest() {
+        try {
+            long count = mascotaRepository.count();
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Database connection successful");
+            response.put("mascota_count", count);
+            response.put("status", "OK");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Error in database test: " + e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // Obtener todas las mascotas
     @GetMapping("/Mascota")
     public ResponseEntity<List<Mascota>> getAll() {
         try {
+            System.out.println("Attempting to fetch all mascotas...");
             List<Mascota> lista = new ArrayList<>();
-            mascotaRepository.findAll().forEach(lista::add);
+            
+            // Try to fetch data with more detailed error handling
+            Iterable<Mascota> mascotas = mascotaRepository.findAll();
+            mascotas.forEach(lista::add);
+            
+            System.out.println("Found " + lista.size() + " mascotas");
+
+            for (Mascota m : lista) {
+                System.out.println(m);
+            }
 
             if (lista.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -37,7 +98,13 @@ public class MascotaController {
 
             return new ResponseEntity<>(lista, HttpStatus.OK);
 
+        } catch (org.springframework.dao.DataAccessException e) {
+            System.err.println("Database access error in getAll mascotas: " + e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
+            System.err.println("Unexpected error in getAll mascotas: " + e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -54,11 +121,11 @@ public class MascotaController {
         }
     }
 
-    // Obtener mascotas por ID de usuario
-    @GetMapping("/Mascota/usuario/{usuarioId}")
-    public ResponseEntity<List<Mascota>> getByUsuarioId(@PathVariable("usuarioId") Long usuarioId) {
+    // Obtener mascotas por ID de dueño
+    @GetMapping("/Mascota/dueno/{duenoId}")
+    public ResponseEntity<List<Mascota>> getByDuenoId(@PathVariable("duenoId") Long duenoId) {
         try {
-            List<Mascota> mascotas = mascotaRepository.findByUsuarioId(usuarioId);
+            List<Mascota> mascotas = mascotaRepository.findByDuenoId(duenoId);
 
             if (mascotas.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -76,16 +143,27 @@ public class MascotaController {
     public ResponseEntity<Mascota> create(@RequestBody Mascota mascota) {
         try {
             // Validar que el usuario exista
+            if (mascota.getDueno() == null || mascota.getDueno().getId() == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            
             Optional<Dueno> dueno = duenoRepository.findById(mascota.getDueno().getId());
             if (dueno.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 
             mascota.setDueno(dueno.get());
+            
+            // Validar campos requeridos
+            if (mascota.getNombre() == null || mascota.getNombre().trim().isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            
             Mascota nuevaMascota = mascotaRepository.save(mascota);
             return new ResponseEntity<>(nuevaMascota, HttpStatus.CREATED);
 
         } catch (Exception e) {
+            e.printStackTrace(); // Para debugging
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

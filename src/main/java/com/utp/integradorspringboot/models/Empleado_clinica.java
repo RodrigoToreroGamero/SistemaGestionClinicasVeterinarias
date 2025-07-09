@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -16,60 +18,41 @@ import jakarta.persistence.Table;
  * @author UTP
  */
 @Entity
-@Table(name = "`Empleado_clinica`") // usar singular y proteger con backticks si usas MySQL
+@Table(name = "empleado_clinica")
 public class Empleado_clinica {
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
-    //propiedades de la clase
-    @Column(name = "id")
     private Long id;
-    
-    @Column(name = "id_usuario")
-    private Long id_usuario;
-    
-    @Column(name = "id_clinica")
-    private Long id_clinica;
-    
-    public Empleado_clinica(){
-    
-    }
-    
-    public Empleado_clinica(Long id, Long id_usuario, Long id_clinica){
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "id_clinica", nullable = false)
+    private Clinica clinica;
+
+    @Column(name = "tipo_empleado")
+    private String tipo_empleado;
+
+    public Empleado_clinica() {}
+
+    public Empleado_clinica(Long id, Usuario usuario, Clinica clinica, String tipo_empleado) {
         this.id = id;
-        this.id_clinica = id_clinica;
-        this.id_usuario = id_usuario;
-    }
-    
-    
-    //Get y Setters
-    public Long getId() {
-        return id;
+        this.usuario = usuario;
+        this.clinica = clinica;
+        this.tipo_empleado = tipo_empleado;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public Clinica getClinica() { return clinica; }
+    public void setClinica(Clinica clinica) { this.clinica = clinica; }
+    public String getTipo_empleado() { return tipo_empleado; }
+    public void setTipo_empleado(String tipo_empleado) { this.tipo_empleado = tipo_empleado; }
 
-    public Long getId_usuario() {
-        return id_usuario;
-    }
-
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
-    }
-
-    public Long getId_clinica() {
-        return id_clinica;
-    }
-
-    public void setId_clinica(Long id_clinica) {
-        this.id_clinica = id_clinica;
-    }
-    
-    
-    
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Empleado_clinica)) {
@@ -84,6 +67,6 @@ public class Empleado_clinica {
     
     @Override
     public String toString() {
-        return "Cita{" + "id=" + getId() + ", ID de la Clinica=" + id_clinica + ", ID del Usuario=" + id_usuario +'}';
+        return "Cita{" + "id=" + getId() + ", ID de la Clinica=" + clinica.getId() + ", ID del Usuario=" + usuario.getId() + ", Tipo empleado="+tipo_empleado+'}';
     }
 }

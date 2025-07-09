@@ -4,12 +4,53 @@
     </head>
     <body>
         <div layout:fragment="content">
-            <h1>Bienvenidos a la pagina de pruebas</h1>
-            <ul>
-                <li>
-                    <a href="/GestionesCitas">Gestion de citas de clinica veterinaria</a>
-                </li>
-            </ul>
+            <div class="container mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center">
+                        <h1>Bienvenidos a VetGes</h1>
+                        <p class="lead">Sistema de Gestión de Clínicas Veterinarias</p>
+                        
+                        <div th:if="${session.usuario == null}">
+                            <p>Para acceder a las funcionalidades del sistema, por favor inicia sesión o regístrate.</p>
+                            <div class="mt-4">
+                                <a href="/login" class="btn btn-primary btn-lg me-3">Iniciar Sesión</a>
+                                <a href="/register" class="btn btn-outline-primary btn-lg">Registrarse</a>
+                            </div>
+                        </div>
+                        
+                        <div th:if="${session.usuario != null}">
+                            <div class="alert alert-success">
+                                <h4>¡Bienvenido, <span th:text="${session.usuario.nombres + ' ' + session.usuario.apellidos}"></span>!</h4>
+                                <p>Ya has iniciado sesión. Puedes acceder a las funcionalidades del sistema.</p>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h3>Funcionalidades Disponibles</h3>
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Gestión de Citas</h5>
+                                                <p class="card-text">Administra las citas de la clínica veterinaria.</p>
+                                                <a href="/GestionesCitas" class="btn btn-primary">Acceder</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Gestión de Pagos</h5>
+                                                <p class="card-text">Administra los pagos de las citas.</p>
+                                                <a href="/GestionesPagosCitas" class="btn btn-primary">Acceder</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>
