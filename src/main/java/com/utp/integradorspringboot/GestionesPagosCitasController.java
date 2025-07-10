@@ -13,6 +13,6 @@ public class GestionesPagosCitasController {
     @RequestMapping("/GestionesPagosCitas")
     public String page() {
         //model.addAttribute("attribute", "value");
-        return "/VistaSecretario/GestionPagosCitas";
+        return "/recepcionista/GestionPagosCitas";
     }
 }

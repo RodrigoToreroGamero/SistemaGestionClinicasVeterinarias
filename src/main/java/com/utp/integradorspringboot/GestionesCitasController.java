@@ -18,7 +18,7 @@ public class GestionesCitasController {
     @RequestMapping("/GestionesCitas")
     public String page() {
         //model.addAttribute("attribute", "value");
-        return "/VistaSecretario/FormularioGestionCitas";
+        return "/recepcionista/FormularioGestionCitas";
     }
 }
 
