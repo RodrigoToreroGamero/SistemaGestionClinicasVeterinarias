@@ -42,7 +42,6 @@ public class Usuario {
 
     @Column(name = "fecha_registro")
     private LocalDateTime fecha_registro;
-    
 
     public Usuario() {
     }
@@ -112,7 +111,6 @@ public class Usuario {
     public void setFecha_registro(LocalDateTime fecha_registro) {
         this.fecha_registro = fecha_registro;
     }
-    
     
     @Override
     public boolean equals(Object object) {
