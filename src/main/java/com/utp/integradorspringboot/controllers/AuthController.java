@@ -44,7 +44,7 @@ public class AuthController {
             Usuario usuario = authService.getCurrentUser(session);
             AuthService.UserType userType = authService.getCurrentUserType(session);
             
-            // Redirect based on user type
+            // Redirigir según el tipo de usuario
             switch (userType) {
                 case DUENO:
                     return "redirect:/dueno/dashboard";
@@ -76,14 +76,14 @@ public class AuthController {
                           @RequestParam String email,
                           @RequestParam String password,
                           RedirectAttributes redirectAttributes) {
-        // Normalize email
+        // Normalizar email
         String normalizedEmail = email.trim().toLowerCase();
-        // Check if email already exists
+        // Verificar si el email ya existe
         if (sesionRepository.findByCorreo(normalizedEmail).isPresent()) {
             redirectAttributes.addFlashAttribute("error", "El email ya está registrado");
             return "redirect:/register";
         }
-        // Create new user
+        // Crear nuevo usuario
         Usuario usuario = new Usuario();
         usuario.setNombres(nombres);
         usuario.setApellidos(apellidos);
@@ -91,7 +91,7 @@ public class AuthController {
         usuario.setCelular(celular);
         usuario.setFecha_registro(LocalDateTime.now());
         usuario = usuarioRepository.save(usuario);
-        // Create session for the user
+        // Crear sesión para el usuario
         Sesion sesion = new Sesion();
         sesion.setCorreo(normalizedEmail);
         sesion.setContrasena(password);

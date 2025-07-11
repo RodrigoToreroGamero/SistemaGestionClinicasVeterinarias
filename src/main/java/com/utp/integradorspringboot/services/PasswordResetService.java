@@ -38,47 +38,47 @@ public class PasswordResetService {
     public boolean requestPasswordReset(String email) {
         System.out.println("DEBUG: Starting requestPasswordReset for email: " + email);
         try {
-            // Normalize email
+            // Normalizar email
             String normalizedEmail = email.trim().toLowerCase();
-            // Debug: Print all emails in the database
+            // Depurar: Imprimir todos los emails en la base de datos
             sesionRepository.findAll().forEach(s -> System.out.println("DB email: [" + s.getCorreo() + "]"));
-            // Debug: Print the normalized email being searched
+            // Depurar: Imprimir el email normalizado que se está buscando
             System.out.println("Normalized email being searched: [" + normalizedEmail + "]");
             Optional<Sesion> sesionOpt = sesionRepository.findByCorreo(normalizedEmail);
             if (sesionOpt.isEmpty()) {
                 System.out.println("DEBUG: No session found for email: " + normalizedEmail);
-                return false; // Email not found
+                return false; // Email no encontrado
             }
             
             Sesion sesion = sesionOpt.get();
             Long userId = sesion.getUsuario().getId();
             System.out.println("DEBUG: Found user with ID: " + userId);
             
-            // Delete any existing tokens for this user
+            // Eliminar cualquier token existente para este usuario
             System.out.println("DEBUG: Deleting existing tokens for user: " + userId);
             List<PasswordResetToken> existingTokens = tokenRepository.findByUserId(userId);
             tokenRepository.deleteAll(existingTokens);
             
-            // Generate new token
+            // Generar nuevo token
             String token = UUID.randomUUID().toString();
-            LocalDateTime expirationDate = LocalDateTime.now().plusHours(24); // 24 hours expiration
+            LocalDateTime expirationDate = LocalDateTime.now().plusHours(24); // 24 horas de expiración
             System.out.println("DEBUG: Generated token: " + token);
             
             PasswordResetToken resetToken = new PasswordResetToken(userId, token, expirationDate);
             tokenRepository.save(resetToken);
             System.out.println("DEBUG: Saved reset token to database");
             
-            // Send email
+            // Enviar email
             try {
                 String resetLink = "http://localhost:8081/reset-password?token=" + token;
                 System.out.println("DEBUG: Sending email with reset link: " + resetLink);
                 emailService.sendPasswordResetEmail(normalizedEmail, resetLink, null);
                 System.out.println("DEBUG: Email sent successfully");
             } catch (MessagingException emailException) {
-                // Log email error but don't fail the entire request
+                // Registrar error de email pero no fallar toda la solicitud
                 System.err.println("Failed to send password reset email: " + emailException.getMessage());
                 System.out.println("DEBUG: Email sending failed, but continuing with process");
-                // Continue with the process even if email fails
+                // Continuar con el proceso incluso si falla el email
             }
             
             System.out.println("DEBUG: Password reset request completed successfully");
@@ -114,14 +114,14 @@ public class PasswordResetService {
         }
         
         try {
-            // Find the user
+            // Encontrar el usuario
             Optional<Usuario> usuarioOpt = usuarioRepository.findById(resetToken.getUserId());
             if (usuarioOpt.isEmpty()) {
                 return false;
             }
             
-            // Find the session by user ID (we need to add this method to repository)
-            // For now, we'll use a different approach - find by user
+            // Encontrar la sesión por ID de usuario (necesitamos agregar este método al repositorio)
+            // Por ahora, usaremos un enfoque diferente - buscar por usuario
             List<Sesion> sesiones = sesionRepository.findAll();
             Optional<Sesion> sesionOpt = sesiones.stream()
                 .filter(s -> s.getUsuario().getId().equals(resetToken.getUserId()))
@@ -135,7 +135,7 @@ public class PasswordResetService {
             sesion.setContrasena(newPassword);
             sesionRepository.save(sesion);
             
-            // Mark token as used
+            // Marcar token como usado
             resetToken.setUsed(true);
             tokenRepository.save(resetToken);
             

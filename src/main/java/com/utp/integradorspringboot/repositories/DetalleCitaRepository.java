@@ -8,6 +8,6 @@ import com.utp.integradorspringboot.models.Detalle_cita;
 
 @Repository
 public interface DetalleCitaRepository extends JpaRepository<Detalle_cita, Long> {
-    // Basic CRUD operations are automatically provided by JpaRepository
+    // Las operaciones CRUD básicas son proporcionadas automáticamente por JpaRepository
     Detalle_cita findByCita(Cita cita);
 } 

@@ -38,7 +38,7 @@ public class EmailService {
             message.setText(email.getMessage());
             emailSender.send(message);
         } catch (Exception e) {
-            // Log error
+            // Registrar error
         }
     }
 

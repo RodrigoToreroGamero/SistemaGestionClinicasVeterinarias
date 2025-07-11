@@ -7,5 +7,5 @@ import com.utp.integradorspringboot.models.Veterinario_horario;
 
 @Repository
 public interface VeterinarioHorarioRepository extends JpaRepository<Veterinario_horario, Long> {
-    // Basic CRUD operations are automatically provided by JpaRepository
+    // Las operaciones CRUD básicas son proporcionadas automáticamente por JpaRepository
 } 

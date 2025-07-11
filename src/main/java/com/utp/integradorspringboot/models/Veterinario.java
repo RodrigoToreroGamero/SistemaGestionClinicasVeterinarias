@@ -27,7 +27,7 @@ public class Veterinario {
     @Column(name = "especialidad")
     private String especialidad;
 
-    // Constructors
+    // Constructores
     public Veterinario() {
     }
 
@@ -38,7 +38,7 @@ public class Veterinario {
         this.especialidad = especialidad;
     }
 
-    // Getters and Setters
+    // Getters y Setters
     public Long getId() {
         return id;
     }
