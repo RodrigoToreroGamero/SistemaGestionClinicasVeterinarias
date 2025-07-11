@@ -53,4 +53,14 @@ public interface GestionCitaRepository extends JpaRepository<Cita, Long>{
            "ORDER BY c.fecha DESC, c.hora ASC")
     List<Cita> findCitasConPago();
     
+    @Query("SELECT c FROM Cita c " +
+           "LEFT JOIN FETCH c.dueno d " +
+           "LEFT JOIN FETCH d.usuario " +
+           "LEFT JOIN FETCH c.veterinario v " +
+           "LEFT JOIN FETCH v.usuario " +
+           "LEFT JOIN FETCH c.mascota " +
+           "LEFT JOIN FETCH c.detalleCita dc " +
+           "WHERE v.id = :veterinarioId ORDER BY c.fecha DESC, c.hora ASC")
+    List<Cita> findByVeterinarioId(@Param("veterinarioId") Long veterinarioId);
+    
 }

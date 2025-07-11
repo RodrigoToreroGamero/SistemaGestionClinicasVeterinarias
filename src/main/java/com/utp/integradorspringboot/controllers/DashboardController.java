@@ -137,4 +137,33 @@ public class DashboardController {
         
         return "administrador/dashboard";
     }
+
+    @GetMapping("/veterinario/citas")
+    public String citasVeterinario(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        if (!authService.isLoggedIn(session)) {
+            redirectAttributes.addFlashAttribute("error", "Debes iniciar sesión para acceder a esta página");
+            return "redirect:/login";
+        }
+        AuthService.UserType userType = authService.getCurrentUserType(session);
+        if (userType != AuthService.UserType.VETERINARIO) {
+            redirectAttributes.addFlashAttribute("error", "No tienes permisos para acceder a esta página");
+            return "redirect:/";
+        }
+        // Obtener el usuario autenticado
+        com.utp.integradorspringboot.models.Usuario usuario = authService.getCurrentUser(session);
+        if (usuario == null) {
+            redirectAttributes.addFlashAttribute("error", "No se pudo identificar al usuario actual");
+            return "redirect:/veterinario/dashboard";
+        }
+        // Buscar el veterinario correspondiente a este usuario
+        com.utp.integradorspringboot.models.Veterinario veterinario = veterinarioRepository.findByUsuario(usuario);
+        if (veterinario == null) {
+            redirectAttributes.addFlashAttribute("error", "No se encontró un veterinario asociado a este usuario");
+            return "redirect:/veterinario/dashboard";
+        }
+        Long veterinarioId = veterinario.getId();
+        List<Cita> citas = citaRepository.findByVeterinarioId(veterinarioId);
+        model.addAttribute("citas", citas);
+        return "veterinario/citas";
+    }
 } 
