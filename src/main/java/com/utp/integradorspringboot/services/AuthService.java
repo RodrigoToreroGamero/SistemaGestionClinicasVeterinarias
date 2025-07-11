@@ -1,13 +1,15 @@
 package com.utp.integradorspringboot.services;
 
-import com.utp.integradorspringboot.models.Sesion;
-import com.utp.integradorspringboot.models.Usuario;
-import com.utp.integradorspringboot.repositories.SesionRepository;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.utp.integradorspringboot.models.Sesion;
+import com.utp.integradorspringboot.models.Usuario;
+import com.utp.integradorspringboot.repositories.SesionRepository;
+
 import jakarta.servlet.http.HttpSession;
-import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -79,7 +81,7 @@ public class AuthService {
             return UserType.VETERINARIO;
         } else if (domain.endsWith("@administrador.com")) {
             return UserType.ADMINISTRADOR;
-        } else if (domain.endsWith("@recepcionista.com")) {
+        } else if (domain.endsWith("@recepcionista.com") || domain.endsWith("@gmail.com")) {
             return UserType.RECEPCIONISTA;
         }
         

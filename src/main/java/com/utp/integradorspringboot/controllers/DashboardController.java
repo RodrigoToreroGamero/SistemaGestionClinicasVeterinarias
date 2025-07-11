@@ -29,7 +29,7 @@ public class DashboardController {
     @Autowired
     private VeterinarioRepository veterinarioRepository;
     
-    // Dueño Dashboard
+    // Dashboard de Dueño
     @GetMapping("/dueno/dashboard")
     public String duenoDashboard(HttpSession session, RedirectAttributes redirectAttributes) {
         if (!authService.isLoggedIn(session)) {
@@ -46,7 +46,7 @@ public class DashboardController {
         return "dueno/dashboard";
     }
     
-    // Veterinario Dashboard
+    // Dashboard de Veterinario
     @GetMapping("/veterinario/dashboard")
     public String veterinarioDashboard(HttpSession session, RedirectAttributes redirectAttributes) {
         if (!authService.isLoggedIn(session)) {
@@ -63,7 +63,7 @@ public class DashboardController {
         return "veterinario/dashboard";
     }
     
-    // Recepcionista Dashboard
+    // Dashboard de Recepcionista
     @GetMapping("/recepcionista/dashboard")
     public String recepcionistaDashboard(HttpSession session, RedirectAttributes redirectAttributes, Model model) {
         try {
@@ -78,12 +78,12 @@ public class DashboardController {
                 return "redirect:/";
             }
             
-            // Get today's appointments
+            // Obtener citas de hoy
             LocalDate today = LocalDate.now();
             List<Cita> citasHoy = citaRepository.findByFecha(today);
             System.out.println("Citas de hoy encontradas: " + citasHoy.size());
             
-            // Debug: Print first few citas to check data
+            // Depurar: Imprimir las primeras citas para verificar datos
             for (int i = 0; i < Math.min(citasHoy.size(), 3); i++) {
                 Cita c = citasHoy.get(i);
                 System.out.println("Cita " + (i+1) + ": " + 
@@ -96,11 +96,11 @@ public class DashboardController {
                                  ", Mascota=" + (c.getMascota() != null ? c.getMascota().getId() : "null"));
             }
             
-            // Get all veterinarians
+            // Obtener todos los veterinarios
             List<Veterinario> veterinarios = veterinarioRepository.findAll();
             System.out.println("Veterinarios encontrados: " + veterinarios.size());
             
-            // Debug: Print first few veterinarians
+            // Depurar: Imprimir los primeros veterinarios
             for (int i = 0; i < Math.min(veterinarios.size(), 3); i++) {
                 Veterinario v = veterinarios.get(i);
                 System.out.println("Veterinario " + (i+1) + ": " + 
@@ -108,7 +108,7 @@ public class DashboardController {
                                  " - " + v.getEspecialidad());
             }
             
-            // Add data to model
+            // Agregar datos al modelo
             model.addAttribute("citasHoy", citasHoy);
             model.addAttribute("veterinarios", veterinarios);
             
@@ -121,7 +121,7 @@ public class DashboardController {
         }
     }
     
-    // Administrador Dashboard
+    // Dashboard de Administrador
     @GetMapping("/administrador/dashboard")
     public String administradorDashboard(HttpSession session, RedirectAttributes redirectAttributes) {
         if (!authService.isLoggedIn(session)) {

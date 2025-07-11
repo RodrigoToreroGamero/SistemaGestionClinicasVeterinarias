@@ -33,7 +33,7 @@ public class DuenoController {
     @Autowired
     UsuarioRepository usuarioRepository;
 
-    // Test endpoint to check if the controller is working
+    // Endpoint de prueba para verificar si el controlador está funcionando
     @GetMapping("/Dueno/test")
     public ResponseEntity<String> test() {
         return new ResponseEntity<>("Dueno controller is working!", HttpStatus.OK);
@@ -86,13 +86,13 @@ public class DuenoController {
     @GetMapping("/Dueno/usuario/{usuarioId}")
     public ResponseEntity<Dueno> getByUsuarioId(@PathVariable("usuarioId") Long usuarioId) {
         try {
-            // First check if the usuario exists
+            // Primero verificar si el usuario existe
             Optional<Usuario> usuario = usuarioRepository.findById(usuarioId);
             if (usuario.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            // Find dueno by usuario
+            // Encontrar dueño por usuario
             List<Dueno> duenos = duenoRepository.findAll();
             Optional<Dueno> dueno = duenos.stream()
                     .filter(d -> d.getUsuario().getId().equals(usuarioId))
@@ -145,7 +145,7 @@ public class DuenoController {
             if (duenoData.isPresent()) {
                 Dueno _dueno = duenoData.get();
                 
-                // Update usuario if provided
+                // Actualizar usuario si se proporciona
                 if (dueno.getUsuario() != null && dueno.getUsuario().getId() != null) {
                     Optional<Usuario> usuario = usuarioRepository.findById(dueno.getUsuario().getId());
                     if (usuario.isPresent()) {

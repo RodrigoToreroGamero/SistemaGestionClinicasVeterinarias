@@ -26,20 +26,20 @@ import com.utp.integradorspringboot.repositories.MotivoCitaRepository;
 public class MotivoCitaController {
 
     @Autowired
-    MotivoCitaRepository motivoCitaRepository;
+    private MotivoCitaRepository motivoCitaRepository;
 
     // Obtener todos los motivos de cita
-    @GetMapping("/MotivoCita")
-    public ResponseEntity<List<Motivo_cita>> getAll() {
+    @GetMapping("/motivos-cita")
+    public ResponseEntity<List<Motivo_cita>> getAllMotivos() {
         try {
-            List<Motivo_cita> lista = new ArrayList<>();
-            motivoCitaRepository.findAll().forEach(lista::add);
+            List<Motivo_cita> motivos = new ArrayList<>();
+            motivoCitaRepository.findAll().forEach(motivos::add);
 
-            if (lista.isEmpty()) {
+            if (motivos.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-            return new ResponseEntity<>(lista, HttpStatus.OK);
+            return new ResponseEntity<>(motivos, HttpStatus.OK);
 
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -47,32 +47,23 @@ public class MotivoCitaController {
     }
 
     // Obtener motivo de cita por ID
-    @GetMapping("/MotivoCita/{id}")
-    public ResponseEntity<Motivo_cita> getById(@PathVariable("id") Long id) {
-        Optional<Motivo_cita> motivoCitaData = motivoCitaRepository.findById(id);
+    @GetMapping("/motivos-cita/{id}")
+    public ResponseEntity<Motivo_cita> getMotivoById(@PathVariable("id") Long id) {
+        Optional<Motivo_cita> motivoData = motivoCitaRepository.findById(id);
 
-        if (motivoCitaData.isPresent()) {
-            return new ResponseEntity<>(motivoCitaData.get(), HttpStatus.OK);
+        if (motivoData.isPresent()) {
+            return new ResponseEntity<>(motivoData.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     // Crear nuevo motivo de cita
-    @PostMapping("/MotivoCita")
-    public ResponseEntity<Motivo_cita> create(@RequestBody Motivo_cita motivoCita) {
+    @PostMapping("/motivos-cita")
+    public ResponseEntity<Motivo_cita> createMotivo(@RequestBody Motivo_cita motivo) {
         try {
-            // Validar campos requeridos
-            if (motivoCita.getNombre() == null || motivoCita.getNombre().trim().isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            
-            if (motivoCita.getPrecio() == null || motivoCita.getPrecio() <= 0) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-
-            Motivo_cita nuevoMotivoCita = motivoCitaRepository.save(motivoCita);
-            return new ResponseEntity<>(nuevoMotivoCita, HttpStatus.CREATED);
+            Motivo_cita nuevoMotivo = motivoCitaRepository.save(motivo);
+            return new ResponseEntity<>(nuevoMotivo, HttpStatus.CREATED);
 
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -80,24 +71,24 @@ public class MotivoCitaController {
     }
 
     // Actualizar motivo de cita
-    @PutMapping("/MotivoCita/{id}")
-    public ResponseEntity<Motivo_cita> update(@PathVariable("id") Long id, @RequestBody Motivo_cita motivoCita) {
-        Optional<Motivo_cita> motivoCitaData = motivoCitaRepository.findById(id);
+    @PutMapping("/motivos-cita/{id}")
+    public ResponseEntity<Motivo_cita> updateMotivo(@PathVariable("id") Long id, @RequestBody Motivo_cita motivo) {
+        Optional<Motivo_cita> motivoData = motivoCitaRepository.findById(id);
 
-        if (motivoCitaData.isPresent()) {
-            Motivo_cita _motivoCita = motivoCitaData.get();
-            _motivoCita.setNombre(motivoCita.getNombre());
-            _motivoCita.setPrecio(motivoCita.getPrecio());
+        if (motivoData.isPresent()) {
+            Motivo_cita _motivo = motivoData.get();
+            _motivo.setNombre(motivo.getNombre());
+            _motivo.setPrecio(motivo.getPrecio());
 
-            return new ResponseEntity<>(motivoCitaRepository.save(_motivoCita), HttpStatus.OK);
+            return new ResponseEntity<>(motivoCitaRepository.save(_motivo), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     // Eliminar motivo de cita
-    @DeleteMapping("/MotivoCita/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
+    @DeleteMapping("/motivos-cita/{id}")
+    public ResponseEntity<HttpStatus> deleteMotivo(@PathVariable("id") Long id) {
         try {
             motivoCitaRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
