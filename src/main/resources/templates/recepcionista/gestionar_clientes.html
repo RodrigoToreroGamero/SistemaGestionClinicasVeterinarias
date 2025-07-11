@@ -29,6 +29,13 @@
                             <input type="date" class="form-control" placeholder="Fecha de Nacimiento" name="fecha_nacimiento" required />
                         </div>
                         <div class="col-md-4">
+                            <input type="email" class="form-control" placeholder="Email" name="email" required />
+                        </div>
+                    </div>
+                    <div class="row g-2 mt-2">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
                             <button type="submit" class="btn btn-success w-100">Registrar</button>
                         </div>
                     </div>
@@ -75,36 +82,45 @@
         </div>
     </div>
     <script th:inline="javascript">
-        window.clientes = /*[[${duenos}]]*/ [];
+        function fetchClientes() {
+            fetch('/api/duenos')
+                .then(res => res.json())
+                .then(data => {
+                    window.clientes = data;
+                    renderClientes();
+                });
+        }
         function renderClientes() {
             const filtro = document.getElementById('filtroClientes').value.toLowerCase();
             const tbody = document.getElementById('clientesTbody');
             tbody.innerHTML = '';
             window.clientes.filter(c =>
-                c.usuario.nombres.toLowerCase().includes(filtro) ||
-                c.usuario.apellidos.toLowerCase().includes(filtro) ||
-                c.usuario.dni.toLowerCase().includes(filtro) ||
-                (c.usuario.celular || '').toLowerCase().includes(filtro)
+                (c.nombres && c.nombres.toLowerCase().includes(filtro)) ||
+                (c.apellidos && c.apellidos.toLowerCase().includes(filtro)) ||
+                (c.dni && c.dni.toLowerCase().includes(filtro)) ||
+                (c.celular && c.celular.toLowerCase().includes(filtro))
             ).forEach((c, idx) => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${c.usuario.nombres}</td>
-                    <td>${c.usuario.apellidos}</td>
-                    <td>${c.usuario.dni}</td>
-                    <td>${c.usuario.celular || ''}</td>
+                    <td>${c.nombres}</td>
+                    <td>${c.apellidos}</td>
+                    <td>${c.dni}</td>
+                    <td>${c.celular || ''}</td>
                     <td><button class='btn btn-outline-primary btn-sm' onclick='verCitasCliente(${idx})'>Ver Citas</button></td>
                 `;
                 tbody.appendChild(tr);
             });
         }
         document.getElementById('filtroClientes').addEventListener('input', renderClientes);
-        document.addEventListener('DOMContentLoaded', renderClientes);
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchClientes();
+        });
         window.verCitasCliente = function(idx) {
             const cliente = window.clientes[idx];
             const duenoId = cliente.id;
-            const nombre = cliente.usuario.nombres;
-            const apellidos = cliente.usuario.apellidos;
-            const dni = cliente.usuario.dni;
+            const nombre = cliente.nombres;
+            const apellidos = cliente.apellidos;
+            const dni = cliente.dni;
             document.getElementById('citasClienteContent').innerHTML = `<p>Cargando citas para <strong>${nombre} ${apellidos}</strong> (DNI: ${dni})...</p>`;
             fetch(`/recepcionista/clientes/${duenoId}/citas`)
                 .then(res => res.json())
@@ -184,12 +200,18 @@
         document.getElementById('nuevoDuenoForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const form = e.target;
+            if (!form.email.value) {
+                alert('El email es obligatorio');
+                form.email.focus();
+                return;
+            }
             const data = {
                 nombres: form.nombres.value,
                 apellidos: form.apellidos.value,
                 celular: form.celular.value,
                 dni: form.dni.value,
-                fecha_nacimiento: form.fecha_nacimiento.value
+                fecha_nacimiento: form.fecha_nacimiento.value,
+                email: form.email.value
             };
             fetch('/recepcionista/clientes/enroll', {
                 method: 'POST',
@@ -200,8 +222,7 @@
             .then(resp => {
                 if (resp.success) {
                     alert('Cliente registrado exitosamente');
-                    window.clientes.push(resp.dueno);
-                    renderClientes();
+                    fetchClientes();
                     form.reset();
                 } else {
                     alert('Error: ' + resp.error);
