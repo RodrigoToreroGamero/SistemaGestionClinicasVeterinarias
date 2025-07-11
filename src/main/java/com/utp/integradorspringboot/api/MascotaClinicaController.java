@@ -35,7 +35,7 @@ public class MascotaClinicaController {
     @Autowired
     ClinicaRepository clinicaRepository;
 
-    // Assign a pet to a clinic
+    // Asignar una mascota a una clínica
     @PostMapping("/assign")
     public ResponseEntity<MascotaClinica> assignPetToClinic(@RequestParam Long mascotaId, @RequestParam Long clinicaId) {
         Optional<Mascota> mascotaOpt = mascotaRepository.findById(mascotaId);
@@ -43,7 +43,7 @@ public class MascotaClinicaController {
         if (mascotaOpt.isEmpty() || clinicaOpt.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        // Check if already exists
+        // Verificar si ya existe
         List<MascotaClinica> existing = mascotaClinicaRepository.findAll().stream()
             .filter(mc -> mc.getMascota().getId().equals(mascotaId) && mc.getClinica().getId().equals(clinicaId))
             .collect(Collectors.toList());
@@ -55,7 +55,7 @@ public class MascotaClinicaController {
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
-    // List all clinics for a pet
+    // Listar todas las clínicas para una mascota
     @GetMapping("/clinics/{mascotaId}")
     public ResponseEntity<List<Clinica>> getClinicsForPet(@PathVariable Long mascotaId) {
         List<MascotaClinica> list = mascotaClinicaRepository.findAll().stream()
@@ -65,7 +65,7 @@ public class MascotaClinicaController {
         return new ResponseEntity<>(clinics, HttpStatus.OK);
     }
 
-    // List all pets for a clinic
+    // Listar todas las mascotas para una clínica
     @GetMapping("/pets/{clinicaId}")
     public ResponseEntity<List<Mascota>> getPetsForClinic(@PathVariable Long clinicaId) {
         List<MascotaClinica> list = mascotaClinicaRepository.findAll().stream()
@@ -75,7 +75,7 @@ public class MascotaClinicaController {
         return new ResponseEntity<>(pets, HttpStatus.OK);
     }
 
-    // Remove a pet from a clinic
+    // Remover una mascota de una clínica
     @DeleteMapping("/remove")
     public ResponseEntity<Void> removePetFromClinic(@RequestParam Long mascotaId, @RequestParam Long clinicaId) {
         List<MascotaClinica> list = mascotaClinicaRepository.findAll().stream()

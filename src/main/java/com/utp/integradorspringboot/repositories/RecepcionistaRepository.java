@@ -7,5 +7,5 @@ import com.utp.integradorspringboot.models.Recepcionista;
 
 @Repository
 public interface RecepcionistaRepository extends JpaRepository<Recepcionista, Long> {
-    // Basic CRUD operations are automatically provided by JpaRepository
+    // Las operaciones CRUD básicas son proporcionadas automáticamente por JpaRepository
 } 

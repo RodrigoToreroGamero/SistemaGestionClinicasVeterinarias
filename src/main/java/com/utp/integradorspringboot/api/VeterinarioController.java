@@ -51,6 +51,24 @@ public class VeterinarioController {
         }
     }
 
+    // Obtener todos los veterinarios (endpoint alternativo)
+    @GetMapping("/veterinarios")
+    public ResponseEntity<List<Veterinario>> getAllVeterinarios() {
+        try {
+            List<Veterinario> lista = new ArrayList<>();
+            veterinarioRepository.findAll().forEach(lista::add);
+
+            if (lista.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(lista, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // Obtener veterinario por ID
     @GetMapping("/Veterinario/{id}")
     public ResponseEntity<Veterinario> getById(@PathVariable("id") Long id) {

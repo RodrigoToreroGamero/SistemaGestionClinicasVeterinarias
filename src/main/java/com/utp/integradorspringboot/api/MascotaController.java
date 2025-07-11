@@ -36,13 +36,13 @@ public class MascotaController {
     @Autowired
     DuenoRepository duenoRepository;
 
-    // Test endpoint to check if the controller is working
+    // Endpoint de prueba para verificar si el controlador está funcionando
     @GetMapping("/Mascota/test")
     public ResponseEntity<String> test() {
         return new ResponseEntity<>("Mascota controller is working!", HttpStatus.OK);
     }
 
-    // Simple test endpoint without database
+    // Endpoint de prueba simple sin base de datos
     @GetMapping("/Mascota/simple")
     public ResponseEntity<Map<String, Object>> simpleTest() {
         try {
@@ -58,7 +58,7 @@ public class MascotaController {
         }
     }
 
-    // Test database connection only
+    // Probar solo la conexión a la base de datos
     @GetMapping("/Mascota/db-test")
     public ResponseEntity<Map<String, Object>> dbTest() {
         try {
@@ -82,7 +82,7 @@ public class MascotaController {
             System.out.println("Attempting to fetch all mascotas...");
             List<Mascota> lista = new ArrayList<>();
             
-            // Try to fetch data with more detailed error handling
+            // Intentar obtener datos con manejo de errores más detallado
             Iterable<Mascota> mascotas = mascotaRepository.findAll();
             mascotas.forEach(lista::add);
             
