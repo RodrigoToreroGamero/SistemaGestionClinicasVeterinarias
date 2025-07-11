@@ -9,10 +9,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.utp.integradorspringboot.models.Dueno;
+import com.utp.integradorspringboot.models.Recepcionista;
 import com.utp.integradorspringboot.models.Sesion;
 import com.utp.integradorspringboot.models.Usuario;
+import com.utp.integradorspringboot.models.Veterinario;
+import com.utp.integradorspringboot.repositories.DuenoRepository;
+import com.utp.integradorspringboot.repositories.RecepcionistaRepository;
 import com.utp.integradorspringboot.repositories.SesionRepository;
 import com.utp.integradorspringboot.repositories.UsuarioRepository;
+import com.utp.integradorspringboot.repositories.VeterinarioRepository;
 import com.utp.integradorspringboot.services.AuthService;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,6 +34,13 @@ public class AuthController {
     
     @Autowired
     private SesionRepository sesionRepository;
+    
+    @Autowired
+    private DuenoRepository duenoRepository;
+    @Autowired
+    private RecepcionistaRepository recepcionistaRepository;
+    @Autowired
+    private VeterinarioRepository veterinarioRepository;
     
     @GetMapping("/login")
     public String loginPage() {
@@ -98,6 +111,35 @@ public class AuthController {
         sesion.setUsuario(usuario);
         sesion.setFecha_creacion(LocalDateTime.now());
         sesionRepository.save(sesion);
+
+        // Crear entidad según el tipo de usuario
+        AuthService.UserType userType = authService.getUserType(normalizedEmail);
+        switch (userType) {
+            case VETERINARIO:
+                Veterinario veterinario = new Veterinario();
+                veterinario.setUsuario(usuario);
+                veterinario.setNumero_colegio_medico("VET" + usuario.getId());
+                veterinario.setEspecialidad("General");
+                veterinarioRepository.save(veterinario);
+                break;
+            case DUENO:
+                Dueno dueno = new Dueno();
+                dueno.setUsuario(usuario);
+                duenoRepository.save(dueno);
+                break;
+            case RECEPCIONISTA:
+                Recepcionista recepcionista = new Recepcionista();
+                recepcionista.setUsuario(usuario);
+                recepcionistaRepository.save(recepcionista);
+                break;
+            case ADMINISTRADOR:
+                // Implement if you have an Administrador entity
+                break;
+            default:
+                // No extra entity needed
+                break;
+        }
+
         redirectAttributes.addFlashAttribute("success", "Usuario registrado exitosamente");
         return "redirect:/login";
     }
