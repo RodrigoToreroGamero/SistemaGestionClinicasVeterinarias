@@ -5,18 +5,19 @@
 package com.utp.integradorspringboot.models;
 
 import java.io.Serializable;
-import jakarta.persistence.JoinColumn;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import org.springframework.cglib.core.Local;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -24,12 +25,11 @@ import jakarta.persistence.Table;
  * @author USER
  */
 @Entity
-@Table(name = "`Cita`") // usar singular y proteger con backticks si usas MySQL
+@Table(name = "cita")
 public class Cita implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @Column(name = "fecha")
@@ -39,30 +39,42 @@ public class Cita implements Serializable{
     private LocalTime hora;
     
     @Column(name = "estado")
-    private String estado;
-    
+    private String estado = "en proceso";
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
-
-    @ManyToOne
-    @JoinColumn(name = "id_mascota")
+    @JoinColumn(name = "id_mascota", nullable = true)
     private Mascota mascota;
 
+    @ManyToOne
+    @JoinColumn(name = "id_veterinario", nullable = false)
+    private Veterinario veterinario;
     
+    @ManyToOne
+    @JoinColumn(name = "id_dueno", nullable = false)
+    private Dueno dueno;
 
+    @Column(name = "observaciones", columnDefinition = "TEXT")
+    private String observaciones;
+
+    @OneToOne(mappedBy = "cita", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Detalle_cita detalleCita;
+
+    @ManyToOne
+    @JoinColumn(name = "id_clinica", nullable = true)
+    private Clinica clinica;
 
     public Cita() {
     }
 
-    public Cita(Long id, LocalDate fecha, LocalTime hora, String estado, Usuario usuario, Mascota mascota) {
+    public Cita(Long id, LocalDate fecha, LocalTime hora, String estado, String observaciones, Mascota mascota, Veterinario veterinario, Dueno dueno) {
         this.id = id;
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
-        this.usuario = usuario;
+        this.observaciones = observaciones;
         this.mascota = mascota;
+        this.veterinario = veterinario;
+        this.dueno = dueno;
     }
     
 
@@ -98,12 +110,20 @@ public class Cita implements Serializable{
         this.hora = hora;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Veterinario getVeterinario() {
+        return veterinario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setVeterinario(Veterinario veterinario) {
+        this.veterinario = veterinario;
+    }
+
+    public Dueno getDueno(){
+        return dueno;
+    }
+
+    public void setDueno(Dueno dueno){
+        this.dueno = dueno;
     }
 
     public Mascota getMascota() {
@@ -112,6 +132,30 @@ public class Cita implements Serializable{
 
     public void setMascota(Mascota mascota) {
         this.mascota = mascota;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    public Detalle_cita getDetalleCita() {
+        return detalleCita;
+    }
+
+    public void setDetalleCita(Detalle_cita detalleCita) {
+        this.detalleCita = detalleCita;
+    }
+
+    public Clinica getClinica() {
+        return clinica;
+    }
+
+    public void setClinica(Clinica clinica) {
+        this.clinica = clinica;
     }
     
     
@@ -133,8 +177,11 @@ public class Cita implements Serializable{
                 "id=" + id +
                 ", fecha=" + fecha +
                 ", hora=" + hora +
-                ", usuario=" + (usuario != null ? usuario.getId() : "null") +
+                ", estado=" + estado +
+                ", veterinario=" + (veterinario != null ? veterinario.getId() : "null") +
+                ", dueno=" + (dueno != null ? dueno.getId() : "null") +
                 ", mascota=" + (mascota != null ? mascota.getId() : "null") +
+                ", clinica=" + (clinica != null ? clinica.getId() : "null") +
                 '}';
     }
 }

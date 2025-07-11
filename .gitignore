@@ -19,6 +19,14 @@ target/
 *.iml
 *.ipr
 
+### Ignorar archivos de log
+*.log
+logs/
+log/
+**/logs/
+**/*.log
+
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -31,3 +39,8 @@ build/
 
 ### VS Code ###
 .vscode/
+/logs
+*.log
+logs/app.log
+/logs
+/logs
