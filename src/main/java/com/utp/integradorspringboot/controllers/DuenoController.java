@@ -21,12 +21,14 @@ import com.utp.integradorspringboot.models.Boleta_pago;
 import com.utp.integradorspringboot.models.Cita;
 import com.utp.integradorspringboot.models.Dueno;
 import com.utp.integradorspringboot.models.Rol;
+import com.utp.integradorspringboot.models.Sesion;
 import com.utp.integradorspringboot.models.Usuario;
 import com.utp.integradorspringboot.models.Usuario_rol;
 import com.utp.integradorspringboot.repositories.BoletaPagoRepository;
 import com.utp.integradorspringboot.repositories.DuenoRepository;
 import com.utp.integradorspringboot.repositories.GestionCitaRepository;
 import com.utp.integradorspringboot.repositories.RolRepository;
+import com.utp.integradorspringboot.repositories.SesionRepository;
 import com.utp.integradorspringboot.repositories.UsuarioRepository;
 import com.utp.integradorspringboot.repositories.UsuarioRolRepository;
 
@@ -47,6 +49,8 @@ public class DuenoController {
     private GestionCitaRepository gestionCitaRepository;
     @Autowired
     private BoletaPagoRepository boletaPagoRepository;
+    @Autowired
+    private SesionRepository sesionRepository;
 
     @GetMapping("/recepcionista/clientes")
     public String gestionarClientes(HttpSession session, RedirectAttributes redirectAttributes, Model model) {
@@ -61,6 +65,12 @@ public class DuenoController {
     public Map<String, Object> enrollCliente(@RequestBody Map<String, String> data) {
         Map<String, Object> resp = new HashMap<>();
         try {
+            String email = data.get("email");
+            if (email == null || email.trim().isEmpty()) {
+                resp.put("success", false);
+                resp.put("error", "El email es obligatorio");
+                return resp;
+            }
             Usuario usuario = new Usuario();
             usuario.setNombres(data.get("nombres"));
             usuario.setApellidos(data.get("apellidos"));
@@ -79,6 +89,11 @@ public class DuenoController {
             Dueno dueno = new Dueno();
             dueno.setUsuario(usuario);
             duenoRepository.save(dueno);
+            // Crear Sesion asociada
+            Sesion sesion = new Sesion();
+            sesion.setUsuario(usuario);
+            sesion.setCorreo(email);
+            sesionRepository.save(sesion);
             resp.put("success", true);
             resp.put("dueno", dueno);
         } catch (Exception e) {

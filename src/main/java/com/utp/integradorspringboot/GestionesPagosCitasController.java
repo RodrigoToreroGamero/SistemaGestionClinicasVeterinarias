@@ -63,16 +63,6 @@ public class GestionesPagosCitasController {
         return boletaPagoRepository.findAll();
     }
     
-    @GetMapping("/api/duenos")
-    @ResponseBody
-    public List<Object> getDuenos() {
-        // Obtener todos los dueños con sus datos
-        return citaRepository.findAll().stream()
-            .map(cita -> cita.getDueno())
-            .distinct()
-            .collect(java.util.stream.Collectors.toList());
-    }
-    
     @GetMapping("/api/mascotas")
     @ResponseBody
     public List<Object> getMascotas() {

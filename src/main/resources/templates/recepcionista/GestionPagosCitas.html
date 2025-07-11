@@ -423,7 +423,7 @@
                     getNombreDueno(duenoId) {
                         if (!duenoId) return 'N/A';
                         const dueno = this.duenos.find(d => d.id === duenoId);
-                        return dueno ? `${dueno.usuario.nombres} ${dueno.usuario.apellidos}` : 'N/A';
+                        return dueno ? `${dueno.nombres} ${dueno.apellidos}` : 'N/A';
                     },
 
                     getNombreMascota(mascotaId) {
