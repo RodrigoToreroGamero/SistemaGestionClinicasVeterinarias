@@ -44,7 +44,7 @@ public class PasswordResetService {
             sesionRepository.findAll().forEach(s -> System.out.println("DB email: [" + s.getCorreo() + "]"));
             // Depurar: Imprimir el email normalizado que se está buscando
             System.out.println("Normalized email being searched: [" + normalizedEmail + "]");
-            Optional<Sesion> sesionOpt = sesionRepository.findByCorreo(normalizedEmail);
+            Optional<Sesion> sesionOpt = sesionRepository.findByCorreoIgnoreCase(normalizedEmail);
             if (sesionOpt.isEmpty()) {
                 System.out.println("DEBUG: No session found for email: " + normalizedEmail);
                 return false; // Email no encontrado

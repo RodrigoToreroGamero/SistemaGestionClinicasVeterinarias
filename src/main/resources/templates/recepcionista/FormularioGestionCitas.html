@@ -50,7 +50,7 @@
                             @click="ordenarPorFecha('asc')">
                             Más antigua
                         </button>
-                    </div>
+                </div>
                     <div class="btn-group w-100 d-flex justify-content-center" role="group">
                         <button class="btn"
                             :class="!mostrarCompletadas ? 'btn-warning text-white' : 'btn-outline-primary text-primary'"
@@ -115,45 +115,45 @@
                             
                             <div class="mb-3">
                                 <label for="fecha" class="form-label">Fecha</label>
-                                <input type="date" class="form-control" id="fecha" v-model="entidad.fecha" required/>
+                                    <input type="date" class="form-control" id="fecha" v-model="entidad.fecha" required/>
                             </div>
                             
                             <div class="mb-3">
                                 <label for="hora" class="form-label">Hora</label>
-                                <input type="time" class="form-control" id="hora" v-model="entidad.hora" required/>
+                                    <input type="time" class="form-control" id="hora" v-model="entidad.hora" required/>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Dueño</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" :value="getNombreDuenoSeleccionado()" readonly placeholder="Seleccione un dueño" />
-                                    <button class="btn btn-outline-secondary" type="button" @click="abrirModalDueno">Buscar Dueño</button>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" :value="getNombreDuenoSeleccionado()" readonly placeholder="Seleccione un dueño" />
+                                        <button class="btn btn-outline-secondary" type="button" @click="abrirModalDueno">Buscar Dueño</button>
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Mascota</label>
-                                <select class="form-control" v-model="entidad.mascota.id" required :disabled="!entidad.dueno.id">
-                                    <option disabled value="">Seleccione una mascota</option>
-                                    <option v-for="mascota in mascotasFiltradas" :value="mascota.id">
-                                        {{ mascota.nombre }} ({{ mascota.especie }} - {{ mascota.raza }})
-                                    </option>
-                                </select>
+                                    <select class="form-control" v-model="entidad.mascota.id" required :disabled="!entidad.dueno.id">
+                                        <option disabled value="">Seleccione una mascota</option>
+                                        <option v-for="mascota in mascotasFiltradas" :value="mascota.id">
+                                            {{ mascota.nombre }} ({{ mascota.especie }} - {{ mascota.raza }})
+                                        </option>
+                                    </select>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Veterinario</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" :value="getNombreVeterinarioSeleccionado()" readonly placeholder="Seleccione un veterinario" />
-                                    <button class="btn btn-outline-secondary" type="button" @click="abrirModalVeterinario">Buscar Veterinario</button>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" :value="getNombreVeterinarioSeleccionado()" readonly placeholder="Seleccione un veterinario" />
+                                        <button class="btn btn-outline-secondary" type="button" @click="abrirModalVeterinario">Buscar Veterinario</button>
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Motivo de Cita</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" :value="getNombreMotivoSeleccionado()" readonly placeholder="Seleccione un motivo" />
-                                    <button class="btn btn-outline-secondary" type="button" @click="abrirModalMotivo">Buscar Motivo</button>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" :value="getNombreMotivoSeleccionado()" readonly placeholder="Seleccione un motivo" />
+                                        <button class="btn btn-outline-secondary" type="button" @click="abrirModalMotivo">Buscar Motivo</button>
                                 </div>
                             </div>
 
@@ -799,7 +799,7 @@
                             });
                     },
                     listarMotivosCita: function () {
-                        this.$http.get('/api/MotivoCita')
+                        this.$http.get('/api/motivos-cita')
                             .then(response => {
                                 this.motivosCita = response.data;
                                 console.log('Motivos de cita:', this.motivosCita);

@@ -1,6 +1,7 @@
 package com.utp.integradorspringboot.controllers;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.utp.integradorspringboot.models.Cita;
 import com.utp.integradorspringboot.models.Veterinario;
+import com.utp.integradorspringboot.models.VeterinarioDTO;
 import com.utp.integradorspringboot.repositories.GestionCitaRepository;
+import com.utp.integradorspringboot.repositories.SesionRepository;
 import com.utp.integradorspringboot.repositories.VeterinarioRepository;
 import com.utp.integradorspringboot.services.AuthService;
 
@@ -28,6 +31,9 @@ public class DashboardController {
     
     @Autowired
     private VeterinarioRepository veterinarioRepository;
+    
+    @Autowired
+    private SesionRepository sesionRepository;
     
     // Dashboard de Dueño
     @GetMapping("/dueno/dashboard")
@@ -97,8 +103,22 @@ public class DashboardController {
             }
             
             // Obtener todos los veterinarios
-            List<Veterinario> veterinarios = veterinarioRepository.findAll();
+            List<Veterinario> veterinarios = veterinarioRepository.findAllWithUsuario();
             System.out.println("Veterinarios encontrados: " + veterinarios.size());
+
+            // Construir lista de DTOs
+            List<VeterinarioDTO> veterinariosDTO = new ArrayList<>();
+            for (Veterinario v : veterinarios) {
+                String email = sesionRepository.findByUsuario_Id(v.getUsuario().getId())
+                    .map(s -> s.getCorreo()).orElse(null);
+                veterinariosDTO.add(new VeterinarioDTO(
+                    v.getUsuario().getNombres(),
+                    v.getUsuario().getApellidos(),
+                    v.getEspecialidad(),
+                    v.getUsuario().getCelular(),
+                    email
+                ));
+            }
             
             // Depurar: Imprimir los primeros veterinarios
             for (int i = 0; i < Math.min(veterinarios.size(), 3); i++) {
@@ -110,7 +130,7 @@ public class DashboardController {
             
             // Agregar datos al modelo
             model.addAttribute("citasHoy", citasHoy);
-            model.addAttribute("veterinarios", veterinarios);
+            model.addAttribute("veterinariosDTO", veterinariosDTO);
             
             return "recepcionista/dashboard";
         } catch (Exception e) {
@@ -137,4 +157,6 @@ public class DashboardController {
         
         return "administrador/dashboard";
     }
+
+    
 } 
