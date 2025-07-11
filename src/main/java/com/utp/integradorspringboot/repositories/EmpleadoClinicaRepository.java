@@ -7,5 +7,5 @@ import com.utp.integradorspringboot.models.Empleado_clinica;
 
 @Repository
 public interface EmpleadoClinicaRepository extends JpaRepository<Empleado_clinica, Long> {
-    // Basic CRUD operations are automatically provided by JpaRepository
+    // Las operaciones CRUD básicas son proporcionadas automáticamente por JpaRepository
 } 

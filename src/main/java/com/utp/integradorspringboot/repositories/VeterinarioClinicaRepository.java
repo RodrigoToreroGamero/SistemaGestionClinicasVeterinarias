@@ -7,5 +7,5 @@ import com.utp.integradorspringboot.models.Veterinario_clinica;
 
 @Repository
 public interface VeterinarioClinicaRepository extends JpaRepository<Veterinario_clinica, Long> {
-    // Basic CRUD operations are automatically provided by JpaRepository
+    // Las operaciones CRUD básicas son proporcionadas automáticamente por JpaRepository
 } 

@@ -41,7 +41,7 @@
                                 <i class="icon-users" style="font-size: 3rem; color: #17a2b8;"></i>
                                 <h5 class="card-title mt-2">Clientes</h5>
                                 <p class="card-text">Gestiona la información de clientes</p>
-                                <a href="/recepcionista/clientes" class="btn btn-primary">Ver Clientes</a>
+                                <a href="/recepcionista/clientes" class="btn btn-primary">Gestionar Clientes</a>
                             </div>
                         </div>
                     </div>
@@ -112,10 +112,10 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div th:if="${#lists.isEmpty(veterinarios)}">
+                                <div th:if="${#lists.isEmpty(veterinariosDTO)}">
                                     <p class="text-muted">No hay veterinarios registrados.</p>
                                 </div>
-                                <div th:if="${!#lists.isEmpty(veterinarios)}" id="veterinariosCarousel">
+                                <div th:if="${!#lists.isEmpty(veterinariosDTO)}" id="veterinariosCarousel">
                                     <div class="row" id="veterinariosContainer">
                                         <!-- Veterinarians will be loaded here via JavaScript -->
                                     </div>
@@ -144,28 +144,29 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             <button type="button" class="btn btn-primary" onclick="editCita()">Editar Cita</button>
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <style>
+            .veterinario-card {
+                transition: transform 0.2s ease-in-out;
+                cursor: pointer;
+            }
             
-            <style>
-                .veterinario-card {
-                    transition: transform 0.2s ease-in-out;
-                    cursor: pointer;
-                }
-                
-                .veterinario-card:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-                }
-                
-                .table-hover tbody tr:hover {
-                    background-color: #f8f9fa;
-                }
-            </style>
+            .veterinario-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+            
+            .table-hover tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+        </style>
             
             <script th:inline="javascript">
+                window.veterinarios = /*[[${veterinariosDTO}]]*/ [];
                 alert('DASHBOARD CARGADO');
                 // Pagination state for Citas de Hoy
                 let citasHoyPage = 0;
@@ -213,6 +214,55 @@
                     if (btnSig) btnSig.disabled = end >= citas.length;
                 }
 
+                // Veterinarios rendering and modal
+                function renderVeterinarios() {
+                    const container = document.getElementById('veterinariosContainer');
+                    if (!container || !window.veterinarios) return;
+                    container.innerHTML = '';
+                    window.veterinarios.forEach((vet, idx) => {
+                        const div = document.createElement('div');
+                        div.className = 'col-md-4 mb-3';
+                        div.innerHTML = `
+                            <div class="card veterinario-card" onclick="showVeterinarioDetails(${idx})">
+                                <div class="card-body">
+                                    <strong>${vet.nombres} ${vet.apellidos}</strong><br>
+                                    ${vet.especialidad || 'General'}<br>
+                                    ${vet.email ? `<a href='mailto:${vet.email}'>${vet.email}</a>` : 'Sin email'}<br>
+                                    <a href="tel:${vet.celular || ''}">${vet.celular ? vet.celular : 'Sin teléfono'}</a>
+                                </div>
+                            </div>
+                        `;
+                        container.appendChild(div);
+                    });
+                    // Update counter
+                    const counter = document.getElementById('veterinariosCounter');
+                    if (counter) {
+                        counter.textContent = `Mostrando 1-${window.veterinarios.length} de ${window.veterinarios.length} veterinarios`;
+                    }
+                }
+
+                window.showVeterinarioDetails = function(idx) {
+                    const vet = window.veterinarios[idx];
+                    if (!vet) return;
+                    // Cambiar el título del modal
+                    document.getElementById('citaDetailsModalLabel').textContent = 'Información del Veterinario';
+                    let html = `
+                        <h5>${vet.nombres} ${vet.apellidos}</h5>
+                        <p><strong>Especialidad:</strong> ${vet.especialidad || 'General'}</p>
+                        <p><strong>Email:</strong> ${vet.email ? `<a href='mailto:${vet.email}'>${vet.email}</a>` : 'Sin email'}</p>
+                        <p><strong>Teléfono:</strong> ${vet.celular || 'Sin teléfono'}</p>
+                    `;
+                    // Reuse the cita details modal
+                    const modalContent = document.getElementById('citaDetailsContent');
+                    if (modalContent) {
+                        modalContent.innerHTML = html;
+                        // Ocultar el botón Editar Cita
+                        document.querySelector('#citaDetailsModal .btn-primary').style.display = 'none';
+                        const modal = new bootstrap.Modal(document.getElementById('citaDetailsModal'));
+                        modal.show();
+                    }
+                };
+
                 // Make these functions global
                 window.citasHoyAnterior = function() {
                     if (citasHoyPage > 0) {
@@ -230,6 +280,7 @@
 
                 document.addEventListener('DOMContentLoaded', function() {
                     renderCitasHoy();
+                    renderVeterinarios();
                 });
 
                 function editCita() {
@@ -238,6 +289,13 @@
                     } else {
                         alert('No hay cita seleccionada para editar');
                     }
+                }
+
+                // Restaurar el título y el botón cuando se muestre una cita
+                function showCitaDetails(id) {
+                    document.getElementById('citaDetailsModalLabel').textContent = 'Detalles de la Cita';
+                    document.querySelector('#citaDetailsModal .btn-primary').style.display = '';
+                    // ... resto de la lógica para mostrar detalles de la cita ...
                 }
             </script>
         </div>

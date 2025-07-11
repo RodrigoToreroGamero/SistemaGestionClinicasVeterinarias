@@ -35,7 +35,7 @@ public class Clinica {
     @Column(name = "pasarela_pago")
     private String pasarela_pago;
 
-    // Constructors
+    // Constructores
     public Clinica() {
     }
 
@@ -50,7 +50,7 @@ public class Clinica {
         this.pasarela_pago = pasarela_pago;
     }
 
-    // Getters and Setters
+    // Getters y Setters
     public Long getId() {
         return id;
     }

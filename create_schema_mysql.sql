@@ -1,4 +1,5 @@
 -- Drop tables in reverse dependency order to avoid FK issues
+DROP TABLE IF EXISTS boleta_pago;
 DROP TABLE IF EXISTS detalle_cita;
 DROP TABLE IF EXISTS notificacion;
 DROP TABLE IF EXISTS historial_clinico;
@@ -119,10 +120,20 @@ CREATE TABLE cita (
     FOREIGN KEY (id_dueno) REFERENCES dueno(id)
 );
 
--- 11. Detalle_cita
+-- 11. Motivo_cita (NEW TABLE)
+CREATE TABLE motivo_cita (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    precio DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    activo BOOLEAN DEFAULT TRUE
+);
+
+-- 12. Detalle_cita
 CREATE TABLE detalle_cita (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     id_cita BIGINT NOT NULL,
+    id_motivo_cita BIGINT,
     estado VARCHAR(255),
     motivo_consulta VARCHAR(255),
     diagnostico VARCHAR(255),
@@ -131,10 +142,22 @@ CREATE TABLE detalle_cita (
     costo DECIMAL(10,2),
     metodo_pago VARCHAR(255),
     duracion_aproximada INT,
-    FOREIGN KEY (id_cita) REFERENCES cita(id)
+    FOREIGN KEY (id_cita) REFERENCES cita(id),
+    FOREIGN KEY (id_motivo_cita) REFERENCES motivo_cita(id)
 );
 
--- 12. Notificacion
+-- 13. Boleta_pago (NEW TABLE)
+CREATE TABLE boleta_pago (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id_detalle_cita BIGINT NOT NULL,
+    monto_total DECIMAL(10,2) NOT NULL,
+    metodo_pago VARCHAR(255) NOT NULL,
+    fecha_emision DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_detalle_cita) REFERENCES detalle_cita(id),
+    UNIQUE KEY unique_detalle_cita (id_detalle_cita)
+);
+
+-- 14. Notificacion
 CREATE TABLE notificacion (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     tipo VARCHAR(255),
@@ -145,7 +168,7 @@ CREATE TABLE notificacion (
     FOREIGN KEY (id_cita) REFERENCES cita(id)
 );
 
--- 13. Historial_clinico
+-- 15. Historial_clinico
 CREATE TABLE historial_clinico (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     fecha DATE,
@@ -159,7 +182,7 @@ CREATE TABLE historial_clinico (
     FOREIGN KEY (id_mascota) REFERENCES mascota(id)
 );
 
--- 14. Sesion
+-- 16. Sesion
 CREATE TABLE sesion (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     correo VARCHAR(255),
@@ -177,4 +200,27 @@ CREATE TABLE IF NOT EXISTS password_reset_token (
     expiration_date DATETIME NOT NULL,
     used BOOLEAN DEFAULT FALSE,
     CONSTRAINT fk_password_reset_user FOREIGN KEY (user_id) REFERENCES usuario(id)
-); 
+);
+
+-- Insert sample data for testing
+INSERT INTO rol (nombre) VALUES 
+('ADMINISTRADOR'),
+('VETERINARIO'),
+('RECEPCIONISTA'),
+('DUENO');
+
+-- Insert sample motivo_cita data
+INSERT INTO motivo_cita (nombre, descripcion, precio) VALUES 
+('Consulta General', 'Consulta veterinaria general', 50.00),
+('Vacunación', 'Aplicación de vacunas', 80.00),
+('Cirugía', 'Procedimiento quirúrgico', 200.00),
+('Examen de Laboratorio', 'Análisis de sangre y otros', 120.00),
+('Radiografía', 'Examen radiológico', 150.00),
+('Esterilización', 'Procedimiento de esterilización', 180.00);
+
+-- Create indexes for better performance
+CREATE INDEX idx_cita_fecha ON cita(fecha);
+CREATE INDEX idx_cita_estado ON cita(estado);
+CREATE INDEX idx_detalle_cita_estado ON detalle_cita(estado);
+CREATE INDEX idx_boleta_pago_fecha ON boleta_pago(fecha_emision);
+CREATE INDEX idx_usuario_dni ON usuario(dni); 
