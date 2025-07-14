@@ -158,5 +158,17 @@ public class DashboardController {
         return "administrador/dashboard";
     }
 
-    
+    @GetMapping("/recepcionista/veterinarios")
+    public String recepcionistaVeterinarios(HttpSession session, RedirectAttributes redirectAttributes) {
+        if (!authService.isLoggedIn(session)) {
+            redirectAttributes.addFlashAttribute("error", "Debes iniciar sesión para acceder a esta página");
+            return "redirect:/login";
+        }
+        AuthService.UserType userType = authService.getCurrentUserType(session);
+        if (userType != AuthService.UserType.RECEPCIONISTA) {
+            redirectAttributes.addFlashAttribute("error", "No tienes permisos para acceder a esta página");
+            return "redirect:/";
+        }
+        return "recepcionista/veterinarios";
+    }
 } 
