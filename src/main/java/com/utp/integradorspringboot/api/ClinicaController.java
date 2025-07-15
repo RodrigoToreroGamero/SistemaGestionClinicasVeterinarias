@@ -42,6 +42,7 @@ public class ClinicaController {
             return new ResponseEntity<>(lista, HttpStatus.OK);
 
         } catch (Exception e) {
+            System.out.println(e.getMessage());                  
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -66,6 +67,7 @@ public class ClinicaController {
             return new ResponseEntity<>(nuevaClinica, HttpStatus.CREATED);
 
         } catch (Exception e) {
+            System.out.println(e.getMessage());                        
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -98,6 +100,7 @@ public class ClinicaController {
             clinicaRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
+            System.out.println(e.getMessage());                        
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
