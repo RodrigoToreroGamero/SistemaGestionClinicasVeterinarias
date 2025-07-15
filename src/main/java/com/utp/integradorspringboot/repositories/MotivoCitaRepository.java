@@ -7,5 +7,5 @@ import com.utp.integradorspringboot.models.Motivo_cita;
 
 @Repository
 public interface MotivoCitaRepository extends JpaRepository<Motivo_cita, Long> {
-    // Basic CRUD operations are automatically provided by JpaRepository
+    // Las operaciones CRUD básicas son proporcionadas automáticamente por JpaRepository
 } 

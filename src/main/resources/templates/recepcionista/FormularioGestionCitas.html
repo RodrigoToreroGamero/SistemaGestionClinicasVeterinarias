@@ -7,37 +7,64 @@
         <meta   charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>VetGes: Gestion de citas</title>
+        <style>
+            .top-section-spacing > * + * {
+                margin-top: 1rem !important;
+            }
+            .btn-group.w-100 > .btn {
+                padding-top: 0.7rem;
+                padding-bottom: 0.7rem;
+            }
+            .input-group {
+                margin-bottom: 0.7rem;
+            }
+            .btn-outline-primary.text-primary { color: #0d6efd !important; }
+        </style>
     </head>
     <body>
         <div layout:fragment="content">
             <p></p>
             <p></p>
             <h1>Gestion de citas</h1>
-            <div class="row mb-3">
-                <div class="col-md-6">
+            <div class="row mb-4">
+                <div class="col-12 top-section-spacing">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="mb-0">Gestión de Citas</h2>
+                        <button class="btn btn-success" @click="nuevo">
+                            <i class="fas fa-plus"></i> Nueva Cita
+                        </button>
+                    </div>
                     <div class="input-group">
                         <input type="text" class="form-control" v-model="filtro" placeholder="Filtrar por DNI, nombre del dueño, fecha, veterinario o motivo de cita..." @keyup.enter="aplicarFiltro">
                         <button class="btn btn-outline-secondary" @click="aplicarFiltro">Filtrar</button>
                         <button class="btn btn-outline-danger" @click="limpiarFiltro" v-if="filtro">Limpiar</button>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="btn-group" role="group">
-                        <button class="btn btn-outline-primary" @click="ordenarPorFecha('asc')" :class="{ 'active': ordenFecha === 'asc' }">
-                            <i class="fas fa-sort-amount-up"></i> Más reciente
+                    <div class="btn-group w-100 d-flex justify-content-center" role="group">
+                        <button class="btn"
+                            :class="ordenFecha === 'desc' ? 'btn-primary text-white' : 'btn-outline-primary text-primary'"
+                            @click="ordenarPorFecha('desc')">
+                            Más reciente
                         </button>
-                        <button class="btn btn-outline-primary" @click="ordenarPorFecha('desc')" :class="{ 'active': ordenFecha === 'desc' }">
-                            <i class="fas fa-sort-amount-down"></i> Más antigua
+                        <button class="btn"
+                            :class="ordenFecha === 'asc' ? 'btn-primary text-white' : 'btn-outline-primary text-primary'"
+                            @click="ordenarPorFecha('asc')">
+                            Más antigua
+                        </button>
+                </div>
+                    <div class="btn-group w-100 d-flex justify-content-center" role="group">
+                        <button class="btn"
+                            :class="!mostrarCompletadas ? 'btn-warning text-white' : 'btn-outline-primary text-primary'"
+                            @click="mostrarCompletadas = false">
+                            Citas sin completar <span class="badge bg-warning ms-2">{{ citasSinCompletarCount }}</span>
+                        </button>
+                        <button class="btn"
+                            :class="mostrarCompletadas ? 'btn-warning text-white' : 'btn-outline-primary text-primary'"
+                            @click="mostrarCompletadas = true">
+                            Ver Citas Completadas <span class="badge bg-success ms-2">{{ citasCompletadasCount }}</span>
                         </button>
                     </div>
                 </div>
-                <div class="col-md-3 text-end">
-                    <button class="btn btn-primary" @click="nuevo">Nuevo</button>
-                </div>
             </div>
-            <button class="btn btn-secondary mt-3" @click="mostrarCompletadas = !mostrarCompletadas">
-                {{ mostrarCompletadas ? 'Ver Citas Activas' : 'Ver Citas Completadas' }}
-            </button>
 
             <table class="table mt-3">
                 <thead>
@@ -88,45 +115,45 @@
                             
                             <div class="mb-3">
                                 <label for="fecha" class="form-label">Fecha</label>
-                                <input type="date" class="form-control" id="fecha" v-model="entidad.fecha" required/>
+                                    <input type="date" class="form-control" id="fecha" v-model="entidad.fecha" required/>
                             </div>
                             
                             <div class="mb-3">
                                 <label for="hora" class="form-label">Hora</label>
-                                <input type="time" class="form-control" id="hora" v-model="entidad.hora" required/>
+                                    <input type="time" class="form-control" id="hora" v-model="entidad.hora" required/>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Dueño</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" :value="getNombreDuenoSeleccionado()" readonly placeholder="Seleccione un dueño" />
-                                    <button class="btn btn-outline-secondary" type="button" @click="abrirModalDueno">Buscar Dueño</button>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" :value="getNombreDuenoSeleccionado()" readonly placeholder="Seleccione un dueño" />
+                                        <button class="btn btn-outline-secondary" type="button" @click="abrirModalDueno">Buscar Dueño</button>
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Mascota</label>
-                                <select class="form-control" v-model="entidad.mascota.id" required :disabled="!entidad.dueno.id">
-                                    <option disabled value="">Seleccione una mascota</option>
-                                    <option v-for="mascota in mascotasFiltradas" :value="mascota.id">
-                                        {{ mascota.nombre }} ({{ mascota.especie }} - {{ mascota.raza }})
-                                    </option>
-                                </select>
+                                    <select class="form-control" v-model="entidad.mascota.id" required :disabled="!entidad.dueno.id">
+                                        <option disabled value="">Seleccione una mascota</option>
+                                        <option v-for="mascota in mascotasFiltradas" :value="mascota.id">
+                                            {{ mascota.nombre }} ({{ mascota.especie }} - {{ mascota.raza }})
+                                        </option>
+                                    </select>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Veterinario</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" :value="getNombreVeterinarioSeleccionado()" readonly placeholder="Seleccione un veterinario" />
-                                    <button class="btn btn-outline-secondary" type="button" @click="abrirModalVeterinario">Buscar Veterinario</button>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" :value="getNombreVeterinarioSeleccionado()" readonly placeholder="Seleccione un veterinario" />
+                                        <button class="btn btn-outline-secondary" type="button" @click="abrirModalVeterinario">Buscar Veterinario</button>
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Motivo de Cita</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" :value="getNombreMotivoSeleccionado()" readonly placeholder="Seleccione un motivo" />
-                                    <button class="btn btn-outline-secondary" type="button" @click="abrirModalMotivo">Buscar Motivo</button>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" :value="getNombreMotivoSeleccionado()" readonly placeholder="Seleccione un motivo" />
+                                        <button class="btn btn-outline-secondary" type="button" @click="abrirModalMotivo">Buscar Motivo</button>
                                 </div>
                             </div>
 
@@ -194,11 +221,11 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="dueno in duenosFiltrados" @click="seleccionarDueno(dueno)" style="cursor: pointer;">
-                                            <td>{{ dueno.usuario.dni }}</td>
-                                            <td>{{ dueno.usuario.nombres }}</td>
-                                            <td>{{ dueno.usuario.apellidos }}</td>
-                                            <td>{{ dueno.usuario.telefono }}</td>
-                                            <td>{{ dueno.usuario.email }}</td>
+                                            <td>{{ dueno.dni }}</td>
+                                            <td>{{ dueno.nombres }}</td>
+                                            <td>{{ dueno.apellidos }}</td>
+                                            <td>{{ dueno.celular }}</td>
+                                            <td>{{ dueno.email }}</td>
                                             <td>
                                                 <button class="btn btn-sm btn-primary" @click.stop="seleccionarDueno(dueno)">Seleccionar</button>
                                             </td>
@@ -352,13 +379,19 @@
                             return [];
                         }
                         return this.mascotas.filter(mascota => mascota.dueno.id === this.entidad.dueno.id);
+                    },
+                    citasSinCompletarCount() {
+                        return this.entidades.filter(item => item && item.estado !== 'Completada').length;
+                    },
+                    citasCompletadasCount() {
+                        return this.entidades.filter(item => item && item.estado === 'Completada').length;
                     }
                 },
                 methods: {
                     getNombreDueno: function(id) {
                         if (!id) return 'Sin dueño';
                         const dueno = this.duenos.find(d => d.id === id);
-                        return dueno ? (dueno.usuario.nombres + ' ' + dueno.usuario.apellidos) : 'Desconocido';
+                        return dueno ? (dueno.nombres + ' ' + dueno.apellidos) : 'Desconocido';
                     },
                     getNombreMascota: function(id) {
                         if (!id) return 'Sin mascota';
@@ -382,7 +415,7 @@
                         if (!this.entidad.dueno.id) return '';
                         const dueno = this.duenos.find(d => d.id === this.entidad.dueno.id);
                         console.log('getNombreDuenoSeleccionado - dueno encontrado:', dueno);
-                        return dueno ? `${dueno.usuario.nombres} ${dueno.usuario.apellidos} (${dueno.usuario.dni})` : '';
+                        return dueno ? `${dueno.nombres} ${dueno.apellidos} (${dueno.dni})` : '';
                     },
                     getNombreMotivoSeleccionado: function() {
                         console.log('getNombreMotivoSeleccionado - entidad.detalleCita.motivo_cita.id:', this.entidad.detalleCita.motivo_cita.id);
@@ -409,8 +442,9 @@
                             });
                     },
                     listarDuenos: function () {
-                        this.$http.get('/api/Dueno')
+                        this.$http.get('/api/duenos')
                             .then(response => {
+                                // El endpoint ahora retorna una lista de DuenoDTO
                                 this.duenos = response.data;
                                 console.log('Duenos:', this.duenos);
                             })
@@ -558,15 +592,15 @@
                         let citasFiltradas = this.entidadesOriginales.filter(cita => {
                             // Buscar por DNI del dueño
                             const dueno = this.duenos.find(d => d.id === cita.dueno.id);
-                            if (dueno && dueno.usuario.dni && dueno.usuario.dni.toLowerCase().includes(filtroLower)) {
+                            if (dueno && dueno.dni && dueno.dni.toLowerCase().includes(filtroLower)) {
                                 return true;
                             }
                             
                             // Buscar por nombre del dueño
-                            if (dueno && dueno.usuario.nombres && dueno.usuario.nombres.toLowerCase().includes(filtroLower)) {
+                            if (dueno && dueno.nombres && dueno.nombres.toLowerCase().includes(filtroLower)) {
                                 return true;
                             }
-                            if (dueno && dueno.usuario.apellidos && dueno.usuario.apellidos.toLowerCase().includes(filtroLower)) {
+                            if (dueno && dueno.apellidos && dueno.apellidos.toLowerCase().includes(filtroLower)) {
                                 return true;
                             }
                             
@@ -623,15 +657,15 @@
                             citasFiltradas = this.entidadesOriginales.filter(cita => {
                                 // Buscar por DNI del dueño
                                 const dueno = this.duenos.find(d => d.id === cita.dueno.id);
-                                if (dueno && dueno.usuario.dni && dueno.usuario.dni.toLowerCase().includes(filtroLower)) {
+                                if (dueno && dueno.dni && dueno.dni.toLowerCase().includes(filtroLower)) {
                                     return true;
                                 }
                                 
                                 // Buscar por nombre del dueño
-                                if (dueno && dueno.usuario.nombres && dueno.usuario.nombres.toLowerCase().includes(filtroLower)) {
+                                if (dueno && dueno.nombres && dueno.nombres.toLowerCase().includes(filtroLower)) {
                                     return true;
                                 }
-                                if (dueno && dueno.usuario.apellidos && dueno.usuario.apellidos.toLowerCase().includes(filtroLower)) {
+                                if (dueno && dueno.apellidos && dueno.apellidos.toLowerCase().includes(filtroLower)) {
                                     return true;
                                 }
                                 
@@ -685,9 +719,9 @@
                         
                         const filtroLower = this.filtroDueno.toLowerCase();
                         this.duenosFiltrados = this.duenos.filter(dueno => {
-                            return (dueno.usuario.dni && dueno.usuario.dni.toLowerCase().includes(filtroLower)) ||
-                                   (dueno.usuario.nombres && dueno.usuario.nombres.toLowerCase().includes(filtroLower)) ||
-                                   (dueno.usuario.apellidos && dueno.usuario.apellidos.toLowerCase().includes(filtroLower));
+                            return (dueno.dni && dueno.dni.toLowerCase().includes(filtroLower)) ||
+                                   (dueno.nombres && dueno.nombres.toLowerCase().includes(filtroLower)) ||
+                                   (dueno.apellidos && dueno.apellidos.toLowerCase().includes(filtroLower));
                         });
                     },
                     limpiarFiltroDueno: function() {
@@ -766,7 +800,7 @@
                             });
                     },
                     listarMotivosCita: function () {
-                        this.$http.get('/api/MotivoCita')
+                        this.$http.get('/api/motivos-cita')
                             .then(response => {
                                 this.motivosCita = response.data;
                                 console.log('Motivos de cita:', this.motivosCita);

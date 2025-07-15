@@ -7,5 +7,5 @@ import com.utp.integradorspringboot.models.Dueno;
 
 @Repository
 public interface DuenoRepository extends JpaRepository<Dueno, Long> {
-    // Basic CRUD operations are automatically provided by JpaRepository
+    // Las operaciones CRUD básicas son proporcionadas automáticamente por JpaRepository
 } 

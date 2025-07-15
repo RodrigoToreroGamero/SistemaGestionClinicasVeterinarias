@@ -43,7 +43,7 @@ public class Mascota {
     @OneToMany(mappedBy = "mascota")
     private List<Cita> citas;
 
-    // Constructors
+    // Constructores
     public Mascota() {
     }
 
