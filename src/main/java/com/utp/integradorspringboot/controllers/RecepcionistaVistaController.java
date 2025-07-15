@@ -1,4 +1,4 @@
-package com.utp.integradorspringboot.controllers;
+/*package com.utp.integradorspringboot.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,4 +15,4 @@ public class RecepcionistaVistaController {
     public String mascotasPage() {
         return "recepcionista/Mascotas";
     }
-}
+}*/
