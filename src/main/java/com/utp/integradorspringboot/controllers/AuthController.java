@@ -146,4 +146,5 @@ public class AuthController {
 
         redirectAttributes.addFlashAttribute("success", "Usuario registrado exitosamente");
         return "redirect:/login";
+    }
 } 
