@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html layout:decorate="_layoutVeterinario">
+<head>
+    <title>Mis Horarios - Veterinario</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h2 class="mb-4">Gestión de Horarios</h2>
+        <!-- Tabla de horarios actuales -->
+        <div class="card mb-4">
+            <div class="card-header">Horarios Actuales</div>
+            <div class="card-body">
+                <table class="table table-bordered table-hover align-middle" id="tabla-horarios">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Día</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Fin</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Aquí se llenarán los horarios dinámicamente -->
+                        <tr>
+                            <td>Lunes</td>
+                            <td>09:00</td>
+                            <td>13:00</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning">Editar</button>
+                                <button class="btn btn-sm btn-danger">Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Lunes</td>
+                            <td>15:00</td>
+                            <td>19:00</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning">Editar</button>
+                                <button class="btn btn-sm btn-danger">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Formulario para agregar nuevo intervalo -->
+        <div class="card">
+            <div class="card-header">Agregar Nuevo Intervalo</div>
+            <div class="card-body">
+                <form id="form-agregar-horario" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="dia_semana" class="form-label">Día de la semana</label>
+                        <select class="form-select" id="dia_semana" name="dia_semana" required>
+                            <option value="">Selecciona un día</option>
+                            <option value="Lunes">Lunes</option>
+                            <option value="Martes">Martes</option>
+                            <option value="Miércoles">Miércoles</option>
+                            <option value="Jueves">Jueves</option>
+                            <option value="Viernes">Viernes</option>
+                            <option value="Sábado">Sábado</option>
+                            <option value="Domingo">Domingo</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="hora_inicio" class="form-label">Hora de inicio</label>
+                        <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="hora_fin" class="form-label">Hora de fin</label>
+                        <input type="time" class="form-control" id="hora_fin" name="hora_fin" required>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-success w-100">Agregar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+// Asume que existe una variable global 'veterinarioId' con el ID del veterinario logueado
+// Por ejemplo: <script>const veterinarioId = 1;</script> en el layout o antes de este script
+
+const tablaHorarios = document.getElementById('tabla-horarios').getElementsByTagName('tbody')[0];
+const formAgregar = document.getElementById('form-agregar-horario');
+
+// Utilidad para formatear hora (HH:mm:ss a HH:mm)
+function formatHora(hora) {
+    if (!hora) return '';
+    return hora.substring(0,5);
+}
+
+// Cargar horarios actuales del veterinario
+async function cargarHorarios() {
+    tablaHorarios.innerHTML = '';
+    const resp = await fetch(`/api/Veterinario/${veterinarioId}/horarios`);
+    if (!resp.ok) {
+        tablaHorarios.innerHTML = '<tr><td colspan="4" class="text-center">No se pudieron cargar los horarios.</td></tr>';
+        return;
+    }
+    const horarios = await resp.json();
+    if (!horarios.length) {
+        tablaHorarios.innerHTML = '<tr><td colspan="4" class="text-center">No tienes horarios registrados.</td></tr>';
+        return;
+    }
+    for (const h of horarios) {
+        agregarFilaHorario(h);
+    }
+}
+
+// Agregar una fila a la tabla
+function agregarFilaHorario(horario) {
+    const fila = document.createElement('tr');
+    fila.innerHTML = `
+        <td>${horario.dia_semana}</td>
+        <td>${formatHora(horario.hora_inicio)}</td>
+        <td>${formatHora(horario.hora_fin)}</td>
+        <td>
+            <button class="btn btn-sm btn-warning me-1" onclick="editarHorario(${horario.id})">Editar</button>
+            <button class="btn btn-sm btn-danger" onclick="eliminarHorario(${horario.id})">Eliminar</button>
+        </td>
+    `;
+    tablaHorarios.appendChild(fila);
+}
+
+// Agregar nuevo horario
+formAgregar.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const dia_semana = formAgregar.dia_semana.value;
+    const hora_inicio = formAgregar.hora_inicio.value;
+    const hora_fin = formAgregar.hora_fin.value;
+    // 1. Crear el bloque en horario_laboral
+    const resp1 = await fetch('/api/HorarioLaboral', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dia_semana, hora_inicio: hora_inicio+':00', hora_fin: hora_fin+':00' })
+    });
+    if (!resp1.ok) {
+        alert('Error al crear el horario laboral');
+        return;
+    }
+    const horario = await resp1.json();
+    // 2. Asignar ese bloque al veterinario
+    const resp2 = await fetch('/api/VeterinarioHorario', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            veterinario: { id: veterinarioId },
+            horario: { id: horario.id }
+        })
+    });
+    if (!resp2.ok) {
+        alert('Error al asignar el horario al veterinario');
+        return;
+    }
+    // Recargar la tabla
+    cargarHorarios();
+    formAgregar.reset();
+});
+
+// Eliminar horario (elimina la relación, no el bloque)
+async function eliminarHorario(horarioId) {
+    if (!confirm('¿Seguro que deseas eliminar este intervalo?')) return;
+    // Buscar el id de la relación VeterinarioHorario
+    // Necesitamos obtener la relación, así que pedimos todas y buscamos la que tenga este horario
+    const resp = await fetch('/api/VeterinarioHorario');
+    if (!resp.ok) {
+        alert('No se pudo obtener la relación para eliminar.');
+        return;
+    }
+    const relaciones = await resp.json();
+    const rel = relaciones.find(r => r.veterinario.id === veterinarioId && r.horario.id === horarioId);
+    if (!rel) {
+        alert('No se encontró la relación para eliminar.');
+        return;
+    }
+    const respDel = await fetch(`/api/VeterinarioHorario/${rel.id}`, { method: 'DELETE' });
+    if (!respDel.ok) {
+        alert('Error al eliminar el horario.');
+        return;
+    }
+    cargarHorarios();
+}
+
+// Editar horario (flujo preparado, implementación posterior)
+function editarHorario(horarioId) {
+    alert('Funcionalidad de edición en desarrollo.');
+    // Aquí puedes abrir un modal o permitir edición en línea
+}
+
+// Inicializar
+window.addEventListener('DOMContentLoaded', cargarHorarios);
+</script>
+</body>
+</html> 
