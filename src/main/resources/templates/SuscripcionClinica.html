@@ -7,14 +7,9 @@
     </head>
 
     <body>
-        <div layout:fragment="content">
-            <!--
-            <form id="formularioSuscripcionClinica" name="formularioSuscripcionClinica" method="POST" action="/Clinicas/SuscripcionEnviada">
-            -->
+        <div layout:fragment="content">            
             <form id="formularioSuscripcionClinica" name="formularioSuscripcionClinica" @submit.prevent="guardar">
                 <div id="panel-datos-basicos">
-
-
                     <div class="container mt-4 px-5">
                         <div class="p-3 text-dark rounded" style="background-color: #B4B4B4;">
                             <h1>Registra tu clínica veterinaria</h1>
@@ -46,9 +41,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
                     <div class="container mt-4  px-5">
                         <div class="p-3 text-dark rounded" style="background-color: #B4B4B4;">
                             <h2>Datos del médico responsable</h2>
@@ -69,11 +61,9 @@
                             </div>
                             <div class="mb-3">
                                 <label for="nacimiento-medico" class="form-label">Fecha de nacimiento</label>
-                                <input id="nacimiento-medico" class="form-control" type="date" placeholder="dd/mm/yyyy" v-model="entidades.usuario.nacimiento">
+                                <input id="nacimiento-medico" class="form-control" type="date" placeholder="dd/mm/yyyy" v-model="entidades.usuario.fecha_nacimiento">
                                 <span id="error-nacimiento-medico" class="text-danger"></span>
                             </div>
-
-
                             <div class="mb-3">
                                 <label for="celular-medico" class="form-label">Celular</label>
                                 <input id="celular-medico" class="form-control" type="tel" v-model="entidades.usuario.celular">
@@ -83,20 +73,18 @@
                                 <label for="numero-colegio-medico" class="form-label">Número de Colegio Médico Veterinario</label>
                                 <input id="numero-colegio-medico" class="form-control" type="text" v-model="entidades.veterinario.numero_colegio_medico">
                                 <span id="error-numero-colegio-medico" class="text-danger"></span>
-                            </div>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="container mt-4  px-5">
+                        <div class="p-3 text-dark rounded" style="background-color: #B4B4B4;">
+                            <h2 class="text-center">Configuración de la cuenta</h2>
+                            <p>El médico veterinario representante deberá ingresar con un correo único y su respectiva contraseña para administrar la cuenta de la clínica veterinaria.</p>                        
                             <div class="mb-3">
                                 <label for="correo-medico" class="form-label">Correo electrónico</label>
                                 <input id="correo-medico" class="form-control" type="email" v-model="entidades.sesion.correo">
                                 <span id="error-correo-medico" class="text-danger"></span>
                             </div>
-                        </div>
-                    </div>
-
-
-                    <div class="container mt-4  px-5">
-                        <div class="p-3 text-dark rounded" style="background-color: #B4B4B4;">
-                            <h2 class="text-center">Configuración de la cuenta</h2>
-                            <p>El médico veterinario representante deberá ingresar con un correo y contraseña para administrar la cuenta de la clínica veterinaria.</p>                        
                             <div class="mb-3">
                                 <label for="contrasena" class="form-label">Contraseña</label>
                                 <input id="contrasena" class="form-control" type="password" v-model="entidades.sesion.contrasena">
@@ -115,48 +103,64 @@
                     </div>
                 </div>
 
-
-
-
                 <div id="panel-planes" class="container mt-4 px-5 d-none">
                     <div class="p-3 text-dark rounded" style="background-color: #B4B4B4;">
                         <h2 class="text-center">Seleccione su Plan de Suscripción</h2>						
                         <div class="mb-3">							
                             <ul class="list-group gap-5">
-
                                 <div class="card list-group-item">
                                     <div class="card-header">
                                         <h2>Básico</h2>
                                     </div>
                                     <div class="card-body">
                                         <h5 class="card-title">Características</h5>
-                                        <p class="card-text">El plan básico incluye</p>
+                                        <p class="card-text">
+                                            Gestión de Citas Avanzada: Agendas múltiples, personalización de tipo de consulta, duración de citas, y asignación de citas a profesionales específicos.
+                                            Historial Médico Completo: Registro detallado de cada paciente con datos de vacunación, procedimientos, diagnósticos y tratamientos. Generación de informes médicos.
+                                            Acceso para un Usuario Administrador: Solo una cuenta de administrador, sin opciones de asignar roles adicionales.
+                                            Notificaciones por SMS y Correo Electrónico: Envío de recordatorios de citas, alertas de vacunación o seguimiento de tratamientos a los propietarios de mascotas.
+                                            Informes y Estadísticas: Reportes de rendimiento de citas, facturación y frecuencia de visitas.
+                                            Soporte Básico: Asistencia técnica vía correo electrónico con tiempo de respuesta de 48 horas.
+
+                                            Precio: $10 al mes
+                                        </p>
                                         <div class="text-end">
                                             <button type="button" id="btn-plan-basico-cambiar-panel-pasarelas" class="btn btn-primary mt-3" @click="entidades.clinica_veterinaria.plan_suscripcion = 'básico';">Seleccionar</button>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="card list-group-item">
                                     <div class="card-header">
                                         <h2>Profesional</h2>
                                     </div>
                                     <div class="card-body">
                                         <h5 class="card-title">Características</h5>
-                                        <p class="card-text">El plan profesional incluye</p>
+                                        <p class="card-text">
+                                            Todas las caracteristicas anteriores
+                                            Acceso para 2–3 Usuarios Administrativos: El administrador puede asignar roles a otros usuarios (por ejemplo, veterinarios, recepcionistas) y gestionar permisos.
+                                            Soporte Prioritario: Asistencia técnica a través de chat en vivo y correo electrónico con tiempo de respuesta de 24 horas
+
+                                            Precio : $30 al mes
+                                        </p>
                                         <div class="text-end">
                                             <button type="button" id="btn-plan-profesional-cambiar-panel-pasarelas" class="btn btn-primary mt-3" @click="entidades.clinica_veterinaria.plan_suscripcion = 'profesional';">Seleccionar</button>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="card list-group-item">
                                     <div class="card-header">
                                         <h2>Premium</h2>
                                     </div>
                                     <div class="card-body">
                                         <h5 class="card-title">Características</h5>
-                                        <p class="card-text">El plan premium incluye</p>
+                                        <p class="card-text">
+                                            Todas las caracteristicas anteriores
+                                            Soporte 24/7: Asistencia técnica prioritaria a través de chat en vivo, correo electrónico y teléfono.
+                                            Actualizaciones y Nuevas Funcionalidades: Acceso temprano a nuevas funciones y actualizaciones del sistema.
+                                            Acceso para Múltiples Usuarios: El administrador puede gestionar un equipo completo (hasta 10 usuarios) con diferentes roles y permisos.
+
+                                            Precio : $50 al mes
+                                        </p>
                                         <div class="text-end">
                                             <button type="button" id="btn-plan-premium-cambiar-panel-pasarelas" class="btn btn-primary mt-3" @click="entidades.clinica_veterinaria.plan_suscripcion = 'premium';">Seleccionar</button>
                                         </div>
@@ -172,69 +176,48 @@
 
                 <div id="panel-pasarelas" class="container mt-4 px-5 d-none">
                     <div class="p-3 text-dark rounded" style="background-color: #B4B4B4;">                     
-                        <h2 class="text-center">Seleccione una Pasarela de Pago</h2>   
-
+                        <h2 class="text-center">Seleccione una Pasarela de Pago</h2>
                         <div class="mb-3">			
                             <ul class="list-group gap-5">
-
                                 <div class="card list-group-item">
                                     <div class="card-header">
-                                        <h2>Pasarela de Pago A</h2>
+                                        <h2>Izipay</h2>
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text">Paga la suscripción a traves de </p>
-                                        <!--
-                                        <input type="submit" class="btn btn-primary mt-3" value="Izipay" v-model="entidades.clinica_veterinaria.pasarela_pago">                                        
-                                        <input type="submit" class="btn btn-primary mt-3" :value="entidades.clinica_veterinaria.pasarela_pago || 'Izipay'">
-                                        -->
+                                        <p class="card-text">Paga la suscripción a traves de Izipay</p>                                        
                                         <button class="btn btn-primary mt-3" @click="seleccionarPasarela('Izipay');">Seleccionar</button>
                                     </div>
                                 </div>
-
                                 <div class="card list-group-item">
                                     <div class="card-header">
-                                        <h2>Pasarela de Pago B</h2>
+                                        <h2>Culqui</h2>
                                     </div>
                                     <div class="card-body">										
-                                        <p class="card-text">Paga la suscripción a traves de </p>
-                                        <!--
-                                        <input type="submit" class="btn btn-primary mt-3" value="Culqui" v-model="entidades.clinica_veterinaria.pasarela_pago">                                        
-                                        <input type="submit" class="btn btn-primary mt-3" :value="entidades.clinica_veterinaria.pasarela_pago || 'Culqui'">
-                                        -->
+                                        <p class="card-text">Paga la suscripción a traves de Culqui</p>                                        
                                         <button class="btn btn-primary mt-3" @click="seleccionarPasarela('Culqui');">Seleccionar</button>
                                     </div>
                                 </div>
-
                                 <div class="card list-group-item">
                                     <div class="card-header">
-                                        <h2>Pasarela de Pago C</h2>
+                                        <h2>Niubiz</h2>
                                     </div>
                                     <div class="card-body">										
-                                        <p class="card-text">Paga la suscripción a traves de </p>
-                                        <!--
-                                        <input type="submit" class="btn btn-primary mt-3" value="Niubiz" v-model="entidades.clinica_veterinaria.pasarela_pago">										                                        
-                                        <input type="submit" class="btn btn-primary mt-3" :value="entidades.clinica_veterinaria.pasarela_pago || 'Niubiz'">
-                                        -->
+                                        <p class="card-text">Paga la suscripción a traves de Niubiz</p>                                        
                                         <button class="btn btn-primary mt-3" @click="seleccionarPasarela('Niubiz');">Seleccionar</button>
 
                                     </div>
                                 </div>															
                             </ul>
-                            <div class="container mt-4 px-5 d-flex justify-content-between">			
-                                <!--
-                                <button type="button" id="btn-regresar-panel-planes" class="btn btn-secondary" @click='mostrar();'>Regresar</button>			
-                                -->
+                            <div class="container mt-4 px-5 d-flex justify-content-between">			                                
                                 <button type="button" id="btn-regresar-panel-planes" class="btn btn-secondary">Regresar</button>			
                             </div>
                         </div>
                     </div>
                 </div>
-
             </form>
-
         </div>
-        <script layout:fragment="script">
 
+        <script layout:fragment="script">
             new Vue({
                 el: "#app",
                 data: {
@@ -253,7 +236,7 @@
                             apellidos: "",
                             dni: "",
                             celular: "",
-                            nacimiento: "",
+                            fecha_nacimiento: "",
                             fecha_registro: ""
                         },
                         veterinario: {
@@ -294,8 +277,7 @@
 
                         console.log(this.entidades);
 
-                        this.$http.post("/api/Suscripcion", datos).then(() => {
-                            alert("!Suscripción enviada con éxito!");
+                        this.$http.post("/api/Suscripcion", datos).then(() => {                            
                             window.location.href = "/Clinicas/SuscripcionEnviada";
                         }).catch(error => {
                             console.error("Error al enviar la suscripción: ", error);
@@ -313,24 +295,7 @@
 
                 }
             });
-
-
-            /* Campos para los siguientes inputs:
-             nombre-clinica
-             ruc
-             direccion
-             link-web
-             telefono
-             nombres-medico
-             apellidos
-             dni-medico
-             nacimiento
-             celular-medico
-             numero_colegio-medico
-             correo-medico
-             contrasena
-             repetir-contrasena
-             */
+           
             const campos = [
                 // Se pueden agregar más campos para validar, revisar regex en https://regex101.com/
                 {

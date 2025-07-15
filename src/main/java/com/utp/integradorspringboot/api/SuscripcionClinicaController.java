@@ -49,6 +49,8 @@ public class SuscripcionClinicaController {
     public ResponseEntity<String> suscribirClinica(@RequestBody SuscripcionClinicaDTO dto) {
 
         System.out.println(dto.toString());
+        System.out.println("Fecha de nacimiento: " + dto.getUsuario().getFecha_nacimiento());
+
         
         try {
             Usuario usuario = this.usuarioRepository.save(dto.getUsuario());

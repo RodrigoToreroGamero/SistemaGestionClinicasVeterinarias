@@ -4,6 +4,7 @@
  */
 package com.utp.integradorspringboot.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -37,9 +38,10 @@ public class Usuario {
     @Column(name = "celular")
     private String celular;
     
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "fecha_nacimiento")
     private LocalDate fecha_nacimiento;
-
+    
     @Column(name = "fecha_registro")
     private LocalDateTime fecha_registro;
 
