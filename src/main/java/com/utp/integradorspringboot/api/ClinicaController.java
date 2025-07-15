@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,18 +17,30 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.utp.integradorspringboot.models.Clinica;
+import com.utp.integradorspringboot.models.Empleado_clinica;
+import com.utp.integradorspringboot.models.Usuario;
 import com.utp.integradorspringboot.repositories.ClinicaRepository;
+import com.utp.integradorspringboot.repositories.EmpleadoClinicaRepository;
+import com.utp.integradorspringboot.repositories.UsuarioRepository;
+import com.utp.integradorspringboot.services.AuthService;
+
+import jakarta.servlet.http.HttpSession;
 
 @CrossOrigin(origins = "http://localhost:8081")
-@RestController
-@RequestMapping("/api")
+@Controller
+@RequestMapping("")
 public class ClinicaController {
 
     @Autowired
     ClinicaRepository clinicaRepository;
+    @Autowired
+    EmpleadoClinicaRepository empleadoClinicaRepository;
+    @Autowired
+    UsuarioRepository usuarioRepository;
+    @Autowired
+    private AuthService authService;
 
     // Obtener todas las clínicas
     @GetMapping("/Clinica")
@@ -100,5 +114,24 @@ public class ClinicaController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/administrador/mi-clinica")
+    public String mostrarMiClinica(HttpSession session, Model model) {
+        if (!authService.isLoggedIn(session)) {
+            return "redirect:/login";
+        }
+        Usuario usuario = authService.getCurrentUser(session);
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+        Empleado_clinica empleado = empleadoClinicaRepository.findByUsuario_IdAndTipoEmpleado(usuario.getId(), "Administrador");
+        if (empleado == null) {
+            model.addAttribute("error", "No se encontró la clínica asociada a este administrador.");
+            return "administrador/mi-clinica";
+        }
+        Clinica clinica = empleado.getClinica();
+        model.addAttribute("clinica", clinica);
+        return "administrador/mi-clinica";
     }
 } 

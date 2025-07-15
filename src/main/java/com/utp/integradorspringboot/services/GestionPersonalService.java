@@ -274,21 +274,26 @@ public class GestionPersonalService {
             if (veterinarioOpt.isPresent()) {
                 Veterinario veterinario = veterinarioOpt.get();
                 Usuario usuario = veterinario.getUsuario();
-                
                 // Actualizar datos del usuario
                 usuario.setNombres(personalDTO.getNombres());
                 usuario.setApellidos(personalDTO.getApellidos());
                 usuario.setDni(personalDTO.getDni());
                 usuario.setCelular(personalDTO.getCelular());
                 usuario.setFecha_nacimiento(personalDTO.getFechaNacimiento());
-                
                 // Actualizar datos del veterinario
                 veterinario.setNumero_colegio_medico(personalDTO.getNumeroColegioMedico());
                 veterinario.setEspecialidad(personalDTO.getEspecialidad());
-                
+                // Actualizar correo en Sesion si ha cambiado
+                Optional<Sesion> sesionOpt = sesionRepository.findByUsuario_Id(usuario.getId());
+                if (sesionOpt.isPresent() && personalDTO.getEmail() != null) {
+                    Sesion sesion = sesionOpt.get();
+                    if (!personalDTO.getEmail().equalsIgnoreCase(sesion.getCorreo())) {
+                        sesion.setCorreo(personalDTO.getEmail().trim().toLowerCase());
+                        sesionRepository.save(sesion);
+                    }
+                }
                 usuarioRepository.save(usuario);
                 veterinarioRepository.save(veterinario);
-                
                 personalDTO.setId(veterinario.getId());
                 personalDTO.setFechaRegistro(usuario.getFecha_registro());
                 return personalDTO;
@@ -298,23 +303,28 @@ public class GestionPersonalService {
             if (recepcionistaOpt.isPresent()) {
                 Recepcionista recepcionista = recepcionistaOpt.get();
                 Usuario usuario = recepcionista.getUsuario();
-                
                 // Actualizar datos del usuario
                 usuario.setNombres(personalDTO.getNombres());
                 usuario.setApellidos(personalDTO.getApellidos());
                 usuario.setDni(personalDTO.getDni());
                 usuario.setCelular(personalDTO.getCelular());
                 usuario.setFecha_nacimiento(personalDTO.getFechaNacimiento());
-                
                 // Actualizar clínica si se proporciona
                 if (personalDTO.getClinicaId() != null) {
                     Optional<Clinica> clinicaOpt = clinicaRepository.findById(personalDTO.getClinicaId());
                     clinicaOpt.ifPresent(recepcionista::setClinica);
                 }
-                
+                // Actualizar correo en Sesion si ha cambiado
+                Optional<Sesion> sesionOpt = sesionRepository.findByUsuario_Id(usuario.getId());
+                if (sesionOpt.isPresent() && personalDTO.getEmail() != null) {
+                    Sesion sesion = sesionOpt.get();
+                    if (!personalDTO.getEmail().equalsIgnoreCase(sesion.getCorreo())) {
+                        sesion.setCorreo(personalDTO.getEmail().trim().toLowerCase());
+                        sesionRepository.save(sesion);
+                    }
+                }
                 usuarioRepository.save(usuario);
                 recepcionistaRepository.save(recepcionista);
-                
                 personalDTO.setId(recepcionista.getId());
                 personalDTO.setFechaRegistro(usuario.getFecha_registro());
                 return personalDTO;
