@@ -171,4 +171,49 @@ public class DashboardController {
         }
         return "recepcionista/veterinarios";
     }
+
+    // Página de Pacientes para Veterinario
+    @GetMapping("/veterinario/pacientes")
+    public String veterinarioPacientes(HttpSession session, RedirectAttributes redirectAttributes) {
+        if (!authService.isLoggedIn(session)) {
+            redirectAttributes.addFlashAttribute("error", "Debes iniciar sesión para acceder a esta página");
+            return "redirect:/login";
+        }
+        AuthService.UserType userType = authService.getCurrentUserType(session);
+        if (userType != AuthService.UserType.VETERINARIO) {
+            redirectAttributes.addFlashAttribute("error", "No tienes permisos para acceder a esta página");
+            return "redirect:/";
+        }
+        return "veterinario/pacientes";
+    }
+
+    // Página de Horarios para Veterinario
+    @GetMapping("/veterinario/horarios")
+    public String veterinarioHorarios(HttpSession session, RedirectAttributes redirectAttributes) {
+        if (!authService.isLoggedIn(session)) {
+            redirectAttributes.addFlashAttribute("error", "Debes iniciar sesión para acceder a esta página");
+            return "redirect:/login";
+        }
+        AuthService.UserType userType = authService.getCurrentUserType(session);
+        if (userType != AuthService.UserType.VETERINARIO) {
+            redirectAttributes.addFlashAttribute("error", "No tienes permisos para acceder a esta página");
+            return "redirect:/";
+        }
+        return "veterinario/horarios";
+    }
+
+    // Página de Historiales para Veterinario
+    @GetMapping("/veterinario/historiales")
+    public String veterinarioHistoriales(HttpSession session, RedirectAttributes redirectAttributes) {
+        if (!authService.isLoggedIn(session)) {
+            redirectAttributes.addFlashAttribute("error", "Debes iniciar sesión para acceder a esta página");
+            return "redirect:/login";
+        }
+        AuthService.UserType userType = authService.getCurrentUserType(session);
+        if (userType != AuthService.UserType.VETERINARIO) {
+            redirectAttributes.addFlashAttribute("error", "No tienes permisos para acceder a esta página");
+            return "redirect:/";
+        }
+        return "veterinario/historiales";
+    }
 } 
