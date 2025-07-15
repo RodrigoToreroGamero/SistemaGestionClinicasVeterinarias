@@ -1,0 +1,381 @@
+<html layout:decorate="_layoutGestionPersonal">
+<head>
+    <title>Gestión de Personal - VetGes</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container my-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="fw-bold mb-1">Gestión de Personal</h3>
+                    <div class="text-muted" style="font-size:1rem;">Administración del personal veterinario y recepcionistas</div>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="dropdownFiltro" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="me-2">Seleccionar Filtro</span> <i class="fa fa-filter"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="dropdownFiltro">
+                        <li><h6 class="dropdown-header">Filtrar por tipo:</h6></li>
+                        <li><a class="dropdown-item" :class="{'active': filtroSeleccionado === ''}" href="#" @click="filtroSeleccionado = ''; filtrarPersonas()">Todos</a></li>
+                        <li><a class="dropdown-item" :class="{'active': filtroSeleccionado === 'Veterinario'}" href="#" @click="filtroSeleccionado = 'Veterinario'; filtrarPersonas()">Veterinarios</a></li>
+                        <li><a class="dropdown-item" :class="{'active': filtroSeleccionado === 'Recepcionista'}" href="#" @click="filtroSeleccionado = 'Recepcionista'; filtrarPersonas()">Recepcionistas</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><h6 class="dropdown-header">Ordenar por fecha:</h6></li>
+                        <li><a class="dropdown-item" :class="{'active': ordenSeleccionado === 'recientes'}" href="#" @click="ordenSeleccionado = 'recientes'; ordenarPersonas()">Más recientes primero</a></li>
+                        <li><a class="dropdown-item" :class="{'active': ordenSeleccionado === 'antiguos'}" href="#" @click="ordenSeleccionado = 'antiguos'; ordenarPersonas()">Más antiguos primero</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><h6 class="dropdown-header">Ordenar alfabéticamente:</h6></li>
+                        <li><a class="dropdown-item" :class="{'active': ordenSeleccionado === 'asc'}" href="#" @click="ordenSeleccionado = 'asc'; ordenarPersonas()">A-Z</a></li>
+                        <li><a class="dropdown-item" :class="{'active': ordenSeleccionado === 'desc'}" href="#" @click="ordenSeleccionado = 'desc'; ordenarPersonas()">Z-A</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary mb-3" onclick="window.location.href='/administrador/dashboard'">
+                <i class="fa fa-arrow-left me-2"></i>Regresar al Dashboard
+            </button>
+            
+            <div id="app">
+                <div class="personal-col">
+                    <div v-for="item in personasFiltradas" :key="item.id" class="personal-card">
+                        <div class="personal-info">
+                            <div class="personal-tipo">{{item.tipo}}</div>
+                            <div class="personal-nombre">{{item.nombres}} {{item.apellidos}}</div>
+                            <div class="text-muted small">DNI: {{item.dni}} | Celular: {{item.celular}}</div>
+                            <button class="btn-info" @click="verInformacion(item)">Ver información</button>
+                        </div>
+                        <button class="btn-eliminar" @click="eliminar(item)">ELIMINAR</button>
+                    </div>
+                </div>
+                
+                <!-- Modal para nuevo/editar -->
+                <div class="modal fade" tabindex="-1" id="mdlEntidad">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" v-if="entidad.id==0">Registrar Personal</h5>
+                                <h5 class="modal-title" v-if="entidad.id!=0">Editar Personal</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6 border-end">
+                                        <h6 class="fw-bold mb-3">Datos Personales</h6>
+                                        <div class="mb-3">
+                                            <label for="dni" class="form-label">DNI</label>
+                                            <input class="form-control" id="dni" v-model="entidad.dni" required />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="nombres" class="form-label">Nombres</label>
+                                            <input class="form-control" id="nombres" v-model="entidad.nombres" required />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="apellidos" class="form-label">Apellidos</label>
+                                            <input class="form-control" id="apellidos" v-model="entidad.apellidos" required />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="celular" class="form-label">Número de Celular</label>
+                                            <input class="form-control" id="celular" v-model="entidad.celular" required />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                                            <input type="date" class="form-control" id="fechaNacimiento" v-model="entidad.fechaNacimiento" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="fw-bold mb-3">Datos Laborales</h6>
+                                        <div class="mb-3">
+                                            <label for="tipoPersonal" class="form-label">Tipo de Personal</label>
+                                            <select class="form-select" id="tipoPersonal" v-model="entidad.tipo">
+                                                <option value="Veterinario">Veterinario</option>
+                                                <option value="Recepcionista">Recepcionista</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3" v-if="entidad.tipo === 'Veterinario'">
+                                            <label for="numeroColegio" class="form-label">Número de Colegio Médico Veterinario</label>
+                                            <input class="form-control" id="numeroColegio" v-model="entidad.numeroColegioMedico" required />
+                                        </div>
+                                        <div class="mb-3" v-if="entidad.tipo === 'Veterinario'">
+                                            <label for="especialidad" class="form-label">Especialidad</label>
+                                            <input class="form-control" id="especialidad" v-model="entidad.especialidad" required />
+                                        </div>
+                                        <div class="mb-3" v-if="entidad.tipo === 'Recepcionista'">
+                                            <label for="clinica" class="form-label">Clínica</label>
+                                            <select class="form-select" id="clinica" v-model="entidad.clinicaId">
+                                                <option value="">Seleccionar clínica</option>
+                                                <option value="1">Clínica Principal</option>
+                                                <option value="2">Clínica Secundaria</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" v-if="entidad.id==0" @click="guardar">Guardar</button>
+                                <button type="button" class="btn btn-primary" v-if="entidad.id!=0" @click="actualizar">Actualizar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Modal para confirmar eliminación -->
+                <div class="modal fade" tabindex="-1" id="mdlEliminar">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirmar Eliminación</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Estás seguro que deseas eliminar este personal?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" @click="confirmarEliminacion">Eliminar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Modal para ver información -->
+                <div class="modal fade" tabindex="-1" id="mdlInfo">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Información del Personal</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6 border-end">
+                                        <h6 class="fw-bold mb-3">Datos Personales</h6>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">DNI:</label>
+                                            <p>{{entidad.dni}}</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Nombres:</label>
+                                            <p>{{entidad.nombres}}</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Apellidos:</label>
+                                            <p>{{entidad.apellidos}}</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Número de Celular:</label>
+                                            <p>{{entidad.celular}}</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Fecha de Nacimiento:</label>
+                                            <p>{{entidad.fechaNacimiento}}</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Fecha de Registro:</label>
+                                            <p>{{entidad.fechaRegistro}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="fw-bold mb-3">Datos Laborales</h6>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Tipo:</label>
+                                            <p>{{entidad.tipo}}</p>
+                                        </div>
+                                        <div class="mb-3" v-if="entidad.tipo === 'Veterinario'">
+                                            <label class="form-label fw-bold">Número de Colegio Médico Veterinario:</label>
+                                            <p>{{entidad.numeroColegioMedico}}</p>
+                                        </div>
+                                        <div class="mb-3" v-if="entidad.tipo === 'Veterinario'">
+                                            <label class="form-label fw-bold">Especialidad:</label>
+                                            <p>{{entidad.especialidad}}</p>
+                                        </div>
+                                        <div class="mb-3" v-if="entidad.tipo === 'Recepcionista'">
+                                            <label class="form-label fw-bold">Clínica:</label>
+                                            <p>{{entidad.clinica}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" @click="editarDesdeInfo">Editar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary btn-registrar d-flex align-items-center" @click="nuevo">
+                <span>REGISTRAR</span> <i class="fa fa-user-plus ms-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <script layout:fragment="script">
+        new Vue({
+            el: "#app",
+            data: {
+                entidades: [],
+                personasFiltradas: [],
+                entidad: {
+                    id: 0,
+                    tipo: '',
+                    dni: '',
+                    nombres: '',
+                    apellidos: '',
+                    celular: '',
+                    fechaNacimiento: '',
+                    fechaRegistro: '',
+                    numeroColegioMedico: '',
+                    especialidad: '',
+                    clinica: '',
+                    clinicaId: null
+                },
+                filtroSeleccionado: '',
+                ordenSeleccionado: 'recientes'
+            },
+            mounted() {
+                this.cargarDatos();
+            },
+            methods: {
+                cargarDatos() {
+                    fetch('/api/gestion-personal/personal')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error al cargar datos: ' + response.status);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Datos cargados:', data);
+                            this.entidades = data;
+                            this.filtrarPersonas();
+                        })
+                        .catch(error => {
+                            console.error('Error al cargar datos:', error);
+                            alert('Error al cargar los datos del personal');
+                        });
+                },
+                filtrarPersonas() {
+                    this.personasFiltradas = this.entidades.filter(item => {
+                        if (this.filtroSeleccionado === '') return true;
+                        return item.tipo === this.filtroSeleccionado;
+                    });
+                    this.ordenarPersonas();
+                },
+                ordenarPersonas() {
+                    if (this.ordenSeleccionado === 'recientes') {
+                        this.personasFiltradas.sort((a, b) => {
+                            const dateA = new Date(a.fechaRegistro);
+                            const dateB = new Date(b.fechaRegistro);
+                            return dateB - dateA;
+                        });
+                    } else if (this.ordenSeleccionado === 'antiguos') {
+                        this.personasFiltradas.sort((a, b) => {
+                            const dateA = new Date(a.fechaRegistro);
+                            const dateB = new Date(b.fechaRegistro);
+                            return dateA - dateB;
+                        });
+                    } else if (this.ordenSeleccionado === 'asc') {
+                        this.personasFiltradas.sort((a, b) => 
+                            (a.nombres + ' ' + a.apellidos).localeCompare(b.nombres + ' ' + b.apellidos));
+                    } else if (this.ordenSeleccionado === 'desc') {
+                        this.personasFiltradas.sort((a, b) => 
+                            (b.nombres + ' ' + b.apellidos).localeCompare(a.nombres + ' ' + a.apellidos));
+                    }
+                },
+                nuevo() {
+                    this.entidad = {
+                        id: 0,
+                        tipo: '',
+                        dni: '',
+                        nombres: '',
+                        apellidos: '',
+                        celular: '',
+                        fechaNacimiento: '',
+                        fechaRegistro: new Date().toISOString(),
+                        numeroColegioMedico: '',
+                        especialidad: '',
+                        clinica: '',
+                        clinicaId: null
+                    };
+                    new bootstrap.Modal(document.getElementById('mdlEntidad')).show();
+                },
+                guardar() {
+                    fetch('/api/gestion-personal/personal', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(this.entidad)
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al guardar');
+                        }
+                        return response.json();
+                    })
+                    .then(() => {
+                        bootstrap.Modal.getInstance(document.getElementById('mdlEntidad')).hide();
+                        this.cargarDatos();
+                        alert('Personal registrado exitosamente');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al guardar el personal');
+                    });
+                },
+                actualizar() {
+                    fetch(`/api/gestion-personal/personal/${this.entidad.id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(this.entidad)
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al actualizar');
+                        }
+                        return response.json();
+                    })
+                    .then(() => {
+                        bootstrap.Modal.getInstance(document.getElementById('mdlEntidad')).hide();
+                        this.cargarDatos();
+                        alert('Personal actualizado exitosamente');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al actualizar el personal');
+                    });
+                },
+                eliminar(item) {
+                    this.entidad = {...item};
+                    new bootstrap.Modal(document.getElementById('mdlEliminar')).show();
+                },
+                confirmarEliminacion() {
+                    fetch(`/api/gestion-personal/personal/${this.entidad.id}?tipo=${this.entidad.tipo}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al eliminar');
+                        }
+                        bootstrap.Modal.getInstance(document.getElementById('mdlEliminar')).hide();
+                        this.cargarDatos();
+                        alert('Personal eliminado exitosamente');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al eliminar el personal');
+                    });
+                },
+                verInformacion(item) {
+                    this.entidad = {...item};
+                    new bootstrap.Modal(document.getElementById('mdlInfo')).show();
+                },
+                editarDesdeInfo() {
+                    bootstrap.Modal.getInstance(document.getElementById('mdlInfo')).hide();
+                    new bootstrap.Modal(document.getElementById('mdlEntidad')).show();
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -33,6 +33,10 @@
                 margin-bottom: 0.7rem;
             }
             .btn-outline-primary.text-primary { color: #0d6efd !important; }
+            .badge.bg-purple {
+                background-color: #800080 !important;
+                color: #fff !important;
+            }
         </style>
     </head>
     <body>
@@ -419,7 +423,7 @@
                     getNombreDueno(duenoId) {
                         if (!duenoId) return 'N/A';
                         const dueno = this.duenos.find(d => d.id === duenoId);
-                        return dueno ? `${dueno.usuario.nombres} ${dueno.usuario.apellidos}` : 'N/A';
+                        return dueno ? `${dueno.nombres} ${dueno.apellidos}` : 'N/A';
                     },
 
                     getNombreMascota(mascotaId) {
@@ -463,7 +467,7 @@
                         const clases = {
                             'Efectivo': 'bg-success',
                             'POS': 'bg-primary',
-                            'Yape': 'bg-warning',
+                            'Yape': 'bg-purple', // changed from bg-warning to bg-purple
                             'Plin': 'bg-info',
                             'Transferencia': 'bg-secondary',
                             'Otro': 'bg-dark'

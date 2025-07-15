@@ -1,55 +1,143 @@
 <html layout:decorate="_layout">
     <head>
         <title>UTP Vetges</title>
+        <style>
+            .section {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 60px 0;
+                border-bottom: 1px solid #eee;
+                background: #fff;
+            }
+            .section.reverse {
+                flex-direction: row-reverse;
+                background: #f8f9fa;
+            }
+            .section-content {
+                flex: 1;
+                padding: 0 40px;
+            }
+            .section-image {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+            }
+            .section-image img {
+                max-width: 400px;
+                border-radius: 16px;
+                box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            }
+            .main-title {
+                text-align: center;
+                margin-top: 40px;
+                margin-bottom: 40px;
+                font-size: 2.5rem;
+                font-weight: bold;
+                color: #007bff;
+            }
+            .bottom-actions {
+                display: flex;
+                justify-content: center;
+                gap: 30px;
+                margin: 60px 0 30px 0;
+            }
+            @media (max-width: 900px) {
+                .section, .section.reverse {
+                    flex-direction: column !important;
+                }
+                .section-content, .section-image {
+                    padding: 20px 0;
+                }
+            }
+        </style>
     </head>
     <body>
         <div layout:fragment="content">
-            <div class="container mt-5">
-                <div class="row justify-content-center">
-                    <div class="col-md-8 text-center">
-                        <h1>Bienvenidos a VetGes</h1>
-                        <p class="lead">Sistema de Gestión de Clínicas Veterinarias</p>
-                        
-                        <div th:if="${session.usuario == null}">
-                            <p>Para acceder a las funcionalidades del sistema, por favor inicia sesión o regístrate.</p>
-                            <div class="mt-4">
-                                <a href="/login" class="btn btn-primary btn-lg me-3">Iniciar Sesión</a>
-                                <a href="/register" class="btn btn-outline-primary btn-lg">Registrarse</a>
-                            </div>
-                        </div>
-                        
-                        <div th:if="${session.usuario != null}">
-                            <div class="alert alert-success">
-                                <h4>¡Bienvenido, <span th:text="${session.usuario.nombres + ' ' + session.usuario.apellidos}"></span>!</h4>
-                                <p>Ya has iniciado sesión. Puedes acceder a las funcionalidades del sistema.</p>
-                            </div>
-                            
-                            <div class="mt-4">
-                                <h3>Funcionalidades Disponibles</h3>
-                                <div class="row mt-4">
-                                    <div class="col-md-6">
-                                        <div class="card mb-3">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Gestión de Citas</h5>
-                                                <p class="card-text">Administra las citas de la clínica veterinaria.</p>
-                                                <a href="/GestionesCitas" class="btn btn-primary">Acceder</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="card mb-3">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Gestión de Pagos</h5>
-                                                <p class="card-text">Administra los pagos de las citas.</p>
-                                                <a href="/GestionesPagosCitas" class="btn btn-primary">Acceder</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="main-title">Bienvenido a VetGes</div>
+
+            <!-- Historia -->
+            <div class="section">
+                <div class="section-content">
+                    <h2>Nuestra Historia</h2>
+                    <p>
+                        VetGes nació en 2010 con la pasión de brindar atención veterinaria de calidad y calidez a todas las mascotas. Desde nuestros inicios, nos hemos enfocado en el bienestar animal y en acompañar a las familias en el cuidado de sus mejores amigos.
+                    </p>
                 </div>
+                <div class="section-image">
+                    <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80" alt="Historia VetGes">
+                </div>
+            </div>
+
+            <!-- Misión y Visión -->
+            <div class="section reverse">
+                <div class="section-content">
+                    <h2>Misión</h2>
+                    <p>
+                        Brindar servicios veterinarios integrales, accesibles y personalizados, promoviendo la salud y felicidad de las mascotas y la tranquilidad de sus dueños.
+                    </p>
+                    <h2>Visión</h2>
+                    <p>
+                        Ser la red de clínicas veterinarias líder en el país, reconocida por la excelencia médica, la innovación y el trato humano hacia cada mascota y familia.
+                    </p>
+                </div>
+                <div class="section-image">
+                    <img src="https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=400&q=80" alt="Misión y Visión VetGes">
+                </div>
+            </div>
+
+            <!-- Valores -->
+            <div class="section">
+                <div class="section-content">
+                    <h2>Valores</h2>
+                    <ul>
+                        <li><b>Compromiso:</b> Nos dedicamos al bienestar animal en cada acción.</li>
+                        <li><b>Empatía:</b> Entendemos y acompañamos a cada mascota y familia.</li>
+                        <li><b>Innovación:</b> Buscamos siempre mejorar nuestros servicios y tecnología.</li>
+                        <li><b>Transparencia:</b> Comunicación clara y honesta con nuestros clientes.</li>
+                    </ul>
+                </div>
+                <div class="section-image">
+                    <img src="https://images.unsplash.com/photo-1508672019048-805c876b67e2?auto=format&fit=crop&w=400&q=80" alt="Valores VetGes">
+                </div>
+            </div>
+
+            <!-- Sedes -->
+            <div class="section reverse">
+                <div class="section-content">
+                    <h2>Nuestras Sedes</h2>
+                    <p>
+                        Actualmente contamos con clínicas en Lima, Arequipa y Trujillo, cada una equipada con tecnología de punta y un equipo de profesionales dedicados. ¡Pronto abriremos nuevas sedes para estar más cerca de ti y tu mascota!
+                    </p>
+                </div>
+                <div class="section-image">
+                    <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80" alt="Sedes VetGes">
+                </div>
+            </div>
+
+            <!-- Servicios -->
+            <div class="section">
+                <div class="section-content">
+                    <h2>Servicios que Ofrecemos</h2>
+                    <ul>
+                        <li>Consultas veterinarias generales y especializadas</li>
+                        <li>Vacunación y desparasitación</li>
+                        <li>Cirugías y hospitalización</li>
+                        <li>Laboratorio clínico</li>
+                        <li>Peluquería y baño</li>
+                        <li>Emergencias 24/7</li>
+                        <li>Asesoría nutricional</li>
+                    </ul>
+                </div>
+                <div class="section-image">
+                    <img src="https://images.unsplash.com/photo-1518715308788-3005759c61d4?auto=format&fit=crop&w=400&q=80" alt="Servicios VetGes">
+                </div>
+            </div>
+
+            <!-- Botones de acción al final -->
+            <div class="bottom-actions">
+                <a href="/login" class="btn btn-primary btn-lg">Iniciar Sesión</a>
+                <a href="/register" class="btn btn-outline-primary btn-lg">Registrarse</a>
             </div>
         </div>
     </body>
