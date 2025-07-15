@@ -1,6 +1,7 @@
 package com.utp.integradorspringboot.controllers;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.utp.integradorspringboot.models.Cita;
 import com.utp.integradorspringboot.models.Veterinario;
+import com.utp.integradorspringboot.models.VeterinarioDTO;
 import com.utp.integradorspringboot.repositories.GestionCitaRepository;
+import com.utp.integradorspringboot.repositories.SesionRepository;
 import com.utp.integradorspringboot.repositories.VeterinarioRepository;
 import com.utp.integradorspringboot.services.AuthService;
 
@@ -29,7 +32,10 @@ public class DashboardController {
     @Autowired
     private VeterinarioRepository veterinarioRepository;
     
-    // Dueño Dashboard
+    @Autowired
+    private SesionRepository sesionRepository;
+    
+    // Dashboard de Dueño
     @GetMapping("/dueno/dashboard")
     public String duenoDashboard(HttpSession session, RedirectAttributes redirectAttributes) {
         if (!authService.isLoggedIn(session)) {
@@ -46,7 +52,7 @@ public class DashboardController {
         return "dueno/dashboard";
     }
     
-    // Veterinario Dashboard
+    // Dashboard de Veterinario
     @GetMapping("/veterinario/dashboard")
     public String veterinarioDashboard(HttpSession session, RedirectAttributes redirectAttributes) {
         if (!authService.isLoggedIn(session)) {
@@ -63,7 +69,7 @@ public class DashboardController {
         return "veterinario/dashboard";
     }
     
-    // Recepcionista Dashboard
+    // Dashboard de Recepcionista
     @GetMapping("/recepcionista/dashboard")
     public String recepcionistaDashboard(HttpSession session, RedirectAttributes redirectAttributes, Model model) {
         try {
@@ -78,12 +84,12 @@ public class DashboardController {
                 return "redirect:/";
             }
             
-            // Get today's appointments
+            // Obtener citas de hoy
             LocalDate today = LocalDate.now();
             List<Cita> citasHoy = citaRepository.findByFecha(today);
             System.out.println("Citas de hoy encontradas: " + citasHoy.size());
             
-            // Debug: Print first few citas to check data
+            // Depurar: Imprimir las primeras citas para verificar datos
             for (int i = 0; i < Math.min(citasHoy.size(), 3); i++) {
                 Cita c = citasHoy.get(i);
                 System.out.println("Cita " + (i+1) + ": " + 
@@ -96,11 +102,25 @@ public class DashboardController {
                                  ", Mascota=" + (c.getMascota() != null ? c.getMascota().getId() : "null"));
             }
             
-            // Get all veterinarians
-            List<Veterinario> veterinarios = veterinarioRepository.findAll();
+            // Obtener todos los veterinarios
+            List<Veterinario> veterinarios = veterinarioRepository.findAllWithUsuario();
             System.out.println("Veterinarios encontrados: " + veterinarios.size());
+
+            // Construir lista de DTOs
+            List<VeterinarioDTO> veterinariosDTO = new ArrayList<>();
+            for (Veterinario v : veterinarios) {
+                String email = sesionRepository.findByUsuario_Id(v.getUsuario().getId())
+                    .map(s -> s.getCorreo()).orElse(null);
+                veterinariosDTO.add(new VeterinarioDTO(
+                    v.getUsuario().getNombres(),
+                    v.getUsuario().getApellidos(),
+                    v.getEspecialidad(),
+                    v.getUsuario().getCelular(),
+                    email
+                ));
+            }
             
-            // Debug: Print first few veterinarians
+            // Depurar: Imprimir los primeros veterinarios
             for (int i = 0; i < Math.min(veterinarios.size(), 3); i++) {
                 Veterinario v = veterinarios.get(i);
                 System.out.println("Veterinario " + (i+1) + ": " + 
@@ -108,9 +128,9 @@ public class DashboardController {
                                  " - " + v.getEspecialidad());
             }
             
-            // Add data to model
+            // Agregar datos al modelo
             model.addAttribute("citasHoy", citasHoy);
-            model.addAttribute("veterinarios", veterinarios);
+            model.addAttribute("veterinariosDTO", veterinariosDTO);
             
             return "recepcionista/dashboard";
         } catch (Exception e) {
@@ -121,7 +141,7 @@ public class DashboardController {
         }
     }
     
-    // Administrador Dashboard
+    // Dashboard de Administrador
     @GetMapping("/administrador/dashboard")
     public String administradorDashboard(HttpSession session, RedirectAttributes redirectAttributes) {
         if (!authService.isLoggedIn(session)) {
@@ -136,5 +156,19 @@ public class DashboardController {
         }
         
         return "administrador/dashboard";
+    }
+
+    @GetMapping("/recepcionista/veterinarios")
+    public String recepcionistaVeterinarios(HttpSession session, RedirectAttributes redirectAttributes) {
+        if (!authService.isLoggedIn(session)) {
+            redirectAttributes.addFlashAttribute("error", "Debes iniciar sesión para acceder a esta página");
+            return "redirect:/login";
+        }
+        AuthService.UserType userType = authService.getCurrentUserType(session);
+        if (userType != AuthService.UserType.RECEPCIONISTA) {
+            redirectAttributes.addFlashAttribute("error", "No tienes permisos para acceder a esta página");
+            return "redirect:/";
+        }
+        return "recepcionista/veterinarios";
     }
 } 

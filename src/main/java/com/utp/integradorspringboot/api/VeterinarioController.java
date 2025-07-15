@@ -17,10 +17,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.utp.integradorspringboot.models.Sesion;
 import com.utp.integradorspringboot.models.Usuario;
 import com.utp.integradorspringboot.models.Veterinario;
+import com.utp.integradorspringboot.repositories.SesionRepository;
 import com.utp.integradorspringboot.repositories.UsuarioRepository;
 import com.utp.integradorspringboot.repositories.VeterinarioRepository;
+
+// DTO for detailed veterinarian info
+class VeterinarioDetalleDTO {
+    public Long id;
+    public String nombres;
+    public String apellidos;
+    public String especialidad;
+    public String celular;
+    public String email;
+    public VeterinarioDetalleDTO(Long id, String nombres, String apellidos, String especialidad, String celular, String email) {
+        this.id = id;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.especialidad = especialidad;
+        this.celular = celular;
+        this.email = email;
+    }
+}
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
@@ -33,9 +53,30 @@ public class VeterinarioController {
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    @Autowired
+    SesionRepository sesionRepository;
+
     // Obtener todos los veterinarios
     @GetMapping("/Veterinario")
     public ResponseEntity<List<Veterinario>> getAll() {
+        try {
+            List<Veterinario> lista = new ArrayList<>();
+            veterinarioRepository.findAll().forEach(lista::add);
+
+            if (lista.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(lista, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // Obtener todos los veterinarios (endpoint alternativo)
+    @GetMapping("/veterinarios")
+    public ResponseEntity<List<Veterinario>> getAllVeterinarios() {
         try {
             List<Veterinario> lista = new ArrayList<>();
             veterinarioRepository.findAll().forEach(lista::add);
@@ -112,6 +153,29 @@ public class VeterinarioController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/veterinarios/detalle")
+    public ResponseEntity<List<VeterinarioDetalleDTO>> getVeterinariosDetalle() {
+        try {
+            List<Veterinario> lista = veterinarioRepository.findAll();
+            List<VeterinarioDetalleDTO> dtos = new ArrayList<>();
+            for (Veterinario v : lista) {
+                String nombres = v.getUsuario() != null ? v.getUsuario().getNombres() : null;
+                String apellidos = v.getUsuario() != null ? v.getUsuario().getApellidos() : null;
+                String celular = v.getUsuario() != null ? v.getUsuario().getCelular() : null;
+                String especialidad = v.getEspecialidad();
+                String email = null;
+                if (v.getUsuario() != null) {
+                    Sesion sesion = sesionRepository.findByUsuario_Id(v.getUsuario().getId()).orElse(null);
+                    if (sesion != null) email = sesion.getCorreo();
+                }
+                dtos.add(new VeterinarioDetalleDTO(v.getId(), nombres, apellidos, especialidad, celular, email));
+            }
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 } 

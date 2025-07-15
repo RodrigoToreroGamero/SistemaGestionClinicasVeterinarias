@@ -7,14 +7,22 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.utp.integradorspringboot.models.Veterinario_horario;
-import com.utp.integradorspringboot.models.Veterinario;
 import com.utp.integradorspringboot.models.Horario_laboral;
+import com.utp.integradorspringboot.models.Veterinario;
+import com.utp.integradorspringboot.models.Veterinario_horario;
+import com.utp.integradorspringboot.repositories.HorarioLaboralRepository;
 import com.utp.integradorspringboot.repositories.VeterinarioHorarioRepository;
 import com.utp.integradorspringboot.repositories.VeterinarioRepository;
-import com.utp.integradorspringboot.repositories.HorarioLaboralRepository;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
@@ -97,6 +105,25 @@ public class VeterinarioHorarioController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/Veterinario/{id}/horarios")
+    public ResponseEntity<List<Horario_laboral>> getHorariosByVeterinario(@PathVariable("id") Long id) {
+        try {
+            List<Veterinario_horario> vhs = veterinarioHorarioRepository.findByVeterinarioId(id);
+            if (vhs.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            List<Horario_laboral> horarios = new ArrayList<>();
+            for (Veterinario_horario vh : vhs) {
+                if (vh.getHorario() != null) {
+                    horarios.add(vh.getHorario());
+                }
+            }
+            return new ResponseEntity<>(horarios, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 } 

@@ -99,28 +99,33 @@ public class PasswordResetController {
                                      RedirectAttributes redirectAttributes) {
         System.out.println("DEBUG: Processing reset-password POST request");
         try {
-            // Validate token
+
+            // Validar token
+
             if (!passwordResetService.validateToken(token)) {
                 model.addAttribute("error", "El enlace de restablecimiento no es válido o ha expirado.");
                 model.addAttribute("token", token);
                 return "auth/reset-password";
             }
             
-            // Validate passwords match
+            // Validar que las contraseñas coincidan
+
             if (!password.equals(confirmPassword)) {
                 model.addAttribute("error", "Las contraseñas no coinciden.");
                 model.addAttribute("token", token);
                 return "auth/reset-password";
             }
             
-            // Validate password length
+            // Validar longitud de contraseña
+
             if (password.length() < 6) {
                 model.addAttribute("error", "La contraseña debe tener al menos 6 caracteres.");
                 model.addAttribute("token", token);
                 return "auth/reset-password";
             }
             
-            // Reset password
+            // Restablecer contraseña
+
             boolean success = passwordResetService.resetPassword(token, password);
             
             if (success) {

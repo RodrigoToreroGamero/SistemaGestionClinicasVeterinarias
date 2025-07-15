@@ -7,5 +7,5 @@ import com.utp.integradorspringboot.models.Horario_laboral;
 
 @Repository
 public interface HorarioLaboralRepository extends JpaRepository<Horario_laboral, Long> {
-    // Basic CRUD operations are automatically provided by JpaRepository
+    // Las operaciones CRUD básicas son proporcionadas automáticamente por JpaRepository
 } 

@@ -29,7 +29,8 @@ public class PasswordResetToken {
     @Column(nullable = false)
     private Boolean used = false;
     
-    // Constructors
+    // Constructores
+
     public PasswordResetToken() {}
     
     public PasswordResetToken(Long userId, String token, LocalDateTime expirationDate) {
@@ -39,7 +40,9 @@ public class PasswordResetToken {
         this.used = false;
     }
     
-    // Getters and Setters
+
+    // Getters y Setters
+
     public Long getId() {
         return id;
     }
