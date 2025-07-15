@@ -24,8 +24,8 @@ import org.springframework.stereotype.Controller;
  * @author USER
  */
 @CrossOrigin(origins = "http://localhost:8081")
-@Controller
-@RequestMapping("")
+@RestController
+@RequestMapping("/api")
 public class CitaController {
     @Autowired
     GestionCitaRepository repository;
