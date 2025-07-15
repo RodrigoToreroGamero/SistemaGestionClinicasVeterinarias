@@ -1,3 +1,4 @@
+
 2025-07-10T01:32:18.684-05:00  INFO 21268 --- [integradorspringboot] [main] c.u.i.IntegradorspringbootApplication    : Starting IntegradorspringbootApplication using Java 21.0.7 with PID 21268 (C:\Users\user\Documents\GitHub\SistemaGestionClinicasVeterinarias\target\classes started by user in C:\Users\user\Documents\GitHub\SistemaGestionClinicasVeterinarias)
 2025-07-10T01:32:18.692-05:00 DEBUG 21268 --- [integradorspringboot] [main] c.u.i.IntegradorspringbootApplication    : Running with Spring Boot v3.2.5, Spring v6.1.6
 2025-07-10T01:32:18.692-05:00  INFO 21268 --- [integradorspringboot] [main] c.u.i.IntegradorspringbootApplication    : No active profile set, falling back to 1 default profile: "default"

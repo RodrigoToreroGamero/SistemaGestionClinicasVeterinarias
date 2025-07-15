@@ -89,6 +89,7 @@ public class AuthController {
                           @RequestParam String email,
                           @RequestParam String password,
                           RedirectAttributes redirectAttributes) {
+
         // Normalizar email
         String normalizedEmail = email.trim().toLowerCase();
         // Verificar si el email ya existe
@@ -96,6 +97,7 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("error", "El email ya está registrado");
             return "redirect:/register";
         }
+
         // Crear nuevo usuario
         Usuario usuario = new Usuario();
         usuario.setNombres(nombres);
@@ -104,7 +106,9 @@ public class AuthController {
         usuario.setCelular(celular);
         usuario.setFecha_registro(LocalDateTime.now());
         usuario = usuarioRepository.save(usuario);
+
         // Crear sesión para el usuario
+
         Sesion sesion = new Sesion();
         sesion.setCorreo(normalizedEmail);
         sesion.setContrasena(password);
@@ -142,11 +146,4 @@ public class AuthController {
 
         redirectAttributes.addFlashAttribute("success", "Usuario registrado exitosamente");
         return "redirect:/login";
-    }
-    
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        authService.logout(session);
-        return "redirect:/";
-    }
 } 

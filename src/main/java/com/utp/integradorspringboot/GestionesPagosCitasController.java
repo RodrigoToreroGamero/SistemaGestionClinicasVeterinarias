@@ -1,8 +1,10 @@
 package com.utp.integradorspringboot;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,7 @@ import com.utp.integradorspringboot.repositories.GestionCitaRepository;
 @Controller
 public class GestionesPagosCitasController {
     
+
     @Autowired
     private GestionCitaRepository citaRepository;
     
@@ -33,7 +36,7 @@ public class GestionesPagosCitasController {
     
     @Autowired
     private BoletaPagoRepository boletaPagoRepository;
-    
+
     @RequestMapping("/GestionesPagosCitas")
     public String page(Model model) {
         // Obtener citas con detalles para mostrar en la tabla de pagos
