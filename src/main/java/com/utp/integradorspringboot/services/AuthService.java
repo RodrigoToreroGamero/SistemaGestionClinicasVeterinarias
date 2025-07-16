@@ -45,7 +45,7 @@ public class AuthService {
     public boolean login(String email, String password, HttpSession session) {
         Optional<Sesion> sesionOpt = sesionRepository.findByCorreo(email);
 
-        /*
+        
         if (sesionOpt.isPresent()) {
             Sesion sesion = sesionOpt.get();
             if (sesion.getContrasena().equals(password)) {
@@ -56,7 +56,7 @@ public class AuthService {
                 return true;
             }
         }
-         */
+        /* 
         if (sesionOpt.isPresent()) {
             Sesion sesion = sesionOpt.get();
             if (this.encriptador.matches(password, sesion.getContrasena())) {
@@ -66,7 +66,7 @@ public class AuthService {
                 session.setAttribute("userType", getUserType(email));
                 return true;
             }
-        }
+        }*/
         return false;
     }
 
