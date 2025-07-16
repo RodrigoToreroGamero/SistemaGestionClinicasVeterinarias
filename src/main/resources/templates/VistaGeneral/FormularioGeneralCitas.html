@@ -768,7 +768,7 @@
                             });
                     },
                     listarMotivosCita: function () {
-                        this.$http.get('/api/MotivoCita')
+                        this.$http.get('/api/motivos-cita')
                             .then(response => {
                                 this.motivosCita = response.data;
                                 console.log('Motivos de cita:', this.motivosCita);

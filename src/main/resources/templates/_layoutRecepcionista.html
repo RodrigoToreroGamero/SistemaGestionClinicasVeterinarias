@@ -159,7 +159,7 @@
         };
         
         // Veterinarians and Citas data from server
-        const veterinarios = /*[[${veterinarios}]]*/ [];
+        const veterinarios = /*[[${veterinariosDTO}]]*/ [];
         const citasHoy = /*[[${citasHoy}]]*/ [];
         
         let currentVeterinarioIndex = 0;
@@ -223,8 +223,8 @@
             const col = document.createElement('div');
             col.className = 'col-md-6 mb-2';
             
-            // Check if veterinario has the expected structure
-            if (!veterinario || !veterinario.usuario) {
+            // Check if veterinario has the expected structure (VeterinarioDTO)
+            if (!veterinario) {
                 console.error('Invalid veterinario data:', veterinario);
                 return col;
             }
@@ -232,10 +232,10 @@
             col.innerHTML = `
                 <div class="card veterinario-card h-100">
                     <div class="card-body p-2">
-                        <h6 class="card-title mb-1">${veterinario.usuario.nombres || ''} ${veterinario.usuario.apellidos || ''}</h6>
+                        <h6 class="card-title mb-1">${veterinario.nombres || ''} ${veterinario.apellidos || ''}</h6>
                         <small class="text-muted d-block">${veterinario.especialidad || 'Sin especialidad'}</small>
-                        <small class="text-muted d-block">${veterinario.usuario.email || 'Sin email'}</small>
-                        <small class="text-primary">${veterinario.usuario.telefono || 'Sin teléfono'}</small>
+                        <small class="text-muted d-block">${veterinario.email || 'Sin email'}</small>
+                        <small class="text-primary">${veterinario.celular || 'Sin teléfono'}</small>
                     </div>
                 </div>
             `;

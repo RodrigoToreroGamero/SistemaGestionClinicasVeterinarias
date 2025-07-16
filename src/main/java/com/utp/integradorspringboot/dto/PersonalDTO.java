@@ -20,6 +20,10 @@ public class PersonalDTO {
     private LocalDate fechaNacimiento;
     private LocalDateTime fechaRegistro;
     
+    // Datos de acceso
+    private String email;
+    private String passwordGenerada;
+    
     // Datos específicos de Veterinario
     private String numeroColegioMedico;
     private String especialidad;
@@ -38,8 +42,8 @@ public class PersonalDTO {
     // Constructor completo
     public PersonalDTO(Long id, String tipo, String dni, String nombres, String apellidos, 
                       String celular, LocalDate fechaNacimiento, LocalDateTime fechaRegistro,
-                      String numeroColegioMedico, String especialidad, String clinica, 
-                      Long clinicaId, String horarioLaboral) {
+                      String email, String passwordGenerada, String numeroColegioMedico, 
+                      String especialidad, String clinica, Long clinicaId, String horarioLaboral) {
         this.id = id;
         this.tipo = tipo;
         this.dni = dni;
@@ -48,6 +52,8 @@ public class PersonalDTO {
         this.celular = celular;
         this.fechaNacimiento = fechaNacimiento;
         this.fechaRegistro = fechaRegistro;
+        this.email = email;
+        this.passwordGenerada = passwordGenerada;
         this.numeroColegioMedico = numeroColegioMedico;
         this.especialidad = especialidad;
         this.clinica = clinica;
@@ -120,6 +126,22 @@ public class PersonalDTO {
         this.fechaRegistro = fechaRegistro;
     }
     
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public String getPasswordGenerada() {
+        return passwordGenerada;
+    }
+    
+    public void setPasswordGenerada(String passwordGenerada) {
+        this.passwordGenerada = passwordGenerada;
+    }
+    
     public String getNumeroColegioMedico() {
         return numeroColegioMedico;
     }
@@ -171,6 +193,8 @@ public class PersonalDTO {
                 ", celular='" + celular + '\'' +
                 ", fechaNacimiento=" + fechaNacimiento +
                 ", fechaRegistro=" + fechaRegistro +
+                ", email='" + email + '\'' +
+                ", passwordGenerada='" + passwordGenerada + '\'' +
                 ", numeroColegioMedico='" + numeroColegioMedico + '\'' +
                 ", especialidad='" + especialidad + '\'' +
                 ", clinica='" + clinica + '\'' +

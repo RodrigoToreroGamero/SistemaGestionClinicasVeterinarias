@@ -33,15 +33,15 @@ public class Empleado_clinica {
     private Clinica clinica;
 
     @Column(name = "tipo_empleado")
-    private String tipo_empleado;
+    private String tipoEmpleado;
 
     public Empleado_clinica() {}
 
-    public Empleado_clinica(Long id, Usuario usuario, Clinica clinica, String tipo_empleado) {
+    public Empleado_clinica(Long id, Usuario usuario, Clinica clinica, String tipoEmpleado) {
         this.id = id;
         this.usuario = usuario;
         this.clinica = clinica;
-        this.tipo_empleado = tipo_empleado;
+        this.tipoEmpleado = tipoEmpleado;
     }
 
     public Long getId() { return id; }
@@ -50,8 +50,8 @@ public class Empleado_clinica {
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
     public Clinica getClinica() { return clinica; }
     public void setClinica(Clinica clinica) { this.clinica = clinica; }
-    public String getTipo_empleado() { return tipo_empleado; }
-    public void setTipo_empleado(String tipo_empleado) { this.tipo_empleado = tipo_empleado; }
+    public String getTipoEmpleado() { return tipoEmpleado; }
+    public void setTipoEmpleado(String tipoEmpleado) { this.tipoEmpleado = tipoEmpleado; }
 
     @Override
     public boolean equals(Object object) {
@@ -67,6 +67,6 @@ public class Empleado_clinica {
     
     @Override
     public String toString() {
-        return "Cita{" + "id=" + getId() + ", ID de la Clinica=" + clinica.getId() + ", ID del Usuario=" + usuario.getId() + ", Tipo empleado="+tipo_empleado+'}';
+        return "Cita{" + "id=" + getId() + ", ID de la Clinica=" + clinica.getId() + ", ID del Usuario=" + usuario.getId() + ", Tipo empleado="+tipoEmpleado+'}';
     }
 }

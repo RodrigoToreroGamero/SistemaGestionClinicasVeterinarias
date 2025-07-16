@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.utp.integradorspringboot.models.Empleado_clinica;
 import com.utp.integradorspringboot.models.Clinica;
+import com.utp.integradorspringboot.models.Empleado_clinica;
 import com.utp.integradorspringboot.models.Usuario;
-import com.utp.integradorspringboot.repositories.EmpleadoClinicaRepository;
 import com.utp.integradorspringboot.repositories.ClinicaRepository;
+import com.utp.integradorspringboot.repositories.EmpleadoClinicaRepository;
 import com.utp.integradorspringboot.repositories.UsuarioRepository;
 
 @CrossOrigin(origins = "http://localhost:8081")
@@ -119,7 +119,7 @@ public class EmpleadoClinicaController {
                 clinica.ifPresent(_empleadoClinica::setClinica);
             }
             
-            _empleadoClinica.setTipo_empleado(empleadoClinica.getTipo_empleado());
+            _empleadoClinica.setTipoEmpleado(empleadoClinica.getTipoEmpleado());
 
             return new ResponseEntity<>(empleadoClinicaRepository.save(_empleadoClinica), HttpStatus.OK);
         } else {

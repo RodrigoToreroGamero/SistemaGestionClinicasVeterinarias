@@ -13,8 +13,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.utp.integradorspringboot.models.Cita;
 import com.utp.integradorspringboot.models.Veterinario;
 import com.utp.integradorspringboot.models.VeterinarioDTO;
+import com.utp.integradorspringboot.repositories.BoletaPagoRepository;
+import com.utp.integradorspringboot.repositories.DuenoRepository;
+import com.utp.integradorspringboot.repositories.EmpleadoClinicaRepository;
 import com.utp.integradorspringboot.repositories.GestionCitaRepository;
+import com.utp.integradorspringboot.repositories.MascotaRepository;
+import com.utp.integradorspringboot.repositories.RecepcionistaRepository;
 import com.utp.integradorspringboot.repositories.SesionRepository;
+import com.utp.integradorspringboot.repositories.UsuarioRepository;
 import com.utp.integradorspringboot.repositories.VeterinarioRepository;
 import com.utp.integradorspringboot.services.AuthService;
 
@@ -34,6 +40,19 @@ public class DashboardController {
     
     @Autowired
     private SesionRepository sesionRepository;
+    
+    @Autowired
+    private DuenoRepository duenoRepository;
+    @Autowired
+    private MascotaRepository mascotaRepository;
+    @Autowired
+    private RecepcionistaRepository recepcionistaRepository;
+    @Autowired
+    private EmpleadoClinicaRepository empleadoClinicaRepository;
+    @Autowired
+    private BoletaPagoRepository boletaPagoRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
     
     // Dashboard de Dueño
     @GetMapping("/dueno/dashboard")
@@ -143,19 +162,70 @@ public class DashboardController {
     
     // Dashboard de Administrador
     @GetMapping("/administrador/dashboard")
-    public String administradorDashboard(HttpSession session, RedirectAttributes redirectAttributes) {
+    public String administradorDashboard(HttpSession session, RedirectAttributes redirectAttributes, Model model) {
         if (!authService.isLoggedIn(session)) {
             redirectAttributes.addFlashAttribute("error", "Debes iniciar sesión para acceder a esta página");
             return "redirect:/login";
         }
-        
         AuthService.UserType userType = authService.getCurrentUserType(session);
         if (userType != AuthService.UserType.ADMINISTRADOR) {
             redirectAttributes.addFlashAttribute("error", "No tienes permisos para acceder a esta página");
             return "redirect:/";
         }
-        
+        // Estadísticas
+        long totalDuenos = duenoRepository.count();
+        long totalMascotas = mascotaRepository.count();
+        long totalVeterinarios = veterinarioRepository.count();
+        long totalRecepcionistas = recepcionistaRepository.count();
+        long totalEmpleadosClinica = empleadoClinicaRepository.count();
+        long totalEmpleados = totalVeterinarios + totalRecepcionistas + totalEmpleadosClinica;
+        long totalCitas = citaRepository.count();
+        // Citas del día
+        long citasHoy = citaRepository.findByFecha(LocalDate.now()).size();
+        // Citas pendientes de pago
+        long citasPendientesPago = citaRepository.findCitasSinPago().size();
+        // Citas pagadas
+        long citasPagadas = citaRepository.findCitasConPago().size();
+        // Pagos
+        var boletas = boletaPagoRepository.findAll();
+        double totalIngresos = boletas.stream().mapToDouble(b -> b.getMonto_total() != null ? b.getMonto_total() : 0).sum();
+        long totalPagos = boletas.size();
+        long efectivo = boletas.stream().filter(b -> "Efectivo".equalsIgnoreCase(b.getMetodo_pago())).count();
+        long pos = boletas.stream().filter(b -> "POS".equalsIgnoreCase(b.getMetodo_pago())).count();
+        long yape = boletas.stream().filter(b -> "Yape".equalsIgnoreCase(b.getMetodo_pago())).count();
+        long plin = boletas.stream().filter(b -> "Plin".equalsIgnoreCase(b.getMetodo_pago())).count();
+        long transferencia = boletas.stream().filter(b -> "Transferencia".equalsIgnoreCase(b.getMetodo_pago())).count();
+        long otros = boletas.stream().filter(b -> {
+            String m = b.getMetodo_pago();
+            return m != null && !m.equalsIgnoreCase("Efectivo") && !m.equalsIgnoreCase("POS") && !m.equalsIgnoreCase("Yape") && !m.equalsIgnoreCase("Plin") && !m.equalsIgnoreCase("Transferencia");
+        }).count();
+        // Pasar al modelo
+        model.addAttribute("totalDuenos", totalDuenos);
+        model.addAttribute("totalMascotas", totalMascotas);
+        model.addAttribute("totalEmpleados", totalEmpleados);
+        model.addAttribute("totalCitas", totalCitas);
+        model.addAttribute("citasHoy", citasHoy);
+        model.addAttribute("citasPendientesPago", citasPendientesPago);
+        model.addAttribute("citasPagadas", citasPagadas);
+        model.addAttribute("totalPagos", totalPagos);
+        model.addAttribute("totalIngresos", totalIngresos);
+        model.addAttribute("efectivo", efectivo);
+        model.addAttribute("pos", pos);
+        model.addAttribute("yape", yape);
+        model.addAttribute("plin", plin);
+        model.addAttribute("transferencia", transferencia);
+        model.addAttribute("otros", otros);
         return "administrador/dashboard";
+    }
+
+    @GetMapping("/administrador/usuarios")
+    public String redirectUsuarios() {
+        return "redirect:/administrador/gestion-usuarios";
+    }
+
+    @GetMapping("/administrador/gestion-usuarios")
+    public String adminGestionUsuarios() {
+        return "administrador/gestion-usuarios";
     }
 
     @GetMapping("/recepcionista/veterinarios")
