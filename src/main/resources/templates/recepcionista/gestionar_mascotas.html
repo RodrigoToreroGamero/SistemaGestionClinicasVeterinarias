@@ -126,19 +126,28 @@
             const filtro = document.getElementById('filtroMascotas').value.toLowerCase();
             const tbody = document.getElementById('mascotasTbody');
             tbody.innerHTML = '';
-            window.mascotas.filter(m =>
-                (m.nombre && m.nombre.toLowerCase().includes(filtro)) ||
-                (m.especie && m.especie.toLowerCase().includes(filtro)) ||
-                (m.raza && m.raza.toLowerCase().includes(filtro)) ||
-                (m.edad !== undefined && m.edad !== null && m.edad.toString().includes(filtro))
-            ).forEach(m => {
+            window.mascotas.filter(m => {
+                // Filtro por campos de la mascota
+                const matchMascota = (m.nombre && m.nombre.toLowerCase().includes(filtro)) ||
+                                   (m.especie && m.especie.toLowerCase().includes(filtro)) ||
+                                   (m.raza && m.raza.toLowerCase().includes(filtro)) ||
+                                   (m.edad !== undefined && m.edad !== null && m.edad.toString().includes(filtro));
+                
+                // Filtro por nombre del dueño
+                const matchDueno = m.dueno && m.dueno.usuario && 
+                                 ((m.dueno.usuario.nombres && m.dueno.usuario.nombres.toLowerCase().includes(filtro)) ||
+                                  (m.dueno.usuario.apellidos && m.dueno.usuario.apellidos.toLowerCase().includes(filtro)) ||
+                                  (m.dueno.usuario.dni && m.dueno.usuario.dni.toLowerCase().includes(filtro)));
+                
+                return matchMascota || matchDueno;
+            }).forEach(m => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${m.nombre}</td>
                     <td>${m.especie}</td>
                     <td>${m.raza}</td>
                     <td>${m.edad !== undefined && m.edad !== null ? m.edad : ''}</td>
-                    <td>${m.dueno ? (m.dueno.nombres + ' ' + m.dueno.apellidos + ' (' + m.dueno.dni + ')') : ''}</td>
+                    <td>${m.dueno && m.dueno.usuario ? (m.dueno.usuario.nombres + ' ' + m.dueno.usuario.apellidos + ' (' + m.dueno.usuario.dni + ')') : ''}</td>
                     <td>
                         <button class='btn btn-sm btn-primary' onclick='editarMascota(${m.id})'>Editar</button>
                         <button class='btn btn-sm btn-danger' onclick='eliminarMascota(${m.id})'>Eliminar</button>
@@ -251,8 +260,8 @@
             form.especie.value = mascota.especie;
             form.raza.value = mascota.raza;
             form.edad.value = mascota.edad;
-            if (mascota.dueno) {
-                document.getElementById('duenoSeleccionado').value = mascota.dueno.nombres + ' ' + mascota.dueno.apellidos + ' (' + mascota.dueno.dni + ')';
+            if (mascota.dueno && mascota.dueno.usuario) {
+                document.getElementById('duenoSeleccionado').value = mascota.dueno.usuario.nombres + ' ' + mascota.dueno.usuario.apellidos + ' (' + mascota.dueno.usuario.dni + ')';
                 document.getElementById('duenoIdSeleccionado').value = mascota.dueno.id;
             }
             document.getElementById('btnRegistrarMascota').classList.add('d-none');

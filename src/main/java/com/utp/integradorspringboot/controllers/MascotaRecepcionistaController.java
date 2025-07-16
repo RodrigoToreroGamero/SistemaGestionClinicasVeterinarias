@@ -5,17 +5,24 @@ import com.utp.integradorspringboot.models.Mascota;
 import com.utp.integradorspringboot.repositories.DuenoRepository;
 import com.utp.integradorspringboot.repositories.MascotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@RestController
+@Controller
 public class MascotaRecepcionistaController {
     @Autowired
     private MascotaRepository mascotaRepository;
     @Autowired
     private DuenoRepository duenoRepository;
+
+    @GetMapping("/recepcionista/mascotas")
+    public String gestionarMascotas(Model model) {
+        return "recepcionista/gestionar_mascotas";
+    }
 
     @PostMapping("/recepcionista/mascotas/enroll")
     public Map<String, Object> enrollMascota(@RequestBody Map<String, Object> data) {
