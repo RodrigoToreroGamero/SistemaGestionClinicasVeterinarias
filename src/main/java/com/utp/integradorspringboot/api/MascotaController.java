@@ -80,11 +80,9 @@ public class MascotaController {
     public ResponseEntity<List<Mascota>> getAll() {
         try {
             System.out.println("Attempting to fetch all mascotas...");
-            List<Mascota> lista = new ArrayList<>();
             
-            // Intentar obtener datos con manejo de errores más detallado
-            Iterable<Mascota> mascotas = mascotaRepository.findAll();
-            mascotas.forEach(lista::add);
+            // Usar el método personalizado que carga las relaciones en una sola consulta
+            List<Mascota> lista = mascotaRepository.findAllWithDuenoAndUsuario();
             
             System.out.println("Found " + lista.size() + " mascotas");
 
