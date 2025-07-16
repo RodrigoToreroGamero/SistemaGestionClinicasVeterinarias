@@ -84,10 +84,17 @@ public class MascotaController {
             // Usar el método personalizado que carga las relaciones en una sola consulta
             List<Mascota> lista = mascotaRepository.findAllWithDuenoAndUsuario();
             
-            System.out.println("Found " + lista.size() + " mascotas");
+            System.out.println("Found " + lista.size() + " mascotas (with join fetch)");
 
             for (Mascota m : lista) {
                 System.out.println(m);
+            }
+
+            // Si no se encontraron mascotas con el método personalizado, usar el estándar
+            if (lista.isEmpty()) {
+                System.out.println("No se encontraron mascotas con join fetch, usando findAll estándar...");
+                lista = mascotaRepository.findAll();
+                System.out.println("Found " + lista.size() + " mascotas (findAll)");
             }
 
             if (lista.isEmpty()) {
