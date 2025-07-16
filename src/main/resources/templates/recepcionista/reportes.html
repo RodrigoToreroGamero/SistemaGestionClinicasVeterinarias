@@ -251,7 +251,12 @@
             }
 
             function exportarPDF() {
-                alert('Función de exportar PDF en desarrollo');
+                const fecha = document.getElementById('fechaReporte').value;
+                if (!fecha) {
+                    alert('Por favor seleccione una fecha');
+                    return;
+                }
+                window.open(`/api/reportes/pagos-por-fecha/pdf?fecha=${fecha}`, '_blank');
             }
 
             function exportarExcel() {

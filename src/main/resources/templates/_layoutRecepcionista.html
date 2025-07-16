@@ -181,6 +181,11 @@
             
             console.log('Loading veterinarians...');
             console.log('Container:', container);
+            // Fix: Ensure veterinarios is always an array
+            if (!Array.isArray(veterinarios)) {
+                console.warn('Veterinarios was not an array, initializing as empty array.');
+                window.veterinarios = [];
+            }
             console.log('Veterinarios length:', veterinarios.length);
             
             if (!container) {
