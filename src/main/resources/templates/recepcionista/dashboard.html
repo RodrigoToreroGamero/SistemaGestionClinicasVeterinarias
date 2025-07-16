@@ -191,7 +191,9 @@
             
             <script th:inline="javascript">
                 window.veterinarios = /*[[${veterinariosDTO}]]*/ [];
-                alert('DASHBOARD CARGADO');
+                window.citasHoy = /*[[${citasHoy}]]*/ [];
+                console.log('DASHBOARD CARGADO - Veterinarios:', window.veterinarios);
+                console.log('DASHBOARD CARGADO - Citas de hoy:', window.citasHoy);
                 // Pagination state for Citas de Hoy
                 let citasHoyPage = 0;
                 const citasPorPagina = 5;
@@ -301,6 +303,16 @@
                         renderCitasHoy();
                     }
                 };
+                
+                // Veterinarios navigation functions
+                window.previousVeterinarios = function() {
+                    // Implementar navegación de veterinarios si es necesario
+                    console.log('Navegación anterior de veterinarios');
+                };
+                window.nextVeterinarios = function() {
+                    // Implementar navegación de veterinarios si es necesario
+                    console.log('Navegación siguiente de veterinarios');
+                };
 
                 document.addEventListener('DOMContentLoaded', function() {
                     renderCitasHoy();
@@ -319,7 +331,37 @@
                 function showCitaDetails(id) {
                     document.getElementById('citaDetailsModalLabel').textContent = 'Detalles de la Cita';
                     document.querySelector('#citaDetailsModal .btn-primary').style.display = '';
-                    // ... resto de la lógica para mostrar detalles de la cita ...
+                    
+                    // Buscar la cita por ID
+                    const cita = window.citasHoy.find(c => c.id === id);
+                    if (!cita) {
+                        console.error('Cita no encontrada con ID:', id);
+                        return;
+                    }
+                    
+                    // Mostrar detalles de la cita
+                    const modalContent = document.getElementById('citaDetailsContent');
+                    if (modalContent) {
+                        let html = `
+                            <h5>Cita #${cita.id}</h5>
+                            <p><strong>Fecha:</strong> ${cita.fecha}</p>
+                            <p><strong>Hora:</strong> ${cita.hora}</p>
+                            <p><strong>Estado:</strong> ${cita.estado}</p>
+                            <p><strong>Cliente:</strong> ${cita.dueno && cita.dueno.usuario ? cita.dueno.usuario.nombres + ' ' + cita.dueno.usuario.apellidos : 'N/A'}</p>
+                            <p><strong>Mascota:</strong> ${cita.mascota ? cita.mascota.nombre : 'N/A'}</p>
+                            <p><strong>Veterinario:</strong> ${cita.veterinario && cita.veterinario.usuario ? cita.veterinario.usuario.nombres + ' ' + cita.veterinario.usuario.apellidos : 'N/A'}</p>
+                        `;
+                        
+                        if (cita.observaciones) {
+                            html += `<p><strong>Observaciones:</strong> ${cita.observaciones}</p>`;
+                        }
+                        
+                        modalContent.innerHTML = html;
+                        window.selectedCitaId = id;
+                        
+                        const modal = new bootstrap.Modal(document.getElementById('citaDetailsModal'));
+                        modal.show();
+                    }
                 }
             </script>
         </div>

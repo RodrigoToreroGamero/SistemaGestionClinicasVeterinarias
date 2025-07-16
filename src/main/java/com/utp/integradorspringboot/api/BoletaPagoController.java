@@ -8,13 +8,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.utp.integradorspringboot.models.Boleta_pago;
 import com.utp.integradorspringboot.models.Cita;
@@ -24,8 +24,8 @@ import com.utp.integradorspringboot.repositories.DetalleCitaRepository;
 import com.utp.integradorspringboot.repositories.GestionCitaRepository;
 
 @CrossOrigin(origins = "http://localhost:8081")
-@RestController
-@RequestMapping("/api/pagos")
+@Controller
+@RequestMapping("")
 public class BoletaPagoController {
 
     @Autowired
@@ -186,5 +186,56 @@ public class BoletaPagoController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/estadisticas/clinica/{clinicaId}")
+    public ResponseEntity<Object> getEstadisticasPorClinica(@PathVariable Long clinicaId) {
+        try {
+            List<Boleta_pago> boletas = boletaPagoRepository.findByClinicaId(clinicaId);
+
+            double totalRecaudado = boletas.stream()
+                .mapToDouble(Boleta_pago::getMonto_total)
+                .sum();
+
+            long totalPagos = boletas.size();
+
+            long efectivo = boletas.stream().filter(b -> "Efectivo".equalsIgnoreCase(b.getMetodo_pago())).count();
+            long pos = boletas.stream().filter(b -> "POS".equalsIgnoreCase(b.getMetodo_pago())).count();
+            long yape = boletas.stream().filter(b -> "Yape".equalsIgnoreCase(b.getMetodo_pago())).count();
+            long plin = boletas.stream().filter(b -> "Plin".equalsIgnoreCase(b.getMetodo_pago())).count();
+            long transferencia = boletas.stream().filter(b -> "Transferencia".equalsIgnoreCase(b.getMetodo_pago())).count();
+            long otros = boletas.stream().filter(b -> {
+                String m = b.getMetodo_pago();
+                return m != null && !m.equalsIgnoreCase("Efectivo") && !m.equalsIgnoreCase("POS") && !m.equalsIgnoreCase("Yape") && !m.equalsIgnoreCase("Plin") && !m.equalsIgnoreCase("Transferencia");
+            }).count();
+
+            return new ResponseEntity<>(Map.of(
+                "totalRecaudado", totalRecaudado,
+                "totalPagos", totalPagos,
+                "efectivo", efectivo,
+                "pos", pos,
+                "yape", yape,
+                "plin", plin,
+                "transferencia", transferencia,
+                "otros", otros
+            ), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/boletas/clinica/{clinicaId}")
+    public ResponseEntity<List<Boleta_pago>> getBoletasByClinica(@PathVariable Long clinicaId) {
+        try {
+            List<Boleta_pago> boletas = boletaPagoRepository.findByClinicaId(clinicaId);
+            return new ResponseEntity<>(boletas, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(List.of(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/administrador/gestion-pagos")
+    public String mostrarGestionPagos() {
+        return "administrador/gestion-pagos";
     }
 } 

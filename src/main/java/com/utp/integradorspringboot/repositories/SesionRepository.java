@@ -13,3 +13,5 @@ public interface SesionRepository extends JpaRepository<Sesion, Long> {
     Optional<Sesion> findByCorreoIgnoreCase(String correo);
     Optional<Sesion> findByUsuario_Id(Long usuarioId);
 } 
+
+} 

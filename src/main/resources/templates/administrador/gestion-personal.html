@@ -1,6 +1,81 @@
-<html layout:decorate="_layoutGestionPersonal">
+<html layout:decorate="_layoutAdministrador">
 <head>
     <title>Gestión de Personal - VetGes</title>
+    <style>
+        /* Estilos específicos para gestión de personal */
+        .personal-card {
+            width: 100%;
+            max-width: 700px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 14px;
+            background: #fff;
+            margin-bottom: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .personal-info {
+            flex: 1;
+            text-align: left;
+        }
+        .personal-nombre {
+            color: #888;
+            font-size: 0.98rem;
+            margin-bottom: 0.5rem;
+        }
+        .personal-tipo {
+            font-size: 2.08rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+        .btn-eliminar {
+            background: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 0.4rem 1.4rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-eliminar:hover {
+            background: #c82333;
+        }
+        .btn-info {
+            background: #f5f5f5;
+            border: 1px solid #bdbdbd;
+            border-radius: 6px;
+            color: #333;
+            padding: 0.35rem 1.1rem;
+            font-size: 0.98rem;
+            cursor: pointer;
+            transition: background 0.2s, border 0.2s;
+        }
+        .btn-info:hover {
+            background: #e0e0e0;
+            border: 1px solid #2196f3;
+            color: #2196f3;
+        }
+        .btn-registrar {
+            position: fixed;
+            right: 2rem;
+            bottom: 2rem;
+            z-index: 1050;
+            border-radius: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        @media (max-width: 800px) {
+            .personal-card { max-width: 100%; }
+        }
+        @media (max-width: 600px) {
+            .btn-registrar { right: 1rem; bottom: 1rem; }
+            .personal-card { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
 </head>
 <body>
     <div layout:fragment="content">
@@ -35,17 +110,26 @@
                 <i class="fa fa-arrow-left me-2"></i>Regresar al Dashboard
             </button>
             
+            <!-- Botón Registrar estático, centrado y arriba del footer -->
             <div id="app">
-                <div class="personal-col">
-                    <div v-for="item in personasFiltradas" :key="item.id" class="personal-card">
+                <!-- Contenedor de tarjetas centrado -->
+                <div class="d-flex flex-column align-items-center">
+                    <div class="personal-card" v-for="item in personal" :key="item.id">
                         <div class="personal-info">
-                            <div class="personal-tipo">{{item.tipo}}</div>
-                            <div class="personal-nombre">{{item.nombres}} {{item.apellidos}}</div>
-                            <div class="text-muted small">DNI: {{item.dni}} | Celular: {{item.celular}}</div>
+                            <div class="personal-nombre" style="font-size:2.08rem; font-weight:600; color:#222;">{{ item.nombres }} {{ item.apellidos }}</div>
+                            <div class="personal-tipo" style="color:#888; font-size:0.98rem; margin-bottom:0.5rem;">{{ item.tipo }}</div>
+                            <div>DNI: {{ item.dni }} | Celular: {{ item.celular }}</div>
                             <button class="btn-info" @click="verInformacion(item)">Ver información</button>
                         </div>
-                        <button class="btn-eliminar" @click="eliminar(item)">ELIMINAR</button>
+                        <button class="btn btn-primary btn-eliminar" @click="eliminar(item)">ELIMINAR</button>
                     </div>
+                </div>
+                
+                <!-- Después del contenedor de tarjetas, botón registrar alineado a la derecha -->
+                <div class="d-flex justify-content-end my-4">
+                    <button class="btn btn-primary d-flex align-items-center" @click="nuevo">
+                        <span>REGISTRAR</span> <i class="icon-user ms-2"></i> <i class="icon-plus ms-1"></i>
+                    </button>
                 </div>
                 
                 <!-- Modal para nuevo/editar -->
@@ -80,6 +164,10 @@
                                         <div class="mb-3">
                                             <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
                                             <input type="date" class="form-control" id="fechaNacimiento" v-model="entidad.fechaNacimiento" required />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Correo Electrónico</label>
+                                            <input type="email" class="form-control" id="email" v-model="entidad.email" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -171,6 +259,14 @@
                                             <p>{{entidad.fechaNacimiento}}</p>
                                         </div>
                                         <div class="mb-3">
+                                            <label class="form-label fw-bold">Correo Electrónico:</label>
+                                            <p>{{entidad.email}}</p>
+                                        </div>
+                                        <div class="mb-3" v-if="entidad.passwordGenerada">
+                                            <label class="form-label fw-bold">Contraseña Generada:</label>
+                                            <p class="text-success fw-bold">{{entidad.passwordGenerada}}</p>
+                                        </div>
+                                        <div class="mb-3">
                                             <label class="form-label fw-bold">Fecha de Registro:</label>
                                             <p>{{entidad.fechaRegistro}}</p>
                                         </div>
@@ -205,9 +301,6 @@
                 </div>
             </div>
             
-            <button class="btn btn-primary btn-registrar d-flex align-items-center" @click="nuevo">
-                <span>REGISTRAR</span> <i class="fa fa-user-plus ms-2"></i>
-            </button>
         </div>
     </div>
 
@@ -216,7 +309,7 @@
             el: "#app",
             data: {
                 entidades: [],
-                personasFiltradas: [],
+                personal: [], // Changed from personasFiltradas to personal
                 entidad: {
                     id: 0,
                     tipo: '',
@@ -229,7 +322,9 @@
                     numeroColegioMedico: '',
                     especialidad: '',
                     clinica: '',
-                    clinicaId: null
+                    clinicaId: null,
+                    email: '',
+                    passwordGenerada: false // Added passwordGenerada field
                 },
                 filtroSeleccionado: '',
                 ordenSeleccionado: 'recientes'
@@ -249,6 +344,7 @@
                         .then(data => {
                             console.log('Datos cargados:', data);
                             this.entidades = data;
+                            this.personal = data; // Assign all data to personal
                             this.filtrarPersonas();
                         })
                         .catch(error => {
@@ -257,7 +353,7 @@
                         });
                 },
                 filtrarPersonas() {
-                    this.personasFiltradas = this.entidades.filter(item => {
+                    this.personal = this.entidades.filter(item => {
                         if (this.filtroSeleccionado === '') return true;
                         return item.tipo === this.filtroSeleccionado;
                     });
@@ -265,22 +361,22 @@
                 },
                 ordenarPersonas() {
                     if (this.ordenSeleccionado === 'recientes') {
-                        this.personasFiltradas.sort((a, b) => {
+                        this.personal.sort((a, b) => {
                             const dateA = new Date(a.fechaRegistro);
                             const dateB = new Date(b.fechaRegistro);
                             return dateB - dateA;
                         });
                     } else if (this.ordenSeleccionado === 'antiguos') {
-                        this.personasFiltradas.sort((a, b) => {
+                        this.personal.sort((a, b) => {
                             const dateA = new Date(a.fechaRegistro);
                             const dateB = new Date(b.fechaRegistro);
                             return dateA - dateB;
                         });
                     } else if (this.ordenSeleccionado === 'asc') {
-                        this.personasFiltradas.sort((a, b) => 
+                        this.personal.sort((a, b) => 
                             (a.nombres + ' ' + a.apellidos).localeCompare(b.nombres + ' ' + b.apellidos));
                     } else if (this.ordenSeleccionado === 'desc') {
-                        this.personasFiltradas.sort((a, b) => 
+                        this.personal.sort((a, b) => 
                             (b.nombres + ' ' + b.apellidos).localeCompare(a.nombres + ' ' + a.apellidos));
                     }
                 },
@@ -297,7 +393,9 @@
                         numeroColegioMedico: '',
                         especialidad: '',
                         clinica: '',
-                        clinicaId: null
+                        clinicaId: null,
+                        email: '',
+                        passwordGenerada: false // Initialize passwordGenerada for new entry
                     };
                     new bootstrap.Modal(document.getElementById('mdlEntidad')).show();
                 },
@@ -313,14 +411,23 @@
                         }
                         return response.json();
                     })
-                    .then(() => {
+                    .then(data => {
                         bootstrap.Modal.getInstance(document.getElementById('mdlEntidad')).hide();
                         this.cargarDatos();
+                        
+                        // Mostrar la contraseña generada al admin
+                        if (data.passwordGenerada) {
+                            alert('Personal registrado exitosamente.\n\n' +
+                                  'Email: ' + data.email + '\n' +
+                                  'Contraseña generada: ' + data.passwordGenerada + '\n\n' +
+                                  'Guarde esta información para proporcionarla al empleado.');
+                        } else {
                         alert('Personal registrado exitosamente');
+                        }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('Error al guardar el personal');
+                        alert('Error al guardar el personal: ' + error.message);
                     });
                 },
                 actualizar() {
@@ -376,6 +483,11 @@
                 }
             }
         });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.6.1/vue-resource.min.js"></script>
+    <script>
+        // Scripts específicos para gestión de personal (si tienes alguno personalizado, colócalo aquí)
     </script>
 </body>
 </html> 
