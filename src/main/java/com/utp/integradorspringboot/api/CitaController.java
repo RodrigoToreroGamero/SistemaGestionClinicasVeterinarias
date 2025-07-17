@@ -1,6 +1,5 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Plantilla de licencia generada por NetBeans. Puedes modificarla según las necesidades del sistema.
  */
 package com.utp.integradorspringboot.api;
 
@@ -44,7 +43,7 @@ public class CitaController {
             
             // Cargar las relaciones explícitamente para evitar problemas de lazy loading
             for (Cita cita : lista) {
-                // Forzar la carga de las relaciones
+                // Forzar la carga de las relaciones asociadas a la cita
                 if (cita.getVeterinario() != null) {
                     cita.getVeterinario().getUsuario();
                 }
@@ -91,7 +90,7 @@ public class CitaController {
     @PostMapping("/Cita")
     public ResponseEntity<Cita> create(@RequestBody Cita entidad) {
         try {
-            // Crear la cita
+            // Crear la cita principal
             Cita _entidad = repository.save(new Cita(
                 null, 
                 entidad.getFecha(),
@@ -104,13 +103,13 @@ public class CitaController {
             
             // Si hay detalle de cita, crearlo también
             if (entidad.getDetalleCita() != null && entidad.getDetalleCita().getMotivo_cita() != null) {
-                // Obtener el motivo de cita
+                // Obtener el motivo de cita seleccionado
                 Motivo_cita motivoCita = motivoCitaRepository.findById(
                     entidad.getDetalleCita().getMotivo_cita().getId()
                 ).orElse(null);
                 
                 if (motivoCita != null) {
-                    // Crear el detalle de cita
+                    // Crear el detalle de cita asociado
                     Detalle_cita detalleCita = new Detalle_cita();
                     detalleCita.setCita(_entidad);
                     detalleCita.setMotivo_cita(motivoCita);

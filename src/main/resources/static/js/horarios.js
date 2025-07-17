@@ -10,7 +10,7 @@ function formatHora(hora) {
     return hora.substring(0,5);
 }
 
-// Cargar horarios actuales del veterinario
+// Cargar los horarios actuales del veterinario desde la API
 async function cargarHorarios() {
     tablaHorarios.innerHTML = '';
     const resp = await fetch(`/api/Veterinario/${veterinarioId}/horarios`);
@@ -28,7 +28,7 @@ async function cargarHorarios() {
     }
 }
 
-// Agregar una fila a la tabla
+// Agrega una fila a la tabla de horarios con los datos recibidos
 function agregarFilaHorario(horario) {
     const fila = document.createElement('tr');
     fila.innerHTML =
@@ -42,7 +42,7 @@ function agregarFilaHorario(horario) {
     tablaHorarios.appendChild(fila);
 }
 
-// Agregar nuevo horario
+// Maneja el evento de agregar un nuevo horario desde el formulario
 formAgregar.addEventListener('submit', async function(e) {
     e.preventDefault();
     const dia_semana = formAgregar.dia_semana.value;
@@ -72,16 +72,16 @@ formAgregar.addEventListener('submit', async function(e) {
         alert('Error al asignar el horario al veterinario');
         return;
     }
-    // Recargar la tabla
+    // Recargar la tabla de horarios para mostrar el nuevo registro
     cargarHorarios();
     formAgregar.reset();
 });
 
-// Eliminar horario (elimina la relación, no el bloque)
+// Elimina un horario (elimina la relación, no el bloque de horario)
 async function eliminarHorario(horarioId) {
     if (!confirm('¿Seguro que deseas eliminar este intervalo?')) return;
     // Buscar el id de la relación VeterinarioHorario
-    // Necesitamos obtener la relación, así que pedimos todas y buscamos la que tenga este horario
+    // Se obtienen todas las relaciones y se busca la que corresponde a este horario
     const resp = await fetch('/api/VeterinarioHorario');
     if (!resp.ok) {
         alert('No se pudo obtener la relación para eliminar.');
@@ -101,11 +101,13 @@ async function eliminarHorario(horarioId) {
     cargarHorarios();
 }
 
-// Editar horario (flujo preparado, implementación posterior)
+// Editar horario (funcionalidad pendiente de implementación)
 function editarHorario(horarioId) {
     alert('Funcionalidad de edición en desarrollo.');
-    // Aquí puedes abrir un modal o permitir edición en línea
+    // Aquí puedes abrir un modal o permitir edición en línea en el futuro
 }
 
-// Inicializar
+// Inicializa la carga de horarios al cargar la página
+// Este evento asegura que la tabla se llene automáticamente al abrir la vista
+
 document.addEventListener('DOMContentLoaded', cargarHorarios); 

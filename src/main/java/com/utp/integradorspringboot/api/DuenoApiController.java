@@ -62,7 +62,7 @@ public class DuenoApiController {
         return duenoRepository.findAll().stream().map(dueno -> {
             String email = null;
             if (dueno.getUsuario() != null) {
-                // Buscar sesión por ID de usuario
+                // Buscar la sesión por ID de usuario
                 Sesion sesion = sesionRepository.findByUsuario_Id(dueno.getUsuario().getId()).orElse(null);
                 if (sesion != null) {
                     email = sesion.getCorreo();
@@ -89,13 +89,13 @@ public class DuenoApiController {
         var dueno = duenoOpt.get();
         var usuario = dueno.getUsuario();
 
-        // Eliminar sesión
+        // Eliminar la sesión asociada al usuario
         sesionRepository.deleteByUsuarioId(usuario.getId());
-        // Eliminar roles
+        // Eliminar los roles asociados al usuario
         usuarioRolRepository.deleteByUsuarioId(usuario.getId());
-        // Eliminar dueño
+        // Eliminar el dueño
         duenoRepository.delete(dueno);
-        // Eliminar usuario
+        // Eliminar el usuario
         usuarioRepository.delete(usuario);
 
         return ResponseEntity.ok().build();

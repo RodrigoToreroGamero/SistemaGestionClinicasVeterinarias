@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 public class AuthService {
+    // Servicio de autenticación y gestión de sesión
 
     @Autowired
     private SesionRepository sesionRepository;

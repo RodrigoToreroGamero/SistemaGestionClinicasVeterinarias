@@ -21,6 +21,7 @@ import jakarta.mail.MessagingException;
 @Service
 @Transactional
 public class PasswordResetService {
+    // Servicio para gestionar el reseteo de contraseñas
     
     @Autowired
     private PasswordResetTokenRepository tokenRepository;
@@ -36,6 +37,7 @@ public class PasswordResetService {
     
     @Transactional
     public boolean requestPasswordReset(String email) {
+        // Solicita el reseteo de contraseña para el email dado
         System.out.println("DEBUG: Starting requestPasswordReset for email: " + email);
         try {
             // Normalizar email
@@ -92,6 +94,7 @@ public class PasswordResetService {
     
     @Transactional(readOnly = true)
     public boolean validateToken(String token) {
+        // Valida si el token es válido y no ha expirado
         Optional<PasswordResetToken> tokenOpt = tokenRepository.findByToken(token);
         if (tokenOpt.isEmpty()) {
             return false;
@@ -103,6 +106,7 @@ public class PasswordResetService {
     
     @Transactional
     public boolean resetPassword(String token, String newPassword) {
+        // Cambia la contraseña usando el token
         Optional<PasswordResetToken> tokenOpt = tokenRepository.findByToken(token);
         if (tokenOpt.isEmpty()) {
             return false;
@@ -148,6 +152,7 @@ public class PasswordResetService {
     
     @Transactional
     public void cleanupExpiredTokens() {
+        // Elimina tokens expirados
         tokenRepository.deleteExpiredTokens(LocalDateTime.now());
     }
 } 

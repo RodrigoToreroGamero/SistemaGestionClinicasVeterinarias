@@ -39,7 +39,7 @@ public class MascotaController {
     // Endpoint de prueba para verificar si el controlador está funcionando
     @GetMapping("/Mascota/test")
     public ResponseEntity<String> test() {
-        return new ResponseEntity<>("Mascota controller is working!", HttpStatus.OK);
+        return new ResponseEntity<>("¡El controlador de Mascota está funcionando!", HttpStatus.OK);
     }
 
     // Endpoint de prueba simple sin base de datos
@@ -47,12 +47,12 @@ public class MascotaController {
     public ResponseEntity<Map<String, Object>> simpleTest() {
         try {
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Simple test successful");
+            response.put("mensaje", "Prueba simple exitosa");
             response.put("timestamp", new Date());
-            response.put("status", "OK");
+            response.put("estado", "OK");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            System.err.println("Error in simple test: " + e.getMessage());
+            System.err.println("Error en la prueba simple: " + e.getMessage());
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -64,12 +64,12 @@ public class MascotaController {
         try {
             long count = mascotaRepository.count();
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Database connection successful");
-            response.put("mascota_count", count);
-            response.put("status", "OK");
+            response.put("mensaje", "Conexión a la base de datos exitosa");
+            response.put("cantidad_mascotas", count);
+            response.put("estado", "OK");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            System.err.println("Error in database test: " + e.getMessage());
+            System.err.println("Error en la prueba de base de datos: " + e.getMessage());
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -79,12 +79,12 @@ public class MascotaController {
     @GetMapping("/Mascota")
     public ResponseEntity<List<Mascota>> getAll() {
         try {
-            System.out.println("Attempting to fetch all mascotas...");
+            System.out.println("Intentando obtener todas las mascotas...");
             
             // Usar el método personalizado que carga las relaciones en una sola consulta
             List<Mascota> lista = mascotaRepository.findAllWithDuenoAndUsuario();
             
-            System.out.println("Found " + lista.size() + " mascotas (with join fetch)");
+            System.out.println("Se encontraron " + lista.size() + " mascotas (con join fetch)");
 
             for (Mascota m : lista) {
                 System.out.println(m);
@@ -94,7 +94,7 @@ public class MascotaController {
             if (lista.isEmpty()) {
                 System.out.println("No se encontraron mascotas con join fetch, usando findAll estándar...");
                 lista = mascotaRepository.findAll();
-                System.out.println("Found " + lista.size() + " mascotas (findAll)");
+                System.out.println("Se encontraron " + lista.size() + " mascotas (findAll)");
             }
 
             if (lista.isEmpty()) {
@@ -104,11 +104,11 @@ public class MascotaController {
             return new ResponseEntity<>(lista, HttpStatus.OK);
 
         } catch (org.springframework.dao.DataAccessException e) {
-            System.err.println("Database access error in getAll mascotas: " + e.getMessage());
+            System.err.println("Error de acceso a la base de datos en getAll mascotas: " + e.getMessage());
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
-            System.err.println("Unexpected error in getAll mascotas: " + e.getMessage());
+            System.err.println("Error inesperado en getAll mascotas: " + e.getMessage());
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -147,7 +147,7 @@ public class MascotaController {
     @PostMapping("/Mascota")
     public ResponseEntity<Mascota> create(@RequestBody Mascota mascota) {
         try {
-            // Validar que el usuario exista
+            // Validar que el usuario dueño exista
             if (mascota.getDueno() == null || mascota.getDueno().getId() == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
@@ -168,7 +168,7 @@ public class MascotaController {
             return new ResponseEntity<>(nuevaMascota, HttpStatus.CREATED);
 
         } catch (Exception e) {
-            e.printStackTrace(); // Para debugging
+            e.printStackTrace(); // Para depuración
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
