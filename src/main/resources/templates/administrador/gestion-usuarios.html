@@ -187,9 +187,15 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             })
-            .then(resp => {
-                if (resp.ok) {
-                    fetchClientes();
+            .then(resp => resp.json())
+            .then(result => {
+                if (result.success) {
+                    // Actualiza el usuario en usuariosData directamente
+                    const idx = usuariosData.findIndex(u => u.id == id);
+                    if (idx !== -1) {
+                        usuariosData[idx] = { ...usuariosData[idx], ...result.usuario };
+                    }
+                    renderClientes();
                     bootstrap.Modal.getInstance(document.getElementById('modalEditarUsuario')).hide();
                 } else {
                     alert('Error al actualizar usuario');
