@@ -42,10 +42,29 @@ public class CitaController {
             List<Cita> lista = new ArrayList<Cita>();
             repository.findAll().forEach(lista::add);
             
+            // Cargar las relaciones explícitamente para evitar problemas de lazy loading
+            for (Cita cita : lista) {
+                // Forzar la carga de las relaciones
+                if (cita.getVeterinario() != null) {
+                    cita.getVeterinario().getUsuario();
+                }
+                if (cita.getDueno() != null) {
+                    cita.getDueno().getUsuario();
+                }
+                if (cita.getMascota() != null) {
+                    cita.getMascota().getDueno();
+                }
+                if (cita.getDetalleCita() != null && cita.getDetalleCita().getMotivo_cita() != null) {
+                    cita.getDetalleCita().getMotivo_cita().getNombre();
+                }
+            }
+            
             System.out.println("Total citas encontradas: " + lista.size());
             for (Cita cita : lista) {
                 System.out.println("Cita ID: " + cita.getId() + 
                                  ", Fecha: " + cita.getFecha() + 
+                                 ", Veterinario: " + (cita.getVeterinario() != null ? cita.getVeterinario().getId() : "null") +
+                                 ", Dueno: " + (cita.getDueno() != null ? cita.getDueno().getId() : "null") +
                                  ", DetalleCita: " + (cita.getDetalleCita() != null ? "Sí" : "No"));
             }
             
@@ -105,6 +124,41 @@ public class CitaController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/Cita/{id}")
+    public ResponseEntity<Cita> update(@PathVariable("id") Long id, @RequestBody Cita entidad) {
+        try {
+            Optional<Cita> citaData = repository.findById(id);
+            if (citaData.isPresent()) {
+                Cita _cita = citaData.get();
+                _cita.setFecha(entidad.getFecha());
+                _cita.setHora(entidad.getHora());
+                _cita.setEstado(entidad.getEstado());
+                _cita.setObservaciones(entidad.getObservaciones());
+                _cita.setMascota(entidad.getMascota());
+                _cita.setVeterinario(entidad.getVeterinario());
+                _cita.setDueno(entidad.getDueno());
+                
+                return new ResponseEntity<>(repository.save(_cita), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/Cita/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
+        try {
+            repository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
