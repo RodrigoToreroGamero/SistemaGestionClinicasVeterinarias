@@ -1,6 +1,4 @@
-/*
- * Plantilla de licencia generada por NetBeans. Puedes modificarla según las necesidades del sistema.
- */
+
 package com.utp.integradorspringboot.api;
 
 import com.utp.integradorspringboot.models.Cita;
