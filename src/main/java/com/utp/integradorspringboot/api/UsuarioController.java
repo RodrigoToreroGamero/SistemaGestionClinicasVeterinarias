@@ -1,6 +1,5 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Plantilla de licencia generada por NetBeans. Puedes modificarla según las necesidades del sistema.
  */
 package com.utp.integradorspringboot.api;
 
@@ -25,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
+ * Controlador para la gestión de usuarios en el sistema.
+ * Permite operaciones CRUD sobre los usuarios.
  * @author UTP
  */
 

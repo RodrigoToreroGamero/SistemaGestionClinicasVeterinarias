@@ -130,4 +130,6 @@ public class Mascota {
     public String toString() {
         return "Mascota{" + "id=" + id + ", nombre=" + nombre + ", especie=" + especie + ", raza=" + raza + ", edad=" + edad + ", dueno=" + dueno + ", citas=" + citas +'}';
     }
+    
+    
 }

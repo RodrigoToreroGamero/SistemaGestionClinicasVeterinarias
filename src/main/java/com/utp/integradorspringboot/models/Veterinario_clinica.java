@@ -10,7 +10,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "veterinario_clinica", uniqueConstraints = @UniqueConstraint(columnNames = {"id_veterinario", "id_clinica"}))
+//@Table(name = "veterinario_clinica", uniqueConstraints = @UniqueConstraint(columnNames = {"id_veterinario", "id_clinica"}))
+@Table(name = "veterinario_clinica")
 public class Veterinario_clinica {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

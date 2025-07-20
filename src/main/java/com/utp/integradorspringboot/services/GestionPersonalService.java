@@ -1,25 +1,32 @@
 package com.utp.integradorspringboot.services;
 
-import com.utp.integradorspringboot.dto.PersonalDTO;
-import com.utp.integradorspringboot.models.Clinica;
-import com.utp.integradorspringboot.models.Recepcionista;
-import com.utp.integradorspringboot.models.Usuario;
-import com.utp.integradorspringboot.models.Veterinario;
-import com.utp.integradorspringboot.repositories.ClinicaRepository;
-import com.utp.integradorspringboot.repositories.RecepcionistaRepository;
-import com.utp.integradorspringboot.repositories.UsuarioRepository;
-import com.utp.integradorspringboot.repositories.VeterinarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.utp.integradorspringboot.dto.PersonalDTO;
+import com.utp.integradorspringboot.models.Clinica;
+import com.utp.integradorspringboot.models.Recepcionista;
+import com.utp.integradorspringboot.models.Rol;
+import com.utp.integradorspringboot.models.Sesion;
+import com.utp.integradorspringboot.models.Usuario;
+import com.utp.integradorspringboot.models.Usuario_rol;
+import com.utp.integradorspringboot.models.Veterinario;
+import com.utp.integradorspringboot.repositories.ClinicaRepository;
+import com.utp.integradorspringboot.repositories.RecepcionistaRepository;
+import com.utp.integradorspringboot.repositories.RolRepository;
+import com.utp.integradorspringboot.repositories.SesionRepository;
+import com.utp.integradorspringboot.repositories.UsuarioRepository;
+import com.utp.integradorspringboot.repositories.UsuarioRolRepository;
+import com.utp.integradorspringboot.repositories.VeterinarioRepository;
+
 /**
- * Servicio para la gestión de personal
- * Combina datos de Veterinario y Recepcionista
+ * Servicio para gestionar personal (veterinarios y recepcionistas).
  */
 @Service
 public class GestionPersonalService {
@@ -35,9 +42,34 @@ public class GestionPersonalService {
 
     @Autowired
     private ClinicaRepository clinicaRepository;
+    
+    @Autowired
+    private SesionRepository sesionRepository;
+    
+    @Autowired
+    private RolRepository rolRepository;
+    
+    @Autowired
+    private UsuarioRolRepository usuarioRolRepository;
 
     /**
-     * Obtiene todo el personal combinando Veterinarios y Recepcionistas
+     * Genera una contraseña aleatoria alfanumérica de 8-10 caracteres.
+     */
+    private String generarPassword() {
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        SecureRandom random = new SecureRandom();
+        int longitud = random.nextInt(3) + 8; // 8-10 caracteres
+        
+        StringBuilder password = new StringBuilder();
+        for (int i = 0; i < longitud; i++) {
+            password.append(caracteres.charAt(random.nextInt(caracteres.length())));
+        }
+        
+        return password.toString();
+    }
+
+    /**
+     * Obtiene todo el personal (veterinarios y recepcionistas).
      */
     public List<PersonalDTO> getAllPersonal() {
         List<PersonalDTO> personalList = new ArrayList<>();
@@ -57,6 +89,11 @@ public class GestionPersonalService {
             dto.setFechaRegistro(usuario.getFecha_registro());
             dto.setNumeroColegioMedico(veterinario.getNumero_colegio_medico());
             dto.setEspecialidad(veterinario.getEspecialidad());
+            
+            // Obtener email de la sesión
+            Optional<Sesion> sesionOpt = sesionRepository.findByUsuario_Id(usuario.getId());
+            dto.setEmail(sesionOpt.map(Sesion::getCorreo).orElse(""));
+            
             personalList.add(dto);
         }
 
@@ -76,6 +113,11 @@ public class GestionPersonalService {
             dto.setFechaRegistro(usuario.getFecha_registro());
             dto.setClinica(clinica != null ? clinica.getNombre_clinica() : "");
             dto.setClinicaId(clinica != null ? clinica.getId() : null);
+            
+            // Obtener email de la sesión
+            Optional<Sesion> sesionOpt = sesionRepository.findByUsuario_Id(usuario.getId());
+            dto.setEmail(sesionOpt.map(Sesion::getCorreo).orElse(""));
+            
             personalList.add(dto);
         }
 
@@ -83,7 +125,7 @@ public class GestionPersonalService {
     }
 
     /**
-     * Obtiene personal por ID y tipo
+     * Obtiene un personal por ID y tipo.
      */
     public PersonalDTO getPersonalById(Long id, String tipo) {
         if ("Veterinario".equals(tipo)) {
@@ -102,6 +144,11 @@ public class GestionPersonalService {
                 dto.setFechaRegistro(usuario.getFecha_registro());
                 dto.setNumeroColegioMedico(veterinario.getNumero_colegio_medico());
                 dto.setEspecialidad(veterinario.getEspecialidad());
+                
+                // Obtener email de la sesión
+                Optional<Sesion> sesionOpt = sesionRepository.findByUsuario_Id(usuario.getId());
+                dto.setEmail(sesionOpt.map(Sesion::getCorreo).orElse(""));
+                
                 return dto;
             }
         } else if ("Recepcionista".equals(tipo)) {
@@ -121,6 +168,11 @@ public class GestionPersonalService {
                 dto.setFechaRegistro(usuario.getFecha_registro());
                 dto.setClinica(clinica != null ? clinica.getNombre_clinica() : "");
                 dto.setClinicaId(clinica != null ? clinica.getId() : null);
+                
+                // Obtener email de la sesión
+                Optional<Sesion> sesionOpt = sesionRepository.findByUsuario_Id(usuario.getId());
+                dto.setEmail(sesionOpt.map(Sesion::getCorreo).orElse(""));
+                
                 return dto;
             }
         }
@@ -128,9 +180,20 @@ public class GestionPersonalService {
     }
 
     /**
-     * Crea nuevo personal
+     * Crea un nuevo personal.
      */
     public PersonalDTO createPersonal(PersonalDTO personalDTO) {
+        // Validar que se proporcione un email
+        if (personalDTO.getEmail() == null || personalDTO.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("El email es obligatorio para registrar personal");
+        }
+        
+        // Verificar que el email no esté ya registrado
+        Optional<Sesion> sesionExistente = sesionRepository.findByCorreo(personalDTO.getEmail().trim().toLowerCase());
+        if (sesionExistente.isPresent()) {
+            throw new IllegalArgumentException("El email ya está registrado en el sistema");
+        }
+        
         // Crear usuario primero
         Usuario usuario = new Usuario();
         usuario.setNombres(personalDTO.getNombres());
@@ -141,6 +204,35 @@ public class GestionPersonalService {
         usuario.setFecha_registro(LocalDateTime.now());
         
         Usuario savedUsuario = usuarioRepository.save(usuario);
+
+        // Generar contraseña aleatoria
+        String passwordGenerada = generarPassword();
+        
+        // Crear sesión para el usuario
+        Sesion sesion = new Sesion();
+        sesion.setCorreo(personalDTO.getEmail().trim().toLowerCase());
+        sesion.setContrasena(passwordGenerada);
+        sesion.setUsuario(savedUsuario);
+        sesion.setFecha_creacion(LocalDateTime.now());
+        sesionRepository.save(sesion);
+        
+        // Asignar rol según el tipo de personal
+        String nombreRol = "";
+        if ("Veterinario".equals(personalDTO.getTipo())) {
+            nombreRol = "VETERINARIO";
+        } else if ("Recepcionista".equals(personalDTO.getTipo())) {
+            nombreRol = "RECEPCIONISTA";
+        }
+        
+        if (!nombreRol.isEmpty()) {
+            Optional<Rol> rolOpt = rolRepository.findByNombre(nombreRol);
+            if (rolOpt.isPresent()) {
+                Usuario_rol usuarioRol = new Usuario_rol();
+                usuarioRol.setUsuario(savedUsuario);
+                usuarioRol.setRol(rolOpt.get());
+                usuarioRolRepository.save(usuarioRol);
+            }
+        }
 
         if ("Veterinario".equals(personalDTO.getTipo())) {
             Veterinario veterinario = new Veterinario();
@@ -165,12 +257,15 @@ public class GestionPersonalService {
             personalDTO.setId(savedRecepcionista.getId());
             personalDTO.setFechaRegistro(savedUsuario.getFecha_registro());
         }
+        
+        // Establecer la contraseña generada en el DTO para devolverla al admin
+        personalDTO.setPasswordGenerada(passwordGenerada);
 
         return personalDTO;
     }
 
     /**
-     * Actualiza personal existente
+     * Actualiza un personal existente.
      */
     public PersonalDTO updatePersonal(Long id, PersonalDTO personalDTO) {
         if ("Veterinario".equals(personalDTO.getTipo())) {
@@ -178,21 +273,26 @@ public class GestionPersonalService {
             if (veterinarioOpt.isPresent()) {
                 Veterinario veterinario = veterinarioOpt.get();
                 Usuario usuario = veterinario.getUsuario();
-                
                 // Actualizar datos del usuario
                 usuario.setNombres(personalDTO.getNombres());
                 usuario.setApellidos(personalDTO.getApellidos());
                 usuario.setDni(personalDTO.getDni());
                 usuario.setCelular(personalDTO.getCelular());
                 usuario.setFecha_nacimiento(personalDTO.getFechaNacimiento());
-                
                 // Actualizar datos del veterinario
                 veterinario.setNumero_colegio_medico(personalDTO.getNumeroColegioMedico());
                 veterinario.setEspecialidad(personalDTO.getEspecialidad());
-                
+                // Actualizar correo en Sesion si ha cambiado
+                Optional<Sesion> sesionOpt = sesionRepository.findByUsuario_Id(usuario.getId());
+                if (sesionOpt.isPresent() && personalDTO.getEmail() != null) {
+                    Sesion sesion = sesionOpt.get();
+                    if (!personalDTO.getEmail().equalsIgnoreCase(sesion.getCorreo())) {
+                        sesion.setCorreo(personalDTO.getEmail().trim().toLowerCase());
+                        sesionRepository.save(sesion);
+                    }
+                }
                 usuarioRepository.save(usuario);
                 veterinarioRepository.save(veterinario);
-                
                 personalDTO.setId(veterinario.getId());
                 personalDTO.setFechaRegistro(usuario.getFecha_registro());
                 return personalDTO;
@@ -202,23 +302,28 @@ public class GestionPersonalService {
             if (recepcionistaOpt.isPresent()) {
                 Recepcionista recepcionista = recepcionistaOpt.get();
                 Usuario usuario = recepcionista.getUsuario();
-                
                 // Actualizar datos del usuario
                 usuario.setNombres(personalDTO.getNombres());
                 usuario.setApellidos(personalDTO.getApellidos());
                 usuario.setDni(personalDTO.getDni());
                 usuario.setCelular(personalDTO.getCelular());
                 usuario.setFecha_nacimiento(personalDTO.getFechaNacimiento());
-                
                 // Actualizar clínica si se proporciona
                 if (personalDTO.getClinicaId() != null) {
                     Optional<Clinica> clinicaOpt = clinicaRepository.findById(personalDTO.getClinicaId());
                     clinicaOpt.ifPresent(recepcionista::setClinica);
                 }
-                
+                // Actualizar correo en Sesion si ha cambiado
+                Optional<Sesion> sesionOpt = sesionRepository.findByUsuario_Id(usuario.getId());
+                if (sesionOpt.isPresent() && personalDTO.getEmail() != null) {
+                    Sesion sesion = sesionOpt.get();
+                    if (!personalDTO.getEmail().equalsIgnoreCase(sesion.getCorreo())) {
+                        sesion.setCorreo(personalDTO.getEmail().trim().toLowerCase());
+                        sesionRepository.save(sesion);
+                    }
+                }
                 usuarioRepository.save(usuario);
                 recepcionistaRepository.save(recepcionista);
-                
                 personalDTO.setId(recepcionista.getId());
                 personalDTO.setFechaRegistro(usuario.getFecha_registro());
                 return personalDTO;
@@ -228,7 +333,7 @@ public class GestionPersonalService {
     }
 
     /**
-     * Elimina personal por ID y tipo
+     * Elimina un personal por ID y tipo.
      */
     public boolean deletePersonal(Long id, String tipo) {
         try {
