@@ -121,7 +121,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="cita in citasFiltradas" :key="cita.id">
+                    <tr v-for="(cita, index) in citasFiltradas" :key="`${cita.id}-${index}`">
                         <td>{{ cita.dueno && cita.dueno.usuario ? cita.dueno.usuario.nombres + ' ' + cita.dueno.usuario.apellidos : 'N/A' }}</td>
                         <td>{{ cita.mascota ? cita.mascota.nombre : 'N/A' }}</td>
                         <td>{{ cita.veterinario && cita.veterinario.usuario ? cita.veterinario.usuario.nombres + ' ' + cita.veterinario.usuario.apellidos : 'N/A' }}</td>

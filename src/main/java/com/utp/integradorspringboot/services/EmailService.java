@@ -1,6 +1,5 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Plantilla de licencia generada por NetBeans. Puedes modificarla según las necesidades del sistema.
  */
 package com.utp.integradorspringboot.services;
 

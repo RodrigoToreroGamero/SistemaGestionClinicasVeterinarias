@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,8 +45,8 @@ public class BoletaPagoController {
             List<Boleta_pago> boletas = boletaPagoRepository.findAll();
             return new ResponseEntity<>(boletas, HttpStatus.OK);
         } catch (Exception e) {
-            // Return empty list instead of error for now
-            System.err.println("Error getting boletas: " + e.getMessage());
+            // Retornar lista vacía en vez de error por ahora
+            System.err.println("Error al obtener boletas: " + e.getMessage());
             return new ResponseEntity<>(List.of(), HttpStatus.OK);
         }
     }
@@ -92,7 +93,7 @@ public class BoletaPagoController {
                                                @RequestParam String metodoPago,
                                                @RequestParam Double monto) {
         try {
-            // Buscar la cita
+            // Buscar la cita correspondiente
             Cita cita = citaRepository.findById(citaId).orElse(null);
             if (cita == null) {
                 return new ResponseEntity<>("ERROR: Cita no encontrada", HttpStatus.BAD_REQUEST);
@@ -104,12 +105,12 @@ public class BoletaPagoController {
                 return new ResponseEntity<>("ERROR: Detalle de cita no encontrado", HttpStatus.BAD_REQUEST);
             }
 
-            // Verificar si ya existe una boleta de pago
+            // Verificar si ya existe una boleta de pago para esta cita
             if (boletaPagoRepository.findByDetalleCita(detalleCita).isPresent()) {
                 return new ResponseEntity<>("ERROR: Esta cita ya tiene un pago registrado", HttpStatus.CONFLICT);
             }
 
-            // Crear la boleta de pago
+            // Crear la boleta de pago y asociarla a la cita
             Boleta_pago boleta = new Boleta_pago();
             boleta.setDetalle_cita(detalleCita);
             boleta.setMonto_total(monto);
@@ -186,5 +187,56 @@ public class BoletaPagoController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/estadisticas/clinica/{clinicaId}")
+    public ResponseEntity<Object> getEstadisticasPorClinica(@PathVariable Long clinicaId) {
+        try {
+            List<Boleta_pago> boletas = boletaPagoRepository.findByClinicaId(clinicaId);
+
+            double totalRecaudado = boletas.stream()
+                .mapToDouble(Boleta_pago::getMonto_total)
+                .sum();
+
+            long totalPagos = boletas.size();
+
+            long efectivo = boletas.stream().filter(b -> "Efectivo".equalsIgnoreCase(b.getMetodo_pago())).count();
+            long pos = boletas.stream().filter(b -> "POS".equalsIgnoreCase(b.getMetodo_pago())).count();
+            long yape = boletas.stream().filter(b -> "Yape".equalsIgnoreCase(b.getMetodo_pago())).count();
+            long plin = boletas.stream().filter(b -> "Plin".equalsIgnoreCase(b.getMetodo_pago())).count();
+            long transferencia = boletas.stream().filter(b -> "Transferencia".equalsIgnoreCase(b.getMetodo_pago())).count();
+            long otros = boletas.stream().filter(b -> {
+                String m = b.getMetodo_pago();
+                return m != null && !m.equalsIgnoreCase("Efectivo") && !m.equalsIgnoreCase("POS") && !m.equalsIgnoreCase("Yape") && !m.equalsIgnoreCase("Plin") && !m.equalsIgnoreCase("Transferencia");
+            }).count();
+
+            return new ResponseEntity<>(Map.of(
+                "totalRecaudado", totalRecaudado,
+                "totalPagos", totalPagos,
+                "efectivo", efectivo,
+                "pos", pos,
+                "yape", yape,
+                "plin", plin,
+                "transferencia", transferencia,
+                "otros", otros
+            ), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/boletas/clinica/{clinicaId}")
+    public ResponseEntity<List<Boleta_pago>> getBoletasByClinica(@PathVariable Long clinicaId) {
+        try {
+            List<Boleta_pago> boletas = boletaPagoRepository.findByClinicaId(clinicaId);
+            return new ResponseEntity<>(boletas, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(List.of(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/administrador/gestion-pagos")
+    public String mostrarGestionPagos() {
+        return "administrador/gestion-pagos";
     }
 } 

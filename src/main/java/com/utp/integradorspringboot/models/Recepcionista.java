@@ -20,7 +20,7 @@ public class Recepcionista {
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "id_clinica", nullable = false)
+    @JoinColumn(name = "id_clinica", nullable = true)
     private Clinica clinica;
 
     public Recepcionista() {}

@@ -4,15 +4,19 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * DTO para combinar datos de Usuario, Veterinario y Recepcionista
- * Adaptado para el sistema de gestión de personal
+ * DTO que representa la información combinada de un Usuario, Veterinario o Recepcionista.
+ * Se utiliza para transferir datos de personal en el sistema de gestión de clínicas veterinarias.
+ * Permite manejar tanto veterinarios como recepcionistas en una sola estructura.
  */
 public class PersonalDTO {
     
     private Long id;
-    private String tipo; // "Veterinario" o "Recepcionista"
+    /**
+     * Tipo de personal: puede ser "Veterinario" o "Recepcionista".
+     */
+    private String tipo;
     
-    // Datos del Usuario
+    // Datos generales del usuario
     private String dni;
     private String nombres;
     private String apellidos;
@@ -20,26 +24,34 @@ public class PersonalDTO {
     private LocalDate fechaNacimiento;
     private LocalDateTime fechaRegistro;
     
-    // Datos específicos de Veterinario
+    // Datos de acceso al sistema
+    private String email;
+    private String passwordGenerada;
+    
+    // Datos específicos de veterinario
     private String numeroColegioMedico;
     private String especialidad;
     
-    // Datos específicos de Recepcionista
+    // Datos específicos de recepcionista
     private String clinica;
     private Long clinicaId;
     
-    // Datos comunes
+    // Datos comunes a ambos tipos de personal
     private String horarioLaboral;
     
-    // Constructor por defecto
+    /**
+     * Constructor por defecto.
+     */
     public PersonalDTO() {
     }
     
-    // Constructor completo
+    /**
+     * Constructor completo para inicializar todos los campos del DTO.
+     */
     public PersonalDTO(Long id, String tipo, String dni, String nombres, String apellidos, 
                       String celular, LocalDate fechaNacimiento, LocalDateTime fechaRegistro,
-                      String numeroColegioMedico, String especialidad, String clinica, 
-                      Long clinicaId, String horarioLaboral) {
+                      String email, String passwordGenerada, String numeroColegioMedico, 
+                      String especialidad, String clinica, Long clinicaId, String horarioLaboral) {
         this.id = id;
         this.tipo = tipo;
         this.dni = dni;
@@ -48,6 +60,8 @@ public class PersonalDTO {
         this.celular = celular;
         this.fechaNacimiento = fechaNacimiento;
         this.fechaRegistro = fechaRegistro;
+        this.email = email;
+        this.passwordGenerada = passwordGenerada;
         this.numeroColegioMedico = numeroColegioMedico;
         this.especialidad = especialidad;
         this.clinica = clinica;
@@ -55,7 +69,7 @@ public class PersonalDTO {
         this.horarioLaboral = horarioLaboral;
     }
     
-    // Getters y Setters
+    // Métodos getter y setter para cada campo
     public Long getId() {
         return id;
     }
@@ -120,6 +134,22 @@ public class PersonalDTO {
         this.fechaRegistro = fechaRegistro;
     }
     
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public String getPasswordGenerada() {
+        return passwordGenerada;
+    }
+    
+    public void setPasswordGenerada(String passwordGenerada) {
+        this.passwordGenerada = passwordGenerada;
+    }
+    
     public String getNumeroColegioMedico() {
         return numeroColegioMedico;
     }
@@ -171,6 +201,8 @@ public class PersonalDTO {
                 ", celular='" + celular + '\'' +
                 ", fechaNacimiento=" + fechaNacimiento +
                 ", fechaRegistro=" + fechaRegistro +
+                ", email='" + email + '\'' +
+                ", passwordGenerada='" + passwordGenerada + '\'' +
                 ", numeroColegioMedico='" + numeroColegioMedico + '\'' +
                 ", especialidad='" + especialidad + '\'' +
                 ", clinica='" + clinica + '\'' +
