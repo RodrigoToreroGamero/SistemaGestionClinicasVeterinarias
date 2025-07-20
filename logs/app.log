@@ -1,63 +1,1687 @@
-2025-07-20T16:47:33.506-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/recepcionista/profile", parameters={}
-2025-07-20T16:47:33.514-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
-2025-07-20T16:47:33.522-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.w.s.r.ResourceHttpRequestHandler     : Resource not found
-2025-07-20T16:47:33.525-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource recepcionista/profile.]
-2025-07-20T16:47:33.526-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 404 NOT_FOUND
-2025-07-20T16:47:33.533-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for GET "/error", parameters={}
-2025-07-20T16:47:33.533-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#errorHtml(HttpServletRequest, HttpServletResponse)
-2025-07-20T16:47:33.538-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, text/html;q=0.8]
-2025-07-20T16:47:33.538-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 404
-2025-07-20T17:03:17.612-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-9] o.s.web.servlet.DispatcherServlet        : POST "/recepcionista/clientes/enroll", parameters={}
-2025-07-20T17:03:17.613-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.controllers.DuenoController#enrollCliente(Map)
-2025-07-20T17:03:17.751-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [{nombres=Luis, apellidos=Rodriguez, celular=999765456, dni=70442094, fecha_nacimiento=1993-08-26, em (truncated)...]
-2025-07-20T17:03:18.268-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-9] org.hibernate.SQL                        : 
-    insert 
-    into
-        usuario
-        (apellidos, celular, dni, fecha_nacimiento, fecha_registro, nombres) 
-    values
-        (?, ?, ?, ?, ?, ?)
-2025-07-20T17:03:19.023-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-9] org.hibernate.SQL                        : 
+2025-07-20T17:58:53.103-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/GestionesPagosCitas", parameters={}
+2025-07-20T17:58:53.119-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.GestionesPagosCitasController#page(Model)
+2025-07-20T17:58:53.429-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
     select
-        r1_0.id,
-        r1_0.nombre 
+        c1_0.id,
+        c1_0.id_clinica,
+        c1_0.id_dueno,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        c1_0.id_mascota,
+        c1_0.observaciones,
+        c1_0.id_veterinario 
     from
-        rol r1_0 
+        cita c1_0
+2025-07-20T17:58:53.532-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
     where
-        r1_0.nombre=?
-2025-07-20T17:03:19.453-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-9] org.hibernate.SQL                        : 
-    insert 
-    into
-        usuario_rol
-        (id_rol, id_usuario) 
-    values
-        (?, ?)
-2025-07-20T17:03:20.357-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-9] org.hibernate.SQL                        : 
-    insert 
-    into
-        dueno
-        (id_usuario) 
-    values
-        (?)
-2025-07-20T17:03:21.211-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-9] org.hibernate.SQL                        : 
-    insert 
-    into
-        sesion
-        (contrasena, correo, fecha_creacion, id_usuario) 
-    values
-        (?, ?, ?, ?)
-2025-07-20T17:03:21.896-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
-2025-07-20T17:03:21.896-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Writing [{dueno=Dueno{id=10, usuario=63}, success=true}]
-2025-07-20T17:03:21.901-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2025-07-20T17:03:23.370-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/duenos", parameters={}
-2025-07-20T17:03:23.371-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.DuenoApiController#getAllDuenos()
-2025-07-20T17:03:24.044-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+        d1_0.id_cita=?
+2025-07-20T17:58:53.650-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:53.824-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:54.028-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:54.131-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:54.240-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:54.355-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:54.464-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:54.639-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:54.847-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:54.955-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:55.063-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:55.160-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:55.358-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:55.468-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:55.665-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:55.770-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:55.878-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:55.979-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:56.081-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:56.190-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:56.290-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:56.487-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:56.689-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:56.890-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:57.100-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:57.203-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:57.308-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:57.515-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:57.621-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:57.725-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:57.830-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        c1_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        m2_0.id,
+        m2_0.nombre,
+        m2_0.precio,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    join
+        cita c1_0 
+            on c1_0.id=d1_0.id_cita 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        dueno d2_0 
+            on d2_0.id=c1_0.id_dueno 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    join
+        motivo_cita m2_0 
+            on m2_0.id=d1_0.id_motivo_cita 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:58:58.328-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8, application/signed-exchange;v=b3;q=0.7]
+2025-07-20T17:58:58.408-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:58:58.510-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/citas-pagadas", parameters={}
+2025-07-20T17:58:58.514-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.GestionesPagosCitasController#getCitasPagadas()
+2025-07-20T17:58:58.510-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/citas-pendientes-pago", parameters={}
+2025-07-20T17:58:58.518-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.GestionesPagosCitasController#getCitasPendientesPago()
+2025-07-20T17:58:58.510-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/duenos", parameters={}
+2025-07-20T17:58:58.510-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/Mascota", parameters={}
+2025-07-20T17:58:58.514-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/motivos-cita", parameters={}
+2025-07-20T17:58:58.514-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/veterinarios", parameters={}
+2025-07-20T17:58:58.528-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.id_clinica,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u2_0.id,
+        u2_0.apellidos,
+        u2_0.celular,
+        u2_0.dni,
+        u2_0.fecha_nacimiento,
+        u2_0.fecha_registro,
+        u2_0.nombres 
+    from
+        cita c1_0 
+    left join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u2_0 
+            on u2_0.id=v1_0.id_usuario 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    where
+        dc1_0.id in (select
+            b1_0.id_detalle_cita 
+        from
+            boleta_pago b1_0) 
+    order by
+        c1_0.fecha desc,
+        c1_0.hora
+2025-07-20T17:58:58.531-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.DuenoApiController#getAllDuenos()
+2025-07-20T17:58:58.531-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.MascotaController#getAll()
+2025-07-20T17:58:58.531-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.MotivoCitaController#getAllMotivos()
+2025-07-20T17:58:58.531-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.VeterinarioController#getAllVeterinarios()
+2025-07-20T17:58:58.535-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.id_clinica,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m1_0.id,
+        m1_0.id_dueno,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u2_0.id,
+        u2_0.apellidos,
+        u2_0.celular,
+        u2_0.dni,
+        u2_0.fecha_nacimiento,
+        u2_0.fecha_registro,
+        u2_0.nombres 
+    from
+        cita c1_0 
+    left join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u2_0 
+            on u2_0.id=v1_0.id_usuario 
+    left join
+        mascota m1_0 
+            on m1_0.id=c1_0.id_mascota 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    where
+        dc1_0.id not in (select
+            b1_0.id_detalle_cita 
+        from
+            boleta_pago b1_0) 
+        or dc1_0.id is null 
+    order by
+        c1_0.fecha desc,
+        c1_0.hora
+2025-07-20T17:58:58.544-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        m1_0.edad,
+        m1_0.especie,
+        m1_0.nombre,
+        m1_0.raza 
+    from
+        mascota m1_0 
+    join
+        dueno d1_0 
+            on d1_0.id=m1_0.id_dueno 
+    join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario
+2025-07-20T17:58:58.744-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         d1_0.id,
         d1_0.id_usuario 
     from
         dueno d1_0
-2025-07-20T17:03:24.256-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:58:58.753-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio 
+    from
+        motivo_cita m1_0 
+    where
+        m1_0.id=?
+2025-07-20T17:58:58.753-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio 
+    from
+        motivo_cita m1_0 
+    where
+        m1_0.id=?
+2025-07-20T17:58:58.846-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio 
+    from
+        motivo_cita m1_0
+2025-07-20T17:58:58.846-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario 
+    from
+        veterinario v1_0
+2025-07-20T17:58:58.852-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         u1_0.id,
         u1_0.apellidos,
@@ -70,7 +1694,25 @@
         usuario u1_0 
     where
         u1_0.id=?
-2025-07-20T17:03:24.464-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:58:58.854-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio 
+    from
+        motivo_cita m1_0 
+    where
+        m1_0.id=?
+2025-07-20T17:58:58.871-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio 
+    from
+        motivo_cita m1_0 
+    where
+        m1_0.id=?
+2025-07-20T17:58:58.957-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
     select
         u1_0.id,
         u1_0.apellidos,
@@ -83,7 +1725,16 @@
         usuario u1_0 
     where
         u1_0.id=?
-2025-07-20T17:03:24.681-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:58:58.958-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio 
+    from
+        motivo_cita m1_0 
+    where
+        m1_0.id=?
+2025-07-20T17:58:58.960-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         u1_0.id,
         u1_0.apellidos,
@@ -96,7 +1747,16 @@
         usuario u1_0 
     where
         u1_0.id=?
-2025-07-20T17:03:24.895-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:58:58.980-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio 
+    from
+        motivo_cita m1_0 
+    where
+        m1_0.id=?
+2025-07-20T17:58:59.058-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
     select
         u1_0.id,
         u1_0.apellidos,
@@ -109,7 +1769,7 @@
         usuario u1_0 
     where
         u1_0.id=?
-2025-07-20T17:03:25.107-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:58:59.058-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         u1_0.id,
         u1_0.apellidos,
@@ -122,7 +1782,25 @@
         usuario u1_0 
     where
         u1_0.id=?
-2025-07-20T17:03:25.321-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:58:59.058-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio 
+    from
+        motivo_cita m1_0 
+    where
+        m1_0.id=?
+2025-07-20T17:58:59.088-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio 
+    from
+        motivo_cita m1_0 
+    where
+        m1_0.id=?
+2025-07-20T17:58:59.164-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
     select
         u1_0.id,
         u1_0.apellidos,
@@ -135,7 +1813,7 @@
         usuario u1_0 
     where
         u1_0.id=?
-2025-07-20T17:03:25.533-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:58:59.170-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         u1_0.id,
         u1_0.apellidos,
@@ -148,7 +1826,21 @@
         usuario u1_0 
     where
         u1_0.id=?
-2025-07-20T17:03:25.742-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:58:59.170-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio 
+    from
+        motivo_cita m1_0 
+    where
+        m1_0.id=?
+2025-07-20T17:58:59.196-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:58:59.198-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [[Cita{id=35, fecha=2025-07-16, hora=03:54, estado=Completada, veterinario=7, dueno=2, mascota=2, cli (truncated)...]
+2025-07-20T17:58:59.198-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:58:59.269-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:58:59.273-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[Motivo_cita{id=3, nombre=Vacunación, precio=60.0}, Motivo_cita{id=4, nombre=Emergencia, precio=100. (truncated)...]
+2025-07-20T17:58:59.273-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         u1_0.id,
         u1_0.apellidos,
@@ -161,7 +1853,7 @@
         usuario u1_0 
     where
         u1_0.id=?
-2025-07-20T17:03:25.954-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:58:59.273-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
     select
         u1_0.id,
         u1_0.apellidos,
@@ -174,7 +1866,91 @@
         usuario u1_0 
     where
         u1_0.id=?
-2025-07-20T17:03:26.171-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:58:59.273-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio 
+    from
+        motivo_cita m1_0 
+    where
+        m1_0.id=?
+2025-07-20T17:58:59.273-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:58:59.301-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        c1_0.id_mascota,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u2_0.id,
+        u2_0.apellidos,
+        u2_0.celular,
+        u2_0.dni,
+        u2_0.fecha_nacimiento,
+        u2_0.fecha_registro,
+        u2_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    left join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u2_0 
+            on u2_0.id=v1_0.id_usuario 
+    where
+        c1_0.id_mascota=?
+2025-07-20T17:58:59.390-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         u1_0.id,
         u1_0.apellidos,
@@ -187,7 +1963,752 @@
         usuario u1_0 
     where
         u1_0.id=?
-2025-07-20T17:03:27.034-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:58:59.390-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:59.390-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio 
+    from
+        motivo_cita m1_0 
+    where
+        m1_0.id=?
+2025-07-20T17:58:59.419-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        c1_0.id_mascota,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u2_0.id,
+        u2_0.apellidos,
+        u2_0.celular,
+        u2_0.dni,
+        u2_0.fecha_nacimiento,
+        u2_0.fecha_registro,
+        u2_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    left join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u2_0 
+            on u2_0.id=v1_0.id_usuario 
+    where
+        c1_0.id_mascota=?
+2025-07-20T17:58:59.494-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio 
+    from
+        motivo_cita m1_0 
+    where
+        m1_0.id=?
+2025-07-20T17:58:59.494-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:59.498-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:59.528-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        c1_0.id_mascota,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u2_0.id,
+        u2_0.apellidos,
+        u2_0.celular,
+        u2_0.dni,
+        u2_0.fecha_nacimiento,
+        u2_0.fecha_registro,
+        u2_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    left join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u2_0 
+            on u2_0.id=v1_0.id_usuario 
+    where
+        c1_0.id_mascota=?
+2025-07-20T17:58:59.594-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:59.594-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:58:59.597-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Writing [[Cita{id=47, fecha=2025-07-18, hora=13:43, estado=Completada, veterinario=3, dueno=5, mascota=5, cli (truncated)...]
+2025-07-20T17:58:59.600-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:59.600-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:58:59.615-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/pagos/boletas/cita/47", parameters={}
+2025-07-20T17:58:59.618-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/pagos/boletas/cita/45", parameters={}
+2025-07-20T17:58:59.618-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/pagos/boletas/cita/44", parameters={}
+2025-07-20T17:58:59.619-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.BoletaPagoController#getBoletaByCitaId(Long)
+2025-07-20T17:58:59.619-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.BoletaPagoController#getBoletaByCitaId(Long)
+2025-07-20T17:58:59.620-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.BoletaPagoController#getBoletaByCitaId(Long)
+2025-07-20T17:58:59.637-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        c1_0.id_mascota,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u2_0.id,
+        u2_0.apellidos,
+        u2_0.celular,
+        u2_0.dni,
+        u2_0.fecha_nacimiento,
+        u2_0.fecha_registro,
+        u2_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    left join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u2_0 
+            on u2_0.id=v1_0.id_usuario 
+    where
+        c1_0.id_mascota=?
+2025-07-20T17:58:59.698-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:59.703-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:59.750-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        c1_0.id_mascota,
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u2_0.id,
+        u2_0.apellidos,
+        u2_0.celular,
+        u2_0.dni,
+        u2_0.fecha_nacimiento,
+        u2_0.fecha_registro,
+        u2_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    left join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u2_0 
+            on u2_0.id=v1_0.id_usuario 
+    where
+        c1_0.id_mascota=?
+2025-07-20T17:58:59.798-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:59.810-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:58:59.849-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m2_0.id,
+        m2_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        m2_0.edad,
+        m2_0.especie,
+        m2_0.nombre,
+        m2_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u3_0.id,
+        u3_0.apellidos,
+        u3_0.celular,
+        u3_0.dni,
+        u3_0.fecha_nacimiento,
+        u3_0.fecha_registro,
+        u3_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        mascota m2_0 
+            on m2_0.id=c1_0.id_mascota 
+    left join
+        dueno d2_0 
+            on d2_0.id=m2_0.id_dueno 
+    join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u3_0 
+            on u3_0.id=v1_0.id_usuario 
+    where
+        c1_0.id=?
+2025-07-20T17:58:59.849-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m2_0.id,
+        m2_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        m2_0.edad,
+        m2_0.especie,
+        m2_0.nombre,
+        m2_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u3_0.id,
+        u3_0.apellidos,
+        u3_0.celular,
+        u3_0.dni,
+        u3_0.fecha_nacimiento,
+        u3_0.fecha_registro,
+        u3_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        mascota m2_0 
+            on m2_0.id=c1_0.id_mascota 
+    left join
+        dueno d2_0 
+            on d2_0.id=m2_0.id_dueno 
+    join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u3_0 
+            on u3_0.id=v1_0.id_usuario 
+    where
+        c1_0.id=?
+2025-07-20T17:58:59.860-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:58:59.864-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[Mascota{id=2, nombre=Michi, especie=Gato, raza=Siamés, edad=3, dueno=Dueno{id=2, usuario=4}, citas= (truncated)...]
+2025-07-20T17:58:59.864-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:58:59.868-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/pagos/boletas/cita/43", parameters={}
+2025-07-20T17:58:59.874-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.BoletaPagoController#getBoletaByCitaId(Long)
+2025-07-20T17:58:59.909-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:59:00.020-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:59:00.070-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m2_0.id,
+        m2_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        m2_0.edad,
+        m2_0.especie,
+        m2_0.nombre,
+        m2_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u3_0.id,
+        u3_0.apellidos,
+        u3_0.celular,
+        u3_0.dni,
+        u3_0.fecha_nacimiento,
+        u3_0.fecha_registro,
+        u3_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        mascota m2_0 
+            on m2_0.id=c1_0.id_mascota 
+    left join
+        dueno d2_0 
+            on d2_0.id=m2_0.id_dueno 
+    join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u3_0 
+            on u3_0.id=v1_0.id_usuario 
+    where
+        c1_0.id=?
+2025-07-20T17:59:00.123-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:59:00.226-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         s1_0.id,
         s1_0.contrasena,
@@ -201,7 +2722,35 @@
             on u1_0.id=s1_0.id_usuario 
     where
         u1_0.id=?
-2025-07-20T17:03:27.248-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:59:00.263-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:59:00.263-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:59:00.339-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         s1_0.id,
         s1_0.contrasena,
@@ -215,7 +2764,29 @@
             on u1_0.id=s1_0.id_usuario 
     where
         u1_0.id=?
-2025-07-20T17:03:27.462-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:59:00.369-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.id_detalle_cita,
+        b1_0.fecha_emision,
+        b1_0.metodo_pago,
+        b1_0.monto_total 
+    from
+        boleta_pago b1_0 
+    where
+        b1_0.id_detalle_cita=?
+2025-07-20T17:59:00.370-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.id_detalle_cita,
+        b1_0.fecha_emision,
+        b1_0.metodo_pago,
+        b1_0.monto_total 
+    from
+        boleta_pago b1_0 
+    where
+        b1_0.id_detalle_cita=?
+2025-07-20T17:59:00.438-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         s1_0.id,
         s1_0.contrasena,
@@ -229,7 +2800,36 @@
             on u1_0.id=s1_0.id_usuario 
     where
         u1_0.id=?
-2025-07-20T17:03:27.721-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:59:00.478-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:00.478-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:59:00.478-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:00.478-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Boleta_pago{id=25, detalle_cita=51, monto_total=50.0, metodo_pago=Efectivo, fecha_emision=2025-07-18 (truncated)...]
+2025-07-20T17:59:00.478-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Boleta_pago{id=23, detalle_cita=54, monto_total=50.0, metodo_pago=Yape, fecha_emision=2025-07-18T18: (truncated)...]
+2025-07-20T17:59:00.478-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:00.478-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:00.478-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/pagos/boletas/cita/46", parameters={}
+2025-07-20T17:59:00.478-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/pagos/boletas/cita/48", parameters={}
+2025-07-20T17:59:00.488-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.BoletaPagoController#getBoletaByCitaId(Long)
+2025-07-20T17:59:00.488-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.BoletaPagoController#getBoletaByCitaId(Long)
+2025-07-20T17:59:00.529-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:00.537-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[Veterinario{id=1, usuario=Usuario{id=1, nombres=Laura, apellidos=Gonzales, DNI=12345678, Celular=98 (truncated)...]
+2025-07-20T17:59:00.539-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:00.542-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/pagos/boletas/cita/42", parameters={}
+2025-07-20T17:59:00.546-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.BoletaPagoController#getBoletaByCitaId(Long)
+2025-07-20T17:59:00.548-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         s1_0.id,
         s1_0.contrasena,
@@ -243,7 +2843,18 @@
             on u1_0.id=s1_0.id_usuario 
     where
         u1_0.id=?
-2025-07-20T17:03:27.933-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:59:00.584-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.id_detalle_cita,
+        b1_0.fecha_emision,
+        b1_0.metodo_pago,
+        b1_0.monto_total 
+    from
+        boleta_pago b1_0 
+    where
+        b1_0.id_detalle_cita=?
+2025-07-20T17:59:00.670-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         s1_0.id,
         s1_0.contrasena,
@@ -257,7 +2868,273 @@
             on u1_0.id=s1_0.id_usuario 
     where
         u1_0.id=?
-2025-07-20T17:03:28.151-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:59:00.685-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:00.685-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m2_0.id,
+        m2_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        m2_0.edad,
+        m2_0.especie,
+        m2_0.nombre,
+        m2_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u3_0.id,
+        u3_0.apellidos,
+        u3_0.celular,
+        u3_0.dni,
+        u3_0.fecha_nacimiento,
+        u3_0.fecha_registro,
+        u3_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        mascota m2_0 
+            on m2_0.id=c1_0.id_mascota 
+    left join
+        dueno d2_0 
+            on d2_0.id=m2_0.id_dueno 
+    join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u3_0 
+            on u3_0.id=v1_0.id_usuario 
+    where
+        c1_0.id=?
+2025-07-20T17:59:00.688-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Boleta_pago{id=24, detalle_cita=52, monto_total=50.0, metodo_pago=Plin, fecha_emision=2025-07-18T18: (truncated)...]
+2025-07-20T17:59:00.690-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m2_0.id,
+        m2_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        m2_0.edad,
+        m2_0.especie,
+        m2_0.nombre,
+        m2_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u3_0.id,
+        u3_0.apellidos,
+        u3_0.celular,
+        u3_0.dni,
+        u3_0.fecha_nacimiento,
+        u3_0.fecha_registro,
+        u3_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        mascota m2_0 
+            on m2_0.id=c1_0.id_mascota 
+    left join
+        dueno d2_0 
+            on d2_0.id=m2_0.id_dueno 
+    join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u3_0 
+            on u3_0.id=v1_0.id_usuario 
+    where
+        c1_0.id=?
+2025-07-20T17:59:00.690-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:00.700-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/pagos/boletas/cita/33", parameters={}
+2025-07-20T17:59:00.702-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.BoletaPagoController#getBoletaByCitaId(Long)
+2025-07-20T17:59:00.735-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m2_0.id,
+        m2_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        m2_0.edad,
+        m2_0.especie,
+        m2_0.nombre,
+        m2_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u3_0.id,
+        u3_0.apellidos,
+        u3_0.celular,
+        u3_0.dni,
+        u3_0.fecha_nacimiento,
+        u3_0.fecha_registro,
+        u3_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        mascota m2_0 
+            on m2_0.id=c1_0.id_mascota 
+    left join
+        dueno d2_0 
+            on d2_0.id=m2_0.id_dueno 
+    join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u3_0 
+            on u3_0.id=v1_0.id_usuario 
+    where
+        c1_0.id=?
+2025-07-20T17:59:00.778-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         s1_0.id,
         s1_0.contrasena,
@@ -271,7 +3148,7 @@
             on u1_0.id=s1_0.id_usuario 
     where
         u1_0.id=?
-2025-07-20T17:03:28.371-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:59:00.883-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         s1_0.id,
         s1_0.contrasena,
@@ -285,7 +3162,94 @@
             on u1_0.id=s1_0.id_usuario 
     where
         u1_0.id=?
-2025-07-20T17:03:28.587-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:59:00.900-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m2_0.id,
+        m2_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        m2_0.edad,
+        m2_0.especie,
+        m2_0.nombre,
+        m2_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u3_0.id,
+        u3_0.apellidos,
+        u3_0.celular,
+        u3_0.dni,
+        u3_0.fecha_nacimiento,
+        u3_0.fecha_registro,
+        u3_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        mascota m2_0 
+            on m2_0.id=c1_0.id_mascota 
+    left join
+        dueno d2_0 
+            on d2_0.id=m2_0.id_dueno 
+    join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u3_0 
+            on u3_0.id=v1_0.id_usuario 
+    where
+        c1_0.id=?
+2025-07-20T17:59:00.989-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         s1_0.id,
         s1_0.contrasena,
@@ -299,7 +3263,7 @@
             on u1_0.id=s1_0.id_usuario 
     where
         u1_0.id=?
-2025-07-20T17:03:28.846-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:59:01.090-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         s1_0.id,
         s1_0.contrasena,
@@ -313,7 +3277,49 @@
             on u1_0.id=s1_0.id_usuario 
     where
         u1_0.id=?
-2025-07-20T17:03:29.061-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+2025-07-20T17:59:01.110-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:59:01.110-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:59:01.149-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:59:01.209-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
     select
         s1_0.id,
         s1_0.contrasena,
@@ -327,6 +3333,932 @@
             on u1_0.id=s1_0.id_usuario 
     where
         u1_0.id=?
-2025-07-20T17:03:29.274-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
-2025-07-20T17:03:29.274-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [[com.utp.integradorspringboot.api.DuenoApiController$DuenoDTO@67c5af75, com.utp.integradorspringboot (truncated)...]
-2025-07-20T17:03:29.274-05:00 DEBUG 17760 --- [integradorspringboot] [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:01.209-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.id_detalle_cita,
+        b1_0.fecha_emision,
+        b1_0.metodo_pago,
+        b1_0.monto_total 
+    from
+        boleta_pago b1_0 
+    where
+        b1_0.id_detalle_cita=?
+2025-07-20T17:59:01.209-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.id_detalle_cita,
+        b1_0.fecha_emision,
+        b1_0.metodo_pago,
+        b1_0.monto_total 
+    from
+        boleta_pago b1_0 
+    where
+        b1_0.id_detalle_cita=?
+2025-07-20T17:59:01.248-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.id_detalle_cita,
+        b1_0.fecha_emision,
+        b1_0.metodo_pago,
+        b1_0.monto_total 
+    from
+        boleta_pago b1_0 
+    where
+        b1_0.id_detalle_cita=?
+2025-07-20T17:59:01.310-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:01.310-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [[com.utp.integradorspringboot.api.DuenoApiController$DuenoDTO@d04cf39, com.utp.integradorspringboot. (truncated)...]
+2025-07-20T17:59:01.312-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:01.312-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:59:01.318-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/pagos/boletas/cita/31", parameters={}
+2025-07-20T17:59:01.318-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:01.320-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:01.321-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Boleta_pago{id=26, detalle_cita=50, monto_total=50.0, metodo_pago=Transferencia, fecha_emision=2025- (truncated)...]
+2025-07-20T17:59:01.321-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.BoletaPagoController#getBoletaByCitaId(Long)
+2025-07-20T17:59:01.321-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Boleta_pago{id=28, detalle_cita=55, monto_total=50.0, metodo_pago=POS, fecha_emision=2025-07-18T18:1 (truncated)...]
+2025-07-20T17:59:01.325-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:01.327-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:01.333-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/pagos/boletas/cita/26", parameters={}
+2025-07-20T17:59:01.333-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/pagos/boletas/cita/28", parameters={}
+2025-07-20T17:59:01.333-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.BoletaPagoController#getBoletaByCitaId(Long)
+2025-07-20T17:59:01.333-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.BoletaPagoController#getBoletaByCitaId(Long)
+2025-07-20T17:59:01.350-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:01.350-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Boleta_pago{id=27, detalle_cita=53, monto_total=50.0, metodo_pago=Cheque, fecha_emision=2025-07-18T1 (truncated)...]
+2025-07-20T17:59:01.354-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:01.354-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/pagos/boletas/cita/14", parameters={}
+2025-07-20T17:59:01.358-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.BoletaPagoController#getBoletaByCitaId(Long)
+2025-07-20T17:59:01.429-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.id_detalle_cita,
+        b1_0.fecha_emision,
+        b1_0.metodo_pago,
+        b1_0.monto_total 
+    from
+        boleta_pago b1_0 
+    where
+        b1_0.id_detalle_cita=?
+2025-07-20T17:59:01.520-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m2_0.id,
+        m2_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        m2_0.edad,
+        m2_0.especie,
+        m2_0.nombre,
+        m2_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u3_0.id,
+        u3_0.apellidos,
+        u3_0.celular,
+        u3_0.dni,
+        u3_0.fecha_nacimiento,
+        u3_0.fecha_registro,
+        u3_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        mascota m2_0 
+            on m2_0.id=c1_0.id_mascota 
+    left join
+        dueno d2_0 
+            on d2_0.id=m2_0.id_dueno 
+    join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u3_0 
+            on u3_0.id=v1_0.id_usuario 
+    where
+        c1_0.id=?
+2025-07-20T17:59:01.533-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:01.533-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m2_0.id,
+        m2_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        m2_0.edad,
+        m2_0.especie,
+        m2_0.nombre,
+        m2_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u3_0.id,
+        u3_0.apellidos,
+        u3_0.celular,
+        u3_0.dni,
+        u3_0.fecha_nacimiento,
+        u3_0.fecha_registro,
+        u3_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        mascota m2_0 
+            on m2_0.id=c1_0.id_mascota 
+    left join
+        dueno d2_0 
+            on d2_0.id=m2_0.id_dueno 
+    join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u3_0 
+            on u3_0.id=v1_0.id_usuario 
+    where
+        c1_0.id=?
+2025-07-20T17:59:01.533-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Boleta_pago{id=21, detalle_cita=49, monto_total=50.0, metodo_pago=Yape, fecha_emision=2025-07-17T19: (truncated)...]
+2025-07-20T17:59:01.540-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:01.546-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m2_0.id,
+        m2_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        m2_0.edad,
+        m2_0.especie,
+        m2_0.nombre,
+        m2_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u3_0.id,
+        u3_0.apellidos,
+        u3_0.celular,
+        u3_0.dni,
+        u3_0.fecha_nacimiento,
+        u3_0.fecha_registro,
+        u3_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        mascota m2_0 
+            on m2_0.id=c1_0.id_mascota 
+    left join
+        dueno d2_0 
+            on d2_0.id=m2_0.id_dueno 
+    join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u3_0 
+            on u3_0.id=v1_0.id_usuario 
+    where
+        c1_0.id=?
+2025-07-20T17:59:01.553-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/pagos/boletas/cita/32", parameters={}
+2025-07-20T17:59:01.553-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m2_0.id,
+        m2_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        m2_0.edad,
+        m2_0.especie,
+        m2_0.nombre,
+        m2_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u3_0.id,
+        u3_0.apellidos,
+        u3_0.celular,
+        u3_0.dni,
+        u3_0.fecha_nacimiento,
+        u3_0.fecha_registro,
+        u3_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        mascota m2_0 
+            on m2_0.id=c1_0.id_mascota 
+    left join
+        dueno d2_0 
+            on d2_0.id=m2_0.id_dueno 
+    join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u3_0 
+            on u3_0.id=v1_0.id_usuario 
+    where
+        c1_0.id=?
+2025-07-20T17:59:01.560-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.BoletaPagoController#getBoletaByCitaId(Long)
+2025-07-20T17:59:01.769-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m2_0.id,
+        m2_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        m2_0.edad,
+        m2_0.especie,
+        m2_0.nombre,
+        m2_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u3_0.id,
+        u3_0.apellidos,
+        u3_0.celular,
+        u3_0.dni,
+        u3_0.fecha_nacimiento,
+        u3_0.fecha_registro,
+        u3_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        mascota m2_0 
+            on m2_0.id=c1_0.id_mascota 
+    left join
+        dueno d2_0 
+            on d2_0.id=m2_0.id_dueno 
+    join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u3_0 
+            on u3_0.id=v1_0.id_usuario 
+    where
+        c1_0.id=?
+2025-07-20T17:59:01.950-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:59:01.969-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:59:01.973-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:59:01.973-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:59:02.053-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.id_detalle_cita,
+        b1_0.fecha_emision,
+        b1_0.metodo_pago,
+        b1_0.monto_total 
+    from
+        boleta_pago b1_0 
+    where
+        b1_0.id_detalle_cita=?
+2025-07-20T17:59:02.070-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.id_detalle_cita,
+        b1_0.fecha_emision,
+        b1_0.metodo_pago,
+        b1_0.monto_total 
+    from
+        boleta_pago b1_0 
+    where
+        b1_0.id_detalle_cita=?
+2025-07-20T17:59:02.070-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.id_detalle_cita,
+        b1_0.fecha_emision,
+        b1_0.metodo_pago,
+        b1_0.monto_total 
+    from
+        boleta_pago b1_0 
+    where
+        b1_0.id_detalle_cita=?
+2025-07-20T17:59:02.070-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.id_detalle_cita,
+        b1_0.fecha_emision,
+        b1_0.metodo_pago,
+        b1_0.monto_total 
+    from
+        boleta_pago b1_0 
+    where
+        b1_0.id_detalle_cita=?
+2025-07-20T17:59:02.149-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:02.158-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Boleta_pago{id=16, detalle_cita=40, monto_total=50.0, metodo_pago=POS, fecha_emision=2025-07-15T19:3 (truncated)...]
+2025-07-20T17:59:02.160-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:02.164-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/pagos/boletas/cita/18", parameters={}
+2025-07-20T17:59:02.164-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.api.BoletaPagoController#getBoletaByCitaId(Long)
+2025-07-20T17:59:02.169-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:02.173-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:59:02.173-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Boleta_pago{id=9, detalle_cita=38, monto_total=100.0, metodo_pago=Efectivo, fecha_emision=2025-07-10 (truncated)...]
+2025-07-20T17:59:02.173-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:02.173-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:02.178-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Boleta_pago{id=11, detalle_cita=35, monto_total=50.0, metodo_pago=Efectivo, fecha_emision=2025-07-10 (truncated)...]
+2025-07-20T17:59:02.178-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Boleta_pago{id=15, detalle_cita=33, monto_total=50.0, metodo_pago=Yape, fecha_emision=2025-07-15T19: (truncated)...]
+2025-07-20T17:59:02.179-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:02.180-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:02.180-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:02.275-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.id_detalle_cita,
+        b1_0.fecha_emision,
+        b1_0.metodo_pago,
+        b1_0.monto_total 
+    from
+        boleta_pago b1_0 
+    where
+        b1_0.id_detalle_cita=?
+2025-07-20T17:59:02.366-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m2_0.id,
+        m2_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        m2_0.edad,
+        m2_0.especie,
+        m2_0.nombre,
+        m2_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u3_0.id,
+        u3_0.apellidos,
+        u3_0.celular,
+        u3_0.dni,
+        u3_0.fecha_nacimiento,
+        u3_0.fecha_registro,
+        u3_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        mascota m2_0 
+            on m2_0.id=c1_0.id_mascota 
+    left join
+        dueno d2_0 
+            on d2_0.id=m2_0.id_dueno 
+    join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u3_0 
+            on u3_0.id=v1_0.id_usuario 
+    where
+        c1_0.id=?
+2025-07-20T17:59:02.386-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c2_0.id,
+        c2_0.direccion,
+        c2_0.link_web,
+        c2_0.nombre_clinica,
+        c2_0.pasarela_pago,
+        c2_0.plan_suscripcion,
+        c2_0.ruc,
+        c2_0.telefono,
+        dc1_0.id,
+        dc1_0.id_cita,
+        dc1_0.diagnostico,
+        dc1_0.duracion_aproximada,
+        dc1_0.estado,
+        dc1_0.id_motivo_cita,
+        m1_0.id,
+        m1_0.nombre,
+        m1_0.precio,
+        dc1_0.receta,
+        dc1_0.tratamiento,
+        c1_0.id_dueno,
+        d1_0.id,
+        d1_0.id_usuario,
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        c1_0.estado,
+        c1_0.fecha,
+        c1_0.hora,
+        m2_0.id,
+        m2_0.id_dueno,
+        d2_0.id,
+        d2_0.id_usuario,
+        m2_0.edad,
+        m2_0.especie,
+        m2_0.nombre,
+        m2_0.raza,
+        c1_0.observaciones,
+        c1_0.id_veterinario,
+        v1_0.id,
+        v1_0.especialidad,
+        v1_0.numero_colegio_medico,
+        v1_0.id_usuario,
+        u3_0.id,
+        u3_0.apellidos,
+        u3_0.celular,
+        u3_0.dni,
+        u3_0.fecha_nacimiento,
+        u3_0.fecha_registro,
+        u3_0.nombres 
+    from
+        cita c1_0 
+    left join
+        clinica_veterinaria c2_0 
+            on c2_0.id=c1_0.id_clinica 
+    left join
+        detalle_cita dc1_0 
+            on c1_0.id=dc1_0.id_cita 
+    left join
+        motivo_cita m1_0 
+            on m1_0.id=dc1_0.id_motivo_cita 
+    join
+        dueno d1_0 
+            on d1_0.id=c1_0.id_dueno 
+    left join
+        usuario u1_0 
+            on u1_0.id=d1_0.id_usuario 
+    left join
+        mascota m2_0 
+            on m2_0.id=c1_0.id_mascota 
+    left join
+        dueno d2_0 
+            on d2_0.id=m2_0.id_dueno 
+    join
+        veterinario v1_0 
+            on v1_0.id=c1_0.id_veterinario 
+    left join
+        usuario u3_0 
+            on u3_0.id=v1_0.id_usuario 
+    where
+        c1_0.id=?
+2025-07-20T17:59:02.388-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:02.390-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Boleta_pago{id=19, detalle_cita=23, monto_total=50.0, metodo_pago=Yape, fecha_emision=2025-07-16T19: (truncated)...]
+2025-07-20T17:59:02.396-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:02.789-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:59:02.818-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] org.hibernate.SQL                        : 
+    select
+        d1_0.id,
+        d1_0.id_cita,
+        d1_0.diagnostico,
+        d1_0.duracion_aproximada,
+        d1_0.estado,
+        d1_0.id_motivo_cita,
+        d1_0.receta,
+        d1_0.tratamiento 
+    from
+        detalle_cita d1_0 
+    where
+        d1_0.id_cita=?
+2025-07-20T17:59:02.898-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.id_detalle_cita,
+        b1_0.fecha_emision,
+        b1_0.metodo_pago,
+        b1_0.monto_total 
+    from
+        boleta_pago b1_0 
+    where
+        b1_0.id_detalle_cita=?
+2025-07-20T17:59:02.919-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.id_detalle_cita,
+        b1_0.fecha_emision,
+        b1_0.metodo_pago,
+        b1_0.monto_total 
+    from
+        boleta_pago b1_0 
+    where
+        b1_0.id_detalle_cita=?
+2025-07-20T17:59:02.998-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:03.003-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Boleta_pago{id=22, detalle_cita=39, monto_total=50.0, metodo_pago=POS, fecha_emision=2025-07-18T18:1 (truncated)...]
+2025-07-20T17:59:03.004-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:03.020-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-07-20T17:59:03.020-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Boleta_pago{id=14, detalle_cita=27, monto_total=50.0, metodo_pago=Yape, fecha_emision=2025-07-15T19: (truncated)...]
+2025-07-20T17:59:03.020-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:12.469-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/perfil", parameters={}
+2025-07-20T17:59:12.469-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.controllers.PerfilController#mostrarPerfil(HttpSession, Model, RedirectAttributes)
+2025-07-20T17:59:12.494-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        s1_0.id,
+        s1_0.contrasena,
+        s1_0.correo,
+        s1_0.fecha_creacion,
+        s1_0.id_usuario 
+    from
+        sesion s1_0 
+    left join
+        usuario u1_0 
+            on u1_0.id=s1_0.id_usuario 
+    where
+        u1_0.id=?
+2025-07-20T17:59:12.765-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.apellidos,
+        u1_0.celular,
+        u1_0.dni,
+        u1_0.fecha_nacimiento,
+        u1_0.fecha_registro,
+        u1_0.nombres 
+    from
+        usuario u1_0 
+    where
+        u1_0.id=?
+2025-07-20T17:59:12.870-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8, application/signed-exchange;v=b3;q=0.7]
+2025-07-20T17:59:12.905-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-07-20T17:59:32.370-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/logout", parameters={}
+2025-07-20T17:59:32.370-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.controllers.AuthController#logout(HttpSession)
+2025-07-20T17:59:32.372-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] o.s.web.servlet.view.RedirectView        : View name 'redirect:', model {}
+2025-07-20T17:59:32.378-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 302 FOUND
+2025-07-20T17:59:32.397-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/login", parameters={}
+2025-07-20T17:59:32.399-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.utp.integradorspringboot.controllers.AuthController#loginPage()
+2025-07-20T17:59:32.399-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8, application/signed-exchange;v=b3;q=0.7]
+2025-07-20T17:59:32.424-05:00 DEBUG 12772 --- [integradorspringboot] [http-nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
