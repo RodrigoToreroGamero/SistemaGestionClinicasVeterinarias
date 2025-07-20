@@ -147,4 +147,10 @@ public class AuthController {
         redirectAttributes.addFlashAttribute("success", "Usuario registrado exitosamente");
         return "redirect:/login";
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // Cierra la sesión
+        return "redirect:/login"; // Redirige al login
+    }
 } 
