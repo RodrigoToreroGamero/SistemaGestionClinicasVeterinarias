@@ -75,7 +75,7 @@
                                     <span th:text="${session.usuario.nombres + ' ' + session.usuario.apellidos}"></span>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="/recepcionista/profile">Mi Perfil</a></li>
+                                    <li><a class="dropdown-item" href="/perfil">Mi Perfil</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
                                 </ul>
@@ -169,15 +169,21 @@
         console.log('Veterinarios data:', veterinarios);
         console.log('Citas hoy data:', citasHoy);
         
-        // Initialize veterinarians carousel
+        // Initialize veterinarians carousel SOLO SI EXISTE EL CONTENEDOR Y VETERINARIOS ES UN ARREGLO
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, loading veterinarians...');
-            loadVeterinarios();
+            if (document.getElementById('veterinariosContainer') && Array.isArray(veterinarios)) {
+                console.log('DOM loaded, loading veterinarians...');
+                loadVeterinarios();
+            }
         });
         
         function loadVeterinarios() {
             const container = document.getElementById('veterinariosContainer');
             const counter = document.getElementById('veterinariosCounter');
+            
+            if (!container || !Array.isArray(veterinarios)) {
+                return;
+            }
             
             console.log('Loading veterinarians...');
             console.log('Container:', container);
@@ -187,11 +193,6 @@
                 window.veterinarios = [];
             }
             console.log('Veterinarios length:', veterinarios.length);
-            
-            if (!container) {
-                console.error('Container not found');
-                return;
-            }
             
             // If no veterinarians data or empty array
             if (!veterinarios || veterinarios.length === 0) {

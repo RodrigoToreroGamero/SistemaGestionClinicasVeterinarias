@@ -30,6 +30,7 @@ public class PasswordResetToken {
     private Boolean used = false;
     
     // Constructores
+
     public PasswordResetToken() {}
     
     public PasswordResetToken(Long userId, String token, LocalDateTime expirationDate) {
@@ -39,7 +40,9 @@ public class PasswordResetToken {
         this.used = false;
     }
     
+
     // Getters y Setters
+
     public Long getId() {
         return id;
     }
