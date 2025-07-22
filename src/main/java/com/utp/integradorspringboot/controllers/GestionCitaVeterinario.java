@@ -48,7 +48,11 @@ public class GestionCitaVeterinario {
         
         // Obtener el usuario autenticado
         com.utp.integradorspringboot.models.Usuario usuario = authService.getCurrentUser(session);
-        System.out.println("DEBUG: Usuario encontrado: " + (usuario != null ? usuario.getNombres() + " " + usuario.getApellidos() + " (ID: " + usuario.getId() + ")" : "null"));
+        if (usuario != null) {
+            System.out.println("DEBUG: Usuario logueado -> ID: " + usuario.getId() + ", Nombre: " + usuario.getNombres() + " " + usuario.getApellidos());
+        } else {
+            System.out.println("DEBUG: Usuario logueado es null");
+        }
         
         if (usuario == null) {
             System.out.println("DEBUG: Usuario es null");
@@ -58,7 +62,11 @@ public class GestionCitaVeterinario {
         
         // Buscar el veterinario correspondiente a este usuario
         com.utp.integradorspringboot.models.Veterinario veterinario = veterinarioRepository.findByUsuario(usuario);
-        System.out.println("DEBUG: Veterinario encontrado: " + (veterinario != null ? veterinario.getId() : "null"));
+        if (veterinario != null) {
+            System.out.println("DEBUG: Veterinario encontrado -> ID: " + veterinario.getId() + ", Nombre: " + (veterinario.getUsuario() != null ? veterinario.getUsuario().getNombres() + " " + veterinario.getUsuario().getApellidos() : "null"));
+        } else {
+            System.out.println("DEBUG: Veterinario es null para usuario ID: " + usuario.getId());
+        }
         
         if (veterinario == null) {
             System.out.println("DEBUG: Veterinario es null - creando veterinario para usuario ID: " + usuario.getId());
@@ -73,7 +81,10 @@ public class GestionCitaVeterinario {
         
         Long veterinarioId = veterinario.getId();
         List<Cita> citas = gestionCitaRepository.findByVeterinarioId(veterinarioId);
-        System.out.println("DEBUG: Citas encontradas: " + citas.size());
+        System.out.println("DEBUG: Citas encontradas para veterinario ID " + veterinarioId + ": " + citas.size());
+        for (Cita c : citas) {
+            System.out.println("Cita -> ID: " + c.getId() + ", Fecha: " + c.getFecha() + ", Hora: " + c.getHora() + ", Estado: " + c.getEstado() + ", MascotaID: " + (c.getMascota() != null ? c.getMascota().getId() : "null") + ", DuenoID: " + (c.getDueno() != null ? c.getDueno().getId() : "null"));
+        }
         
         model.addAttribute("citas", citas);
         System.out.println("DEBUG: Retornando template veterinario/citas");

@@ -142,6 +142,9 @@
             </table>
         </div>
     </div>
+    <script th:inline="javascript">
+        window.citasThymeleaf = /*[[${citas}]]*/ [];
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <script>
         new Vue({
@@ -151,13 +154,19 @@
                 orden: 'desc',
                 verCompletadas: false,
                 citasOriginal: [],
-                citas: [],
+                citas: [], 
             },
             computed: {
                 citasFiltradas() {
                     let citas = this.citas.slice();
                     // Filtrar por estado
-                    citas = citas.filter(cita => this.verCompletadas ? cita.estado === 'Completada' : cita.estado !== 'Completada');
+                    citas = citas.filter(cita => {
+                        if (this.verCompletadas) {
+                            return cita.estado && cita.estado.toLowerCase() === 'completada';
+                        } else {
+                            return cita.estado && cita.estado.toLowerCase() !== 'completada';
+                        }
+                    });
                     // Filtrar por texto
                     if (this.filtro.trim() !== '') {
                         const filtroLower = this.filtro.toLowerCase();
@@ -197,17 +206,12 @@
                 }
             },
             mounted() {
-                // Obtener las citas desde el modelo Thymeleaf
+                console.log('window.citasThymeleaf:', window.citasThymeleaf);
                 this.citas = JSON.parse(JSON.stringify(window.citasThymeleaf || []));
                 this.citasOriginal = this.citas.slice();
+                console.log('this.citas después de asignar:', this.citas);
             }
         });
-    </script>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        // Pasar las citas del modelo Thymeleaf a JS
-        window.citasThymeleaf = /*[[${citas}]]*/ [];
-        /*]]>*/
     </script>
 </div>
 </body>
