@@ -75,7 +75,10 @@
             </div>
         </div>
     </div>
-</div>
+
+<script th:inline="javascript">
+    window.idVeterinario = /*[[${veterinario.id}]]*/ 7;
+</script>
 <script>
 const selectMascota = document.getElementById('select-mascota');
 const tablaHistoriales = document.getElementById('tabla-historiales').getElementsByTagName('tbody')[0];
@@ -88,19 +91,38 @@ let mascotaSeleccionadaId = null;
 
 // Cargar mascotas al iniciar
 async function cargarMascotas() {
-    const resp = await fetch('/api/Mascota');
-    if (!resp.ok) {
-        selectMascota.innerHTML = '<option value="">No se pudieron cargar las mascotas</option>';
+    // 1. Obtener todas las citas
+    const respCitas = await fetch('/api/Cita');
+    if (!respCitas.ok) {
+        selectMascota.innerHTML = '<option value="">No se pudieron cargar las citas</option>';
         return;
     }
-    const mascotas = await resp.json();
+    const citas = await respCitas.json();
+    // 2. Filtrar por veterinario logueado
+    const idVeterinario = Number(window.idVeterinario) || 7; // Asegúrate de definir window.idVeterinario en el template
+    const citasConMascota = citas.filter(c =>
+        c.mascota && c.mascota.id &&
+        c.veterinario && Number(c.veterinario.id) === Number(idVeterinario)
+    );
+    // 3. Obtener mascotas únicas
+    const mascotasMap = {};
+    citasConMascota.forEach(c => {
+        mascotasMap[c.mascota.id] = c.mascota;
+    });
+    const mascotas = Object.values(mascotasMap);
+    // 4. Llenar el selector
     selectMascota.innerHTML = '<option value="">Selecciona una mascota</option>';
     mascotas.forEach(m => {
         const option = document.createElement('option');
         option.value = m.id;
-        option.textContent = m.nombre + ' (ID: ' + m.id + ')';
+        option.textContent = m.nombre;
         selectMascota.appendChild(option);
     });
+    console.log('window.idVeterinario:', window.idVeterinario, typeof window.idVeterinario);
+    console.log('idVeterinario usado:', idVeterinario, typeof idVeterinario);
+    console.log('Ejemplo de cita:', citas[0]);
+    console.log('Citas con mascota y veterinario filtradas:', citasConMascota);
+    console.log('Mascotas encontradas:', mascotas);
 }
 
 // Cargar historiales de la mascota seleccionada
@@ -198,5 +220,6 @@ formNuevoHistorial.addEventListener('submit', async function(e) {
 // Inicializar
 window.addEventListener('DOMContentLoaded', cargarMascotas);
 </script>
+</div>
 </body>
 </html> 

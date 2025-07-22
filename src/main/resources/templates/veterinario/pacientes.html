@@ -10,7 +10,7 @@
         <h2 class="mb-4">Consulta de Pacientes</h2>
         <!-- Selección de mascota -->
         <div class="card mb-4">
-            <div class="card-header">Selecciona una Mascota</div>
+            <div class="card-header">Selecciona una Mascota (Espere unos segundos porfavor, la carga demora)</div>
             <div class="card-body">
                 <select class="form-select" id="select-mascota">
                     <option value="">Selecciona una mascota</option>
@@ -22,161 +22,109 @@
         <div class="card mb-4" id="card-datos-mascota" style="display:none;">
             <div class="card-header">Datos de la Mascota</div>
             <div class="card-body">
-                <form class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" readonly>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Especie</label>
-                        <input type="text" class="form-control" id="especie" readonly>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Raza</label>
-                        <input type="text" class="form-control" id="raza" readonly>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Edad</label>
-                        <input type="number" class="form-control" id="edad" readonly>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Dueño</label>
-                        <input type="text" class="form-control" id="dueno" readonly>
-                    </div>
-                </form>
+                <table class="table table-bordered" id="tabla-datos-mascota" style="display:none;">
+                    <tbody>
+                        <tr><th>ID</th><td id="td-id"></td></tr>
+                        <tr><th>Nombre</th><td id="td-nombre"></td></tr>
+                        <tr><th>Especie</th><td id="td-especie"></td></tr>
+                        <tr><th>Raza</th><td id="td-raza"></td></tr>
+                        <tr><th>Edad</th><td id="td-edad"></td></tr>
+                        <tr><th>Dueño</th><td id="td-dueno"></td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-</div>
-<!-- El script ahora va fuera del fragmento content -->
-<script>
-    const selectMascota = document.getElementById('select-mascota');
-    const cardDatosMascota = document.getElementById('card-datos-mascota');
-    const inputNombre = document.getElementById('nombre');
-    const inputEspecie = document.getElementById('especie');
-    const inputRaza = document.getElementById('raza');
-    const inputEdad = document.getElementById('edad');
-    const inputDueno = document.getElementById('dueno');
-    
-    // Cargar mascotas con cita hoy al iniciar
-    async function cargarMascotas() {
-        console.log('Iniciando carga de pacientes...');
-        try {
-            const hoy = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-            const respCitas = await fetch('http://localhost:8081/api/Cita');
-            if (!respCitas.ok) {
-                selectMascota.innerHTML = '<option value="">No se pudieron cargar las citas</option>';
-                console.error('Error al obtener citas:', respCitas.status, respCitas.statusText);
-                return;
-            }
-            const citas = await respCitas.json();
-            console.log('Hoy:', hoy);
-            console.log('Total citas:', citas.length);
-            const citasHoy = citas.filter(c => c.fecha === hoy);
-            console.log('Citas de hoy:', citasHoy.length);
-            const citasHoyConMascota = citasHoy.filter(c => c.mascota && c.mascota.id);
-            console.log('Citas de hoy con mascota:', citasHoyConMascota.length);
-            // Obtener mascotas únicas
-            const mascotasMap = {};
-            citasHoyConMascota.forEach(c => {
-                if (c.mascota && c.mascota.id) {
+    <script>
+
+        let mascotasGlobal = [];
+
+        async function cargarMascotas() {
+            console.log('Entrando a cargarMascotas');
+            try {
+                const respCitas = await fetch('http://localhost:8081/api/Cita');
+                if (!respCitas.ok) {
+                    console.error('Error al obtener citas:', respCitas.status, respCitas.statusText);
+                    return;
+                }
+                const citas = await respCitas.json();
+                // Depuración de ids
+                console.log('window.idVeterinario:', window.idVeterinario, typeof window.idVeterinario);
+                const idVeterinario = Number(window.idVeterinario) || 7;
+                console.log('idVeterinario usado:', idVeterinario, typeof idVeterinario);
+                console.log('Ejemplo de cita:', citas[0]);
+
+                // Filtrar solo las citas del veterinario logueado y con mascota
+                const citasConMascota = citas.filter(c =>
+                    c.mascota && c.mascota.id &&
+                    c.veterinario && Number(c.veterinario.id) === idVeterinario
+                );
+                console.log('Citas con mascota y veterinario filtradas:', citasConMascota);
+
+                // Obtener mascotas únicas
+                const mascotasMap = {};
+                citasConMascota.forEach(c => {
                     mascotasMap[c.mascota.id] = c.mascota;
+                });
+                const mascotas = Object.values(mascotasMap);
+                console.log('Mascotas encontradas:', mascotas);
+
+                // Llenar el selector
+                const selectMascota = document.getElementById('select-mascota');
+                if (mascotas.length === 0) {
+                    selectMascota.innerHTML = '<option value=\"\">No hay pacientes con cita</option>';
+                    return;
                 }
-            });
-            const mascotas = Object.values(mascotasMap);
-            if (mascotas.length === 0) {
-                selectMascota.innerHTML = '<option value="">No hay pacientes con cita para hoy</option>';
+                selectMascota.innerHTML = '<option value=\"">Selecciona una mascota</option>';
+                mascotas.forEach(m => {
+                    const option = document.createElement('option');
+                    option.value = m.id;
+                    option.textContent = m.nombre;
+                    selectMascota.appendChild(option);
+                });
+                mascotasGlobal = mascotas; 
+            } catch (error) {
+                console.error('Error en cargarMascotas:', error);
+            }
+        }
+
+        async function mostrarDatosMascota(mascotaId) {
+            const cardDatosMascota = document.getElementById('card-datos-mascota');
+            const tablaDatosMascota = document.getElementById('tabla-datos-mascota');
+            if (!mascotaId) {
+                cardDatosMascota.style.display = 'none';
+                tablaDatosMascota.style.display = 'none';
                 return;
             }
-            selectMascota.innerHTML = '<option value="">Selecciona una mascota</option>';
-            mascotas.forEach(m => {
-                const option = document.createElement('option');
-                option.value = m.id;
-                option.textContent = m.nombre + ' (ID: ' + m.id + ')';
-                if (m.dueno && m.dueno.id) {
-                    option.dataset.idDueno = m.dueno.id;
-                } else if (m.id_dueno) {
-                    option.dataset.idDueno = m.id_dueno;
-                } else {
-                    option.dataset.idDueno = '';
-                }
-                selectMascota.appendChild(option);
-            });
-        } catch (error) {
-            console.error('Error en cargarMascotas:', error);
-            selectMascota.innerHTML = '<option value="">Error al cargar pacientes</option>';
-        }
-    }
-    
-    // Mostrar datos de la mascota seleccionada (igual que antes, pero busca en mascotas del día)
-    async function mostrarDatosMascota(mascotaId) {
-        if (!mascotaId) {
-            cardDatosMascota.style.display = 'none';
-            return;
-        }
-        // Buscar la mascota seleccionada entre las mascotas del día
-        const hoy = new Date().toISOString().slice(0, 10);
-        const respCitas = await fetch('http://localhost:8081/api/Cita');
-        if (!respCitas.ok) {
-            alert('No se pudo obtener la información de la mascota.');
-            return;
-        }
-        const citas = await respCitas.json();
-        const citasHoy = citas.filter(c => c.fecha === hoy && c.mascota && c.mascota.id);
-        const mascotasMap = {};
-        citasHoy.forEach(c => {
-            if (c.mascota && c.mascota.id) {
-                mascotasMap[c.mascota.id] = c.mascota;
+            const mascota = mascotasGlobal.find(m => m.id == mascotaId);
+            if (!mascota) {
+                cardDatosMascota.style.display = 'none';
+                tablaDatosMascota.style.display = 'none';
+                return;
             }
+            document.getElementById('td-id').textContent = mascota.id || '';
+            document.getElementById('td-nombre').textContent = mascota.nombre || '';
+            document.getElementById('td-especie').textContent = mascota.especie || '';
+            document.getElementById('td-raza').textContent = mascota.raza || '';
+            document.getElementById('td-edad').textContent = mascota.edad || '';
+            // Obtener nombre del dueño
+            let duenoNombre = '';
+            if (mascota.dueno && mascota.dueno.usuario) {
+                duenoNombre = (mascota.dueno.usuario.nombres || '') + ' ' + (mascota.dueno.usuario.apellidos || '');
+            }
+            document.getElementById('td-dueno').textContent = duenoNombre;
+            cardDatosMascota.style.display = 'block';
+            tablaDatosMascota.style.display = '';
+        }
+
+        // Evento al seleccionar mascota
+        const selectMascota = document.getElementById('select-mascota');
+        selectMascota.addEventListener('change', function() {
+            mostrarDatosMascota(this.value);
         });
-        const mascotas = Object.values(mascotasMap);
-        const mascota = mascotas.find(m => m.id == mascotaId);
-        if (!mascota) {
-            cardDatosMascota.style.display = 'none';
-            return;
-        }
-        inputNombre.value = mascota.nombre || '';
-        inputEspecie.value = mascota.especie || '';
-        inputRaza.value = mascota.raza || '';
-        inputEdad.value = mascota.edad || '';
-        // Obtener nombre del dueño (adaptado)
-        let idDueno = '';
-        if (mascota.dueno && mascota.dueno.id) {
-            idDueno = mascota.dueno.id;
-        } else if (mascota.id_dueno) {
-            idDueno = mascota.id_dueno;
-        }
-        if (idDueno) {
-            const respDueno = await fetch(`http://localhost:8081/api/Dueno/${idDueno}`);
-            if (respDueno.ok) {
-                const dueno = await respDueno.json();
-                if (dueno && dueno.usuario && dueno.usuario.id) {
-                    const respUsuario = await fetch(`http://localhost:8081/api/Usuario/${dueno.usuario.id}`);
-                    if (respUsuario.ok) {
-                        const usuario = await respUsuario.json();
-                        inputDueno.value = (usuario.nombres || '') + ' ' + (usuario.apellidos || '');
-                    } else {
-                        inputDueno.value = 'No registrado';
-                    }
-                } else {
-                    inputDueno.value = 'No registrado';
-                }
-            } else {
-                inputDueno.value = 'No registrado';
-            }
-        } else {
-            inputDueno.value = 'No registrado';
-        }
-        cardDatosMascota.style.display = 'block';
-    }
-    
-    // Evento al seleccionar mascota
-    selectMascota.addEventListener('change', function() {
-        mostrarDatosMascota(this.value);
-    });
-    
-    // Inicializar
-    window.addEventListener('DOMContentLoaded', cargarMascotas);
+
+        window.addEventListener('DOMContentLoaded', cargarMascotas);
     </script>
+</div>
 </body>
 </html> 
