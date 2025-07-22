@@ -114,7 +114,7 @@
             <div id="app">
                 <!-- Contenedor de tarjetas centrado -->
                 <div class="d-flex flex-column align-items-center">
-                    <div class="personal-card" v-for="item in personal" :key="item.id">
+                    <div class="personal-card" v-for="(item, index) in personal" :key="`${item.id}-${index}`">
                         <div class="personal-info">
                             <div class="personal-nombre" style="font-size:2.08rem; font-weight:600; color:#222;">{{ item.nombres }} {{ item.apellidos }}</div>
                             <div class="personal-tipo" style="color:#888; font-size:0.98rem; margin-bottom:0.5rem;">{{ item.tipo }}</div>

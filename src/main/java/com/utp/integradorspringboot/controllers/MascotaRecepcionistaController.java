@@ -25,6 +25,7 @@ public class MascotaRecepcionistaController {
     }
 
     @PostMapping("/recepcionista/mascotas/enroll")
+    @ResponseBody
     public Map<String, Object> enrollMascota(@RequestBody Map<String, Object> data) {
         Map<String, Object> resp = new HashMap<>();
         try {

@@ -96,7 +96,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="cita in citasPendientesFiltradas" :key="cita.id" class="payment-card">
+                    <tr v-for="(cita, index) in citasPendientesFiltradas" :key="`${cita.id}-${index}`" class="payment-card">
                         <td>{{ getNombreDueno(cita.dueno ? cita.dueno.id : null) }}</td>
                         <td>{{ getNombreMascota(cita.mascota ? cita.mascota.id : null) }}</td>
                         <td>{{ getNombreVeterinario(cita.veterinario ? cita.veterinario.id : null) }}</td>
@@ -139,7 +139,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="cita in citasPagadasFiltradas" :key="cita.id" class="payment-card">
+                    <tr v-for="(cita, index) in citasPagadasFiltradas" :key="`${cita.id}-${index}`" class="payment-card">
                         <td>{{ formatearFechaHora(getFechaPago(cita.id)) }}</td>
                         <td>{{ getNombreDueno(cita.dueno ? cita.dueno.id : null) }}</td>
                         <td>{{ getNombreMascota(cita.mascota ? cita.mascota.id : null) }}</td>

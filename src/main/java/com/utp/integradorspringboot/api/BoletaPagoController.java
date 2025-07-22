@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.utp.integradorspringboot.models.Boleta_pago;
 import com.utp.integradorspringboot.models.Cita;
@@ -24,8 +25,8 @@ import com.utp.integradorspringboot.repositories.DetalleCitaRepository;
 import com.utp.integradorspringboot.repositories.GestionCitaRepository;
 
 @CrossOrigin(origins = "http://localhost:8081")
-@Controller
-@RequestMapping("")
+@RestController
+@RequestMapping("/api/pagos")
 public class BoletaPagoController {
 
     @Autowired
@@ -44,8 +45,8 @@ public class BoletaPagoController {
             List<Boleta_pago> boletas = boletaPagoRepository.findAll();
             return new ResponseEntity<>(boletas, HttpStatus.OK);
         } catch (Exception e) {
-            // Return empty list instead of error for now
-            System.err.println("Error getting boletas: " + e.getMessage());
+            // Retornar lista vacía en vez de error por ahora
+            System.err.println("Error al obtener boletas: " + e.getMessage());
             return new ResponseEntity<>(List.of(), HttpStatus.OK);
         }
     }
@@ -92,7 +93,7 @@ public class BoletaPagoController {
                                                @RequestParam String metodoPago,
                                                @RequestParam Double monto) {
         try {
-            // Buscar la cita
+            // Buscar la cita correspondiente
             Cita cita = citaRepository.findById(citaId).orElse(null);
             if (cita == null) {
                 return new ResponseEntity<>("ERROR: Cita no encontrada", HttpStatus.BAD_REQUEST);
@@ -104,12 +105,12 @@ public class BoletaPagoController {
                 return new ResponseEntity<>("ERROR: Detalle de cita no encontrado", HttpStatus.BAD_REQUEST);
             }
 
-            // Verificar si ya existe una boleta de pago
+            // Verificar si ya existe una boleta de pago para esta cita
             if (boletaPagoRepository.findByDetalleCita(detalleCita).isPresent()) {
                 return new ResponseEntity<>("ERROR: Esta cita ya tiene un pago registrado", HttpStatus.CONFLICT);
             }
 
-            // Crear la boleta de pago
+            // Crear la boleta de pago y asociarla a la cita
             Boleta_pago boleta = new Boleta_pago();
             boleta.setDetalle_cita(detalleCita);
             boleta.setMonto_total(monto);

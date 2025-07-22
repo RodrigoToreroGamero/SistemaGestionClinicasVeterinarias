@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -136,5 +137,108 @@ public class DuenoController {
             }
             return map;
         }).collect(Collectors.toList());
+    }
+
+    @GetMapping("/api/duenos/{id}")
+    @ResponseBody
+    public Map<String, Object> obtenerDueno(@PathVariable Long id) {
+        Map<String, Object> resp = new HashMap<>();
+        try {
+            Dueno dueno = duenoRepository.findById(id).orElse(null);
+            if (dueno == null) {
+                resp.put("success", false);
+                resp.put("error", "Dueño no encontrado");
+                return resp;
+            }
+
+            Usuario usuario = dueno.getUsuario();
+            if (usuario == null) {
+                resp.put("success", false);
+                resp.put("error", "Usuario no encontrado");
+                return resp;
+            }
+
+            // Devolver los datos del usuario
+            Map<String, Object> usuarioData = new HashMap<>();
+            usuarioData.put("id", usuario.getId());
+            usuarioData.put("nombres", usuario.getNombres());
+            usuarioData.put("apellidos", usuario.getApellidos());
+            usuarioData.put("dni", usuario.getDni());
+            usuarioData.put("celular", usuario.getCelular());
+            usuarioData.put("fecha_nacimiento", usuario.getFecha_nacimiento() != null ? usuario.getFecha_nacimiento().toString() : null);
+            usuarioData.put("fecha_registro", usuario.getFecha_registro());
+
+            resp.put("success", true);
+            resp.put("usuario", usuarioData);
+            resp.put("dueno", dueno);
+        } catch (Exception e) {
+            resp.put("success", false);
+            resp.put("error", e.getMessage());
+        }
+        return resp;
+    }
+
+    @PutMapping("/api/duenos/{id}")
+    @ResponseBody
+    public Map<String, Object> actualizarDueno(@PathVariable Long id, @RequestBody Map<String, Object> data) {
+        Map<String, Object> resp = new HashMap<>();
+        try {
+            Dueno dueno = duenoRepository.findById(id).orElse(null);
+            if (dueno == null) {
+                resp.put("success", false);
+                resp.put("error", "Dueño no encontrado");
+                return resp;
+            }
+
+            Usuario usuario = dueno.getUsuario();
+            if (usuario == null) {
+                resp.put("success", false);
+                resp.put("error", "Usuario no encontrado");
+                return resp;
+            }
+
+            // Actualizar datos del usuario
+            if (data.containsKey("nombres")) {
+                usuario.setNombres((String) data.get("nombres"));
+            }
+            if (data.containsKey("apellidos")) {
+                usuario.setApellidos((String) data.get("apellidos"));
+            }
+            if (data.containsKey("dni")) {
+                usuario.setDni((String) data.get("dni"));
+            }
+            if (data.containsKey("celular")) {
+                usuario.setCelular((String) data.get("celular"));
+            }
+            if (data.containsKey("fecha_nacimiento")) {
+                String fechaStr = (String) data.get("fecha_nacimiento");
+                if (fechaStr != null && !fechaStr.isEmpty()) {
+                    usuario.setFecha_nacimiento(LocalDate.parse(fechaStr));
+                }
+            }
+
+            // Guardar cambios
+            usuarioRepository.save(usuario);
+            duenoRepository.save(dueno);
+
+            // Devolver los datos actualizados del usuario
+            Map<String, Object> usuarioData = new HashMap<>();
+            usuarioData.put("id", usuario.getId());
+            usuarioData.put("nombres", usuario.getNombres());
+            usuarioData.put("apellidos", usuario.getApellidos());
+            usuarioData.put("dni", usuario.getDni());
+            usuarioData.put("celular", usuario.getCelular());
+            usuarioData.put("fecha_nacimiento", usuario.getFecha_nacimiento() != null ? usuario.getFecha_nacimiento().toString() : null);
+            usuarioData.put("fecha_registro", usuario.getFecha_registro());
+
+            resp.put("success", true);
+            resp.put("message", "Dueño actualizado correctamente");
+            resp.put("usuario", usuarioData);
+            resp.put("dueno", dueno);
+        } catch (Exception e) {
+            resp.put("success", false);
+            resp.put("error", e.getMessage());
+        }
+        return resp;
     }
 } 

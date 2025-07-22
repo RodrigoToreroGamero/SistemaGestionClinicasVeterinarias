@@ -18,4 +18,6 @@ public interface MascotaRepository extends JpaRepository<Mascota, Long> {
     @Query("SELECT m FROM Mascota m JOIN FETCH m.dueno d JOIN FETCH d.usuario")
     List<Mascota> findAllWithDuenoAndUsuario();
 
+    // Método estándar para obtener todas las mascotas sin JOIN FETCH
+    List<Mascota> findAll();
 }

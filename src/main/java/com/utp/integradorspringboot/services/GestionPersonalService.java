@@ -26,8 +26,7 @@ import com.utp.integradorspringboot.repositories.UsuarioRolRepository;
 import com.utp.integradorspringboot.repositories.VeterinarioRepository;
 
 /**
- * Servicio para la gestión de personal
- * Combina datos de Veterinario y Recepcionista
+ * Servicio para gestionar personal (veterinarios y recepcionistas).
  */
 @Service
 public class GestionPersonalService {
@@ -54,7 +53,7 @@ public class GestionPersonalService {
     private UsuarioRolRepository usuarioRolRepository;
 
     /**
-     * Genera una contraseña aleatoria alfanumérica de 8-10 caracteres
+     * Genera una contraseña aleatoria alfanumérica de 8-10 caracteres.
      */
     private String generarPassword() {
         String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -70,7 +69,7 @@ public class GestionPersonalService {
     }
 
     /**
-     * Obtiene todo el personal combinando Veterinarios y Recepcionistas
+     * Obtiene todo el personal (veterinarios y recepcionistas).
      */
     public List<PersonalDTO> getAllPersonal() {
         List<PersonalDTO> personalList = new ArrayList<>();
@@ -126,7 +125,7 @@ public class GestionPersonalService {
     }
 
     /**
-     * Obtiene personal por ID y tipo
+     * Obtiene un personal por ID y tipo.
      */
     public PersonalDTO getPersonalById(Long id, String tipo) {
         if ("Veterinario".equals(tipo)) {
@@ -181,7 +180,7 @@ public class GestionPersonalService {
     }
 
     /**
-     * Crea nuevo personal con generación de contraseña, creación de sesión y asignación de rol
+     * Crea un nuevo personal.
      */
     public PersonalDTO createPersonal(PersonalDTO personalDTO) {
         // Validar que se proporcione un email
@@ -266,7 +265,7 @@ public class GestionPersonalService {
     }
 
     /**
-     * Actualiza personal existente
+     * Actualiza un personal existente.
      */
     public PersonalDTO updatePersonal(Long id, PersonalDTO personalDTO) {
         if ("Veterinario".equals(personalDTO.getTipo())) {
@@ -334,7 +333,7 @@ public class GestionPersonalService {
     }
 
     /**
-     * Elimina personal por ID y tipo
+     * Elimina un personal por ID y tipo.
      */
     public boolean deletePersonal(Long id, String tipo) {
         try {

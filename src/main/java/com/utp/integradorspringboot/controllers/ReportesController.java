@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.utp.integradorspringboot.repositories.BoletaPagoRepository;
 import com.utp.integradorspringboot.repositories.GestionCitaRepository;
+import com.utp.integradorspringboot.models.Boleta_pago;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -16,6 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.*;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class ReportesController {
@@ -146,5 +151,79 @@ public class ReportesController {
         }
         
         return response;
+    }
+
+    @GetMapping("/api/reportes/pagos-por-fecha/pdf")
+    public void exportarPagosPorFechaPDF(@RequestParam String fecha, HttpServletResponse response) {
+        try {
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=ReportePagos_" + fecha + ".pdf");
+
+            LocalDate fechaLocal = LocalDate.parse(fecha);
+            List<Boleta_pago> boletas = boletaPagoRepository.findAll().stream()
+                .filter(boleta -> boleta.getFecha_emision() != null &&
+                                  boleta.getFecha_emision().toLocalDate().equals(fechaLocal))
+                .toList();
+
+            Document document = new Document(PageSize.A4.rotate());
+            PdfWriter.getInstance(document, response.getOutputStream());
+            document.open();
+
+            Font titleFont = new Font(Font.HELVETICA, 18, Font.BOLD);
+            Paragraph title = new Paragraph("Reporte de Cierre de Caja - " + fecha, titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+            document.add(new Paragraph(" "));
+
+            PdfPTable table = new PdfPTable(8);
+            table.setWidthPercentage(100);
+            table.setWidths(new float[]{2, 2, 4, 3, 3, 3, 3, 2});
+            table.addCell("Boleta");
+            table.addCell("Hora");
+            table.addCell("Cliente");
+            table.addCell("Mascota");
+            table.addCell("Veterinario");
+            table.addCell("Motivo");
+            table.addCell("Método Pago");
+            table.addCell("Monto");
+
+            for (Boleta_pago boleta : boletas) {
+                String hora = boleta.getDetalle_cita() != null && boleta.getDetalle_cita().getCita() != null
+                    ? String.valueOf(boleta.getDetalle_cita().getCita().getHora()) : "N/A";
+                String cliente = boleta.getDetalle_cita() != null && boleta.getDetalle_cita().getCita() != null &&
+                                 boleta.getDetalle_cita().getCita().getDueno() != null &&
+                                 boleta.getDetalle_cita().getCita().getDueno().getUsuario() != null
+                    ? boleta.getDetalle_cita().getCita().getDueno().getUsuario().getNombres() + " " +
+                      boleta.getDetalle_cita().getCita().getDueno().getUsuario().getApellidos()
+                    : "N/A";
+                String mascota = boleta.getDetalle_cita() != null && boleta.getDetalle_cita().getCita() != null &&
+                                 boleta.getDetalle_cita().getCita().getMascota() != null
+                    ? boleta.getDetalle_cita().getCita().getMascota().getNombre() : "N/A";
+                String veterinario = boleta.getDetalle_cita() != null && boleta.getDetalle_cita().getCita() != null &&
+                                     boleta.getDetalle_cita().getCita().getVeterinario() != null &&
+                                     boleta.getDetalle_cita().getCita().getVeterinario().getUsuario() != null
+                    ? boleta.getDetalle_cita().getCita().getVeterinario().getUsuario().getNombres() + " " +
+                      boleta.getDetalle_cita().getCita().getVeterinario().getUsuario().getApellidos()
+                    : "N/A";
+                String motivo = boleta.getDetalle_cita() != null && boleta.getDetalle_cita().getCita() != null &&
+                                boleta.getDetalle_cita().getCita().getDetalleCita() != null &&
+                                boleta.getDetalle_cita().getCita().getDetalleCita().getMotivo_cita() != null
+                    ? boleta.getDetalle_cita().getCita().getDetalleCita().getMotivo_cita().getNombre() : "N/A";
+
+                table.addCell(String.valueOf(boleta.getId()));
+                table.addCell(hora);
+                table.addCell(cliente);
+                table.addCell(mascota);
+                table.addCell(veterinario);
+                table.addCell(motivo);
+                table.addCell(boleta.getMetodo_pago());
+                table.addCell("S/ " + String.format("%.2f", boleta.getMonto_total()));
+            }
+
+            document.add(table);
+            document.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 } 
